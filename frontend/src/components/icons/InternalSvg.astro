@@ -1,0 +1,23 @@
+---
+import type { InternalSvgProps } from "@utils/content/svg";
+import { getSizes } from "@utils/content/svg";
+
+type Props = InternalSvgProps;
+const { viewBox, size, width, height, ...rest } = Astro.props as Props;
+
+const { width: w, height: h } = getSizes({ size, width, height });
+const box = `${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`;
+---
+
+<svg
+  viewBox={box}
+  width={w}
+  height={h}
+  version="1.1"
+  xml:space="preserve"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  {...rest}
+>
+  <slot />
+</svg>

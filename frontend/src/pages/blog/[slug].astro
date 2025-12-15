@@ -1,0 +1,39 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { posts, siteMeta } from "../../content/siteData";
+
+const { slug } = Astro.params;
+const post = posts.find((p) => p.slug === slug);
+
+if (!post) {
+  return Astro.redirect("/blog/1");
+}
+---
+
+<Layout>
+  <article class="card">
+    <div class="overlay"></div>
+    <div class="relative z-10 space-y-4">
+      <div class="flex items-center justify-between gap-3">
+        <div>
+          <p class="pill w-fit">{post.pubDate}</p>
+          <h1 class="text-2xl font-semibold">{post.title}</h1>
+        </div>
+        <a class="pill" href="/blog/1">← Back</a>
+      </div>
+      <p class="text-sm leading-relaxed text-[#a5b4d6]">{post.description}</p>
+      <div class="grid gap-3 text-base leading-relaxed text-[#e9f2ff]">
+        {post.content.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+      <div class="flex flex-wrap gap-3">
+        {
+          siteMeta.social.map((link) => (
+            <a class="btn" href={link.href}>
+              Discuss via {link.label}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </article>
+</Layout>

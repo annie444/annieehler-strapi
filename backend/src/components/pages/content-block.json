@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_pages_content_blocks",
+  "info": {
+    "displayName": "ContentBlock",
+    "icon": "italic"
+  },
+  "options": {},
+  "attributes": {
+    "heading": {
+      "type": "string",
+      "required": true
+    },
+    "body": {
+      "type": "richtext",
+      "required": true
+    },
+    "media": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "videos"
+      ]
+    }
+  },
+  "config": {}
+}

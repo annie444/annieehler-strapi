@@ -1,0 +1,327 @@
+---
+import "../styles/global.css";
+import "../styles/fonts.css";
+
+import CommonHead from "@components/CommonHead.astro";
+import Header from "@components/Header.astro";
+import Theme from "@components/Theme.astro";
+import ToggleTheme from "@components/svelte/ToggleTheme.svelte";
+import Footer from "@components/Footer.astro";
+
+import { siteMeta } from "../content/siteData";
+---
+
+<!doctype html>
+<html lang="en">
+  <CommonHead name={siteMeta.name} title={siteMeta.title} />
+  <body
+    class="font-suse m-0 bg-pink-100 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-50"
+  >
+    <Theme defaultTheme="dark" />
+    <Header
+      title={siteMeta.name}
+      links={[
+        { label: "Home", url: "#top" },
+        { label: "About", url: "#about" },
+        { label: "Projects", url: "#projects" },
+        { label: "Contact", url: "#contact" },
+      ]}
+    />
+    <main>
+      <slot />
+    </main>
+    <Footer
+      links={[{ label: "Launch experimental interface", url: "/experiments" }]}
+    />
+    <ToggleTheme
+      class="fixed right-4 bottom-4 rounded-full md:right-8 md:bottom-8 xl:right-12 xl:bottom-12"
+      client:load={"svelte"}
+    />
+  </body>
+</html>
+
+<style is:global>
+  @reference "../styles/global.css";
+
+  :root {
+    --scrollbar-vert-start: url("/scroll/vert-start-light.svg");
+    --scrollbar-vert-start-active: url("/scroll/vert-start-active-light.svg");
+    --scrollbar-vert-end: url("/scroll/vert-end-light.svg");
+    --scrollbar-vert-end-active: url("/scroll/vert-end-active-light.svg");
+    --scrollbar-horiz-start: url("/scroll/horiz-start-light.svg");
+    --scrollbar-horiz-start-active: url("/scroll/horiz-start-active-light.svg");
+    --scrollbar-horiz-end: url("/scroll/horiz-end-light.svg");
+    --scrollbar-horiz-end-active: url("/scroll/horiz-end-active-light.svg");
+  }
+
+  :where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *) {
+    --scrollbar-vert-start: url("/scroll/vert-start-dark.svg");
+    --scrollbar-vert-start-active: url("/scroll/vert-start-active-dark.svg");
+    --scrollbar-vert-end: url("/scroll/vert-end-dark.svg");
+    --scrollbar-vert-end-active: url("/scroll/vert-end-active-dark.svg");
+    --scrollbar-horiz-start: url("/scroll/horiz-start-dark.svg");
+    --scrollbar-horiz-start-active: url("/scroll/horiz-start-active-dark.svg");
+    --scrollbar-horiz-end: url("/scroll/horiz-end-dark.svg");
+    --scrollbar-horiz-end-active: url("/scroll/horiz-end-active-dark.svg");
+  }
+
+  ::-webkit-scrollbar {
+    @apply w-[22px] bg-neutral-50;
+  }
+
+  :where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *)
+    ::-webkit-scrollbar {
+    @apply w-[22px] bg-neutral-900;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply w-2.5 bg-neutral-50;
+    background:
+      linear-gradient(
+        45deg,
+        var(--color-neutral-900) 25%,
+        transparent 0,
+        transparent 75%,
+        var(--color-neutral-900) 0,
+        var(--color-neutral-900)
+      ),
+      linear-gradient(
+        45deg,
+        var(--color-neutral-900) 25%,
+        transparent 0,
+        transparent 75%,
+        var(--color-neutral-900) 0,
+        var(--color-neutral-900)
+      );
+    background-position:
+      0 0,
+      2px 2px;
+    background-size: 4px 4px;
+    border-left: 3px solid var(--color-neutral-900);
+  }
+
+  :where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *)
+    ::-webkit-scrollbar-track {
+    @apply w-2.5 bg-neutral-900;
+    background:
+      linear-gradient(
+        45deg,
+        var(--color-neutral-100) 25%,
+        transparent 0,
+        transparent 75%,
+        var(--color-neutral-100) 0,
+        var(--color-neutral-100)
+      ),
+      linear-gradient(
+        45deg,
+        var(--color-neutral-100) 25%,
+        transparent 0,
+        transparent 75%,
+        var(--color-neutral-100) 0,
+        var(--color-neutral-100)
+      );
+    background-position:
+      0 0,
+      2px 2px;
+    background-size: 4px 4px;
+    border-left: 3px solid var(--color-neutral-100);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply box-content w-5 bg-neutral-50;
+    border-color: var(--color-neutral-900);
+    border-width: 2px none 2px 2px;
+    border-style: solid;
+  }
+
+  :where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *)
+    ::-webkit-scrollbar-thumb {
+    @apply box-content w-5 bg-neutral-900;
+    border-color: var(--color-neutral-100);
+    border-width: 2px none 2px 2px;
+    border-style: solid;
+  }
+
+  ::-webkit-scrollbar-button:horizontal:end:increment,
+  ::-webkit-scrollbar-button:horizontal:start:decrement,
+  ::-webkit-scrollbar-button:vertical:end:increment,
+  ::-webkit-scrollbar-button:vertical:start:decrement {
+    @apply block;
+  }
+
+  ::-webkit-scrollbar-button:vertical:start {
+    @apply h-[23.38px];
+    background-image: var(--scrollbar-vert-start);
+    background-repeat: no-repeat;
+  }
+
+  ::-webkit-scrollbar-button:vertical:start:active {
+    @apply h-[23.38px];
+    background-image: var(--scrollbar-vert-start-active);
+    background-repeat: no-repeat;
+  }
+
+  ::-webkit-scrollbar-button:vertical:end {
+    @apply h-[23.38px];
+    background-image: var(--scrollbar-vert-end);
+  }
+
+  ::-webkit-scrollbar-button:vertical:end:active {
+    @apply h-[23.38px];
+    background-image: var(--scrollbar-vert-end-active);
+    background-repeat: no-repeat;
+  }
+
+  ::-webkit-scrollbar-button:horizontal:start {
+    @apply h-[23.38px];
+    background-image: var(--scrollbar-horiz-start);
+    background-repeat: no-repeat;
+  }
+
+  ::-webkit-scrollbar-button:horizontal:start:active {
+    @apply h-[23.38px];
+    background-image: var(--scrollbar-horiz-start-active);
+    background-repeat: no-repeat;
+  }
+
+  ::-webkit-scrollbar-button:horizontal:end {
+    @apply h-[23.38px];
+    background-image: var(--scrollbar-horiz-end);
+  }
+
+  ::-webkit-scrollbar-button:horizontal:end:active {
+    @apply h-[23.38px];
+    background-image: var(--scrollbar-horiz-end-active);
+    background-repeat: no-repeat;
+  }
+
+  .window-pane::-webkit-scrollbar {
+    @apply w-[22px] bg-neutral-50;
+  }
+
+  :where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *)
+    .window-pane::-webkit-scrollbar {
+    @apply w-[22px] bg-neutral-900;
+  }
+
+  .window-pane::-webkit-scrollbar-track {
+    @apply w-2.5 bg-neutral-50;
+    background:
+      linear-gradient(
+        45deg,
+        var(--color-neutral-900) 25%,
+        transparent 0,
+        transparent 75%,
+        var(--color-neutral-900) 0,
+        var(--color-neutral-900)
+      ),
+      linear-gradient(
+        45deg,
+        var(--color-neutral-900) 25%,
+        transparent 0,
+        transparent 75%,
+        var(--color-neutral-900) 0,
+        var(--color-neutral-900)
+      );
+    background-position:
+      0 0,
+      2px 2px;
+    background-size: 4px 4px;
+    border-left: 3px solid var(--color-neutral-900);
+  }
+
+  :where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *)
+    .window-pane::-webkit-scrollbar-track {
+    @apply w-2.5 bg-neutral-900;
+    background:
+      linear-gradient(
+        45deg,
+        var(--color-neutral-100) 25%,
+        transparent 0,
+        transparent 75%,
+        var(--color-neutral-100) 0,
+        var(--color-neutral-100)
+      ),
+      linear-gradient(
+        45deg,
+        var(--color-neutral-100) 25%,
+        transparent 0,
+        transparent 75%,
+        var(--color-neutral-100) 0,
+        var(--color-neutral-100)
+      );
+    background-position:
+      0 0,
+      2px 2px;
+    background-size: 4px 4px;
+    border-left: 3px solid var(--color-neutral-100);
+  }
+
+  .window-pane::-webkit-scrollbar-thumb {
+    @apply box-content w-5 bg-neutral-50;
+    border-color: var(--color-neutral-900);
+    border-width: 2px none 2px 2px;
+    border-style: solid;
+  }
+
+  :where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *)
+    .window-pane::-webkit-scrollbar-thumb {
+    @apply box-content w-5 bg-neutral-900;
+    border-color: var(--color-neutral-100);
+    border-width: 2px none 2px 2px;
+    border-style: solid;
+  }
+
+  .window-pane::-webkit-scrollbar-button:horizontal:end:increment,
+  ::-webkit-scrollbar-button:horizontal:start:decrement,
+  ::-webkit-scrollbar-button:vertical:end:increment,
+  ::-webkit-scrollbar-button:vertical:start:decrement {
+    @apply block;
+  }
+
+  .window-pane::-webkit-scrollbar-button:vertical:start {
+    @apply h-[23.38px];
+    background-image: var(--scrollbar-vert-start);
+    background-repeat: no-repeat;
+  }
+
+  .window-pane::-webkit-scrollbar-button:vertical:start:active {
+    @apply h-[23.38px];
+    background-image: var(--scrollbar-vert-start-active);
+    background-repeat: no-repeat;
+  }
+
+  .window-pane::-webkit-scrollbar-button:vertical:end {
+    @apply h-[23.38px];
+    background-image: var(--scrollbar-vert-end);
+  }
+
+  .window-pane::-webkit-scrollbar-button:vertical:end:active {
+    @apply h-[23.38px];
+    background-image: var(--scrollbar-vert-end-active);
+    background-repeat: no-repeat;
+  }
+
+  .window-pane::-webkit-scrollbar-button:horizontal:start {
+    @apply h-[23.38px];
+    background-image: var(--scrollbar-horiz-start);
+    background-repeat: no-repeat;
+  }
+
+  .window-pane::-webkit-scrollbar-button:horizontal:start:active {
+    @apply h-[23.38px];
+    background-image: var(--scrollbar-horiz-start-active);
+    background-repeat: no-repeat;
+  }
+
+  .window-pane::-webkit-scrollbar-button:horizontal:end {
+    @apply h-[23.38px];
+    background-image: var(--scrollbar-horiz-end);
+  }
+
+  .window-pane::-webkit-scrollbar-button:horizontal:end:active {
+    @apply h-[23.38px];
+    background-image: var(--scrollbar-horiz-end-active);
+    background-repeat: no-repeat;
+  }
+</style>

@@ -1,0 +1,79 @@
+{
+  "collectionName": "components_pages_hero_banners",
+  "info": {
+    "displayName": "HeroBanner",
+    "icon": "chartBubble"
+  },
+  "options": {},
+  "attributes": {
+    "headline": {
+      "type": "string",
+      "required": true
+    },
+    "subheadline": {
+      "type": "blocks",
+      "required": true
+    },
+    "backgroundMedia": {
+      "type": "media",
+      "conditions": {
+        "visible": {
+          "!=": [
+            {
+              "var": "backgroundType"
+            },
+            "none"
+          ]
+        }
+      },
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ]
+    },
+    "backgroundType": {
+      "type": "enumeration",
+      "required": true,
+      "default": "none",
+      "enum": [
+        "none",
+        "image",
+        "video",
+        "file"
+      ]
+    },
+    "backgroundColor": {
+      "type": "customField",
+      "customField": "plugin::color-picker.color",
+      "regex": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+    },
+    "textColor": {
+      "type": "customField",
+      "customField": "plugin::color-picker.color",
+      "regex": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+    },
+    "textAlign": {
+      "type": "enumeration",
+      "required": true,
+      "default": "left",
+      "enum": [
+        "left",
+        "right",
+        "center"
+      ]
+    },
+    "showScrollIndicator": {
+      "type": "boolean",
+      "required": true,
+      "default": false
+    },
+    "cta": {
+      "type": "component",
+      "component": "seo.call-to-action",
+      "repeatable": true
+    }
+  },
+  "config": {}
+}

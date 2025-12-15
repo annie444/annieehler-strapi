@@ -1,0 +1,11 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Projects from "@components/Projects.astro";
+import Hero from "@components/Hero.astro";
+import { projects, siteMeta } from "../content/siteData";
+---
+
+<Layout>
+  <Hero headline={siteMeta.title} subheadline={siteMeta.tagline} />
+  <Projects projects={projects} />
+</Layout>

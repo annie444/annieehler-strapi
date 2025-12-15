@@ -1,0 +1,77 @@
+---
+import { Command } from "@lucide/astro";
+import Dots from "@components/icons/Dots.astro";
+interface Props {
+  title: string;
+  links: { label: string; url: string }[];
+}
+const { title, links } = Astro.props;
+const now = new Date();
+---
+
+<div class="h-14"></div>
+<header
+  class="font-chi fixed top-0 left-0 z-10 flex w-full justify-between border-b border-solid border-b-neutral-300 bg-neutral-50 px-2 text-lg dark:border-b-neutral-700 dark:bg-neutral-800"
+>
+  <div class="flex flex-row items-center">
+    <div
+      class="flex flex-row items-center border-r border-solid border-r-neutral-900 py-1 pr-2 font-semibold dark:border-r-neutral-100"
+    >
+      <Command width="1rem" height="1rem" class="mr-2" />
+      {title}
+    </div>
+    <nav class="flex flex-row items-center">
+      {
+        links.map((link) => (
+          <a
+            class="border-r border-solid border-r-neutral-900 px-3 py-1 no-underline dark:border-r-neutral-100"
+            href={link.url}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+  <div class="flex flex-row items-center p-0">
+    <div
+      class="flex items-center border-l border-solid border-l-neutral-200 px-0.5 dark:border-l-neutral-700"
+    >
+      <Dots width="10px" height="35px" class="fill-neutral-400" />
+    </div>
+    <div
+      class="flex items-center border-l border-solid border-l-neutral-200 px-2 py-2 dark:border-l-neutral-700"
+    >
+      <span class="font-mono text-sm" id="current-datetime">
+        {
+          now.toLocaleDateString("en-US", {
+            weekday: "short",
+            month: "short",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+          })
+        }
+      </span>
+    </div>
+  </div>
+</header>
+
+<script>
+  const refreshDateTime = () => {
+    const now = new Date();
+    const formatted = now.toLocaleDateString("en-US", {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    const el = document.getElementById("current-datetime");
+    if (el) {
+      el.textContent = formatted;
+    }
+    window.requestAnimationFrame(refreshDateTime);
+  };
+  window.requestAnimationFrame(refreshDateTime);
+</script>

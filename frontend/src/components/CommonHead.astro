@@ -1,0 +1,256 @@
+---
+interface Props {
+  name: string;
+  title: string;
+  description?: string;
+  type?: "website" | "article";
+  image?: string | URL;
+  locale?: string;
+  locales?: {
+    locale: string;
+    link: string;
+  }[];
+  imageType?: string;
+  imageWidth?: number | string;
+  imageHeight?: number | string;
+  imageAlt?: string;
+  twitterHandle?: string;
+  publishedTime?: string;
+  modifiedTime?: string;
+  expirationTime?: string;
+  authors?: string[];
+  section?: string;
+  tags?: string[];
+}
+
+const {
+  name,
+  title,
+  description,
+  type = "website",
+  image,
+  locale,
+  locales,
+  imageType,
+  imageWidth,
+  imageHeight,
+  imageAlt,
+  twitterHandle,
+  publishedTime,
+  modifiedTime,
+  expirationTime,
+  authors,
+  section,
+  tags,
+}: Props = Astro.props;
+
+const baseUrl: URL = Astro.site ?? Astro.url;
+const defaultCanonicalUrl = new URL(
+  Astro.url.pathname + Astro.url.search,
+  baseUrl,
+);
+---
+
+<head>
+  <!-- Primary Meta Tags -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="generator" content={Astro.generator} />
+  <!-- SEO Meta Tags -->
+  <title>{title} | {name}</title>
+  <meta name="twitter:title" content={title} />
+  <meta property="og:title" content={title} />
+  <link rel="canonical" href={defaultCanonicalUrl.href} />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:type" content={type} />
+  <meta property="og:url" content={baseUrl.href} />
+  <meta property="og:site_name" content={name} />
+  <meta
+    property="twitter:card"
+    content={image ? "summary_large_image" : "summary"}
+  />
+  {
+    description ? (
+      <>
+        <meta name="description" content={description} />
+        <meta property="og:description" content={description} />
+        <meta name="twitter:description" content={description} />
+      </>
+    ) : null
+  }
+  {
+    image ? (
+      image instanceof URL ? (
+        <>
+          <meta property="og:image" content={image.href} />
+          <meta property="og:image:url" content={image.href} />
+          <meta property="og:image:secure_url" content={image.href} />
+          <meta property="twitter:image" content={image.href} />
+        </>
+      ) : (
+        <>
+          <meta property="og:image" content={image} />
+          <meta property="og:image:url" content={image} />
+          <meta property="og:image:secure_url" content={image} />
+          <meta property="twitter:image" content={image} />
+        </>
+      )
+    ) : null
+  }
+  {
+    image && imageType ? (
+      <meta property="og:image:type" content={imageType} />
+    ) : null
+  }
+  {
+    image && imageWidth ? (
+      <meta property="og:image:width" content={`${imageWidth}`} />
+    ) : null
+  }
+  {
+    image && imageHeight ? (
+      <meta property="og:image:height" content={`${imageHeight}`} />
+    ) : null
+  }
+  {
+    image && imageAlt ? (
+      <>
+        <meta property="og:image:alt" content={imageAlt} />
+        <meta property="twitter:image:alt" content={imageAlt} />
+      </>
+    ) : null
+  }
+  {locale ? <meta property="og:locale" content={locale} /> : null}
+  {
+    locales
+      ? locales.map((loc) => (
+          <>
+            <meta property="og:locale:alternate" content={loc.locale} />
+            <link rel="alternate" hreflang={loc.locale} href={loc.link} />
+          </>
+        ))
+      : null
+  }
+  {
+    twitterHandle ? (
+      <>
+        <meta name="twitter:site" content={twitterHandle} />
+        <meta name="twitter:creator" content={twitterHandle} />
+      </>
+    ) : null
+  }
+  {
+    type === "article" && publishedTime ? (
+      <meta property="article:published_time" content={publishedTime} />
+    ) : null
+  }
+  {
+    type === "article" && modifiedTime ? (
+      <meta property="article:modified_time" content={modifiedTime} />
+    ) : null
+  }
+  {
+    expirationTime ? (
+      <meta property="article:expiration_time" content={expirationTime} />
+    ) : null
+  }
+  {
+    authors
+      ? authors.map((author: string) => (
+          <meta property="article:author" content={author} />
+        ))
+      : null
+  }
+  {section ? <meta property="article:section" content={section} /> : null}
+  {
+    tags
+      ? tags.map((tag: string) => <meta property="article:tag" content={tag} />)
+      : null
+  }
+  <!-- Preload custom fonts -->
+  <link
+    as="font"
+    crossorigin
+    rel="preload"
+    href="/fonts/ChiKareGo2.ttf"
+    type="font/ttf"
+  />
+  <link
+    as="font"
+    crossorigin
+    rel="preload"
+    href="/fonts/Brygada1918-VariableFont_wght.ttf"
+    type="font/ttf"
+  />
+  <link
+    as="font"
+    crossorigin
+    rel="preload"
+    href="/fonts/Brygada1918-Italic-VariableFont_wght.ttf"
+    type="font/ttf"
+  />
+  <link
+    as="font"
+    crossorigin
+    rel="preload"
+    href="/fonts/Caveat-VariableFont_wght.ttf"
+    type="font/ttf"
+  />
+  <link
+    as="font"
+    crossorigin
+    rel="preload"
+    href="/fonts/DynaPuff-VariableFont_wdth-wght.ttf"
+    type="font/ttf"
+  />
+  <link
+    as="font"
+    crossorigin
+    rel="preload"
+    href="/fonts/JetBrainsMono-Italic-VariableFont_wght.ttf"
+    type="font/ttf"
+  />
+  <link
+    as="font"
+    crossorigin
+    rel="preload"
+    href="/fonts/JetBrainsMono-VariableFont_wght.ttf"
+    type="font/ttf"
+  />
+  <link
+    as="font"
+    crossorigin
+    rel="preload"
+    href="/fonts/PixelifySans-VariableFont_wght.ttf"
+    type="font/ttf"
+  />
+  <link
+    as="font"
+    crossorigin
+    rel="preload"
+    href="/fonts/PlaywriteCU-VariableFont_wght.ttf"
+    type="font/ttf"
+  />
+  <link
+    as="font"
+    crossorigin
+    rel="preload"
+    href="/fonts/SUSE-Italic-VariableFont_wght.ttf"
+    type="font/ttf"
+  />
+  <link
+    as="font"
+    crossorigin
+    rel="preload"
+    href="/fonts/SUSE-VariableFont_wght.ttf"
+    type="font/ttf"
+  />
+  <link
+    as="font"
+    crossorigin
+    rel="preload"
+    href="/fonts/Tektur-VariableFont_wdth-wght.ttf"
+    type="font/ttf"
+  />
+</head>

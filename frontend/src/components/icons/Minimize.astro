@@ -1,0 +1,19 @@
+---
+import type { SvgProps } from "@utils/content/svg";
+import InternalSvg from "@components/icons/InternalSvg.astro";
+type Props = SvgProps & {
+  color?: string;
+};
+const { color, ...rest } = Astro.props as Props;
+---
+
+<InternalSvg
+  stroke={color}
+  stroke-width="5"
+  viewBox={{ x: 0, y: 0, width: 50, height: 50 }}
+  {...rest}
+>
+  <rect width="40" height="40" x="5" y="5"></rect>
+  <path d="M 5,19 H 45" class="svg-hide"></path>
+  <path d="M 5,31 H 45" class="svg-hide"></path>
+</InternalSvg>

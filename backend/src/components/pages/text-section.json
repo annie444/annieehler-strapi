@@ -1,0 +1,60 @@
+{
+  "collectionName": "components_pages_text_sections",
+  "info": {
+    "displayName": "TextSection",
+    "icon": "information"
+  },
+  "options": {},
+  "attributes": {
+    "heading": {
+      "type": "string",
+      "required": true
+    },
+    "body": {
+      "type": "richtext",
+      "required": true
+    },
+    "media": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "mediaPosition": {
+      "type": "enumeration",
+      "default": "right",
+      "enum": [
+        "left",
+        "right",
+        "top",
+        "bottom"
+      ]
+    },
+    "backgroundColor": {
+      "type": "customField",
+      "customField": "plugin::color-picker.color",
+      "regex": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+    },
+    "textAlign": {
+      "type": "enumeration",
+      "required": true,
+      "default": "left",
+      "enum": [
+        "left",
+        "right",
+        "center"
+      ]
+    },
+    "cta": {
+      "type": "component",
+      "component": "seo.call-to-action",
+      "repeatable": true
+    },
+    "customCssClass": {
+      "type": "string"
+    }
+  },
+  "config": {}
+}

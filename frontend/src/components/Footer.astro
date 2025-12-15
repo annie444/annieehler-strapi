@@ -1,0 +1,19 @@
+---
+interface Props {
+  links: { label: string; url: string }[];
+}
+const { links } = Astro.props;
+---
+
+<footer>
+  <p>
+    {
+      links.map((link, index) => (
+        <>
+          <a href={link.url}>{link.label}</a>
+          {index < links.length - 1 ? " | " : ""}
+        </>
+      ))
+    }
+  </p>
+</footer>

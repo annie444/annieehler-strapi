@@ -1,0 +1,20 @@
+---
+// Theme initialization component - include once in your layout
+---
+
+<script>
+  import { resolveTheme, applyTheme, prefersDark } from "@utils/theme";
+
+  // Apply theme immediately to avoid flash
+  applyTheme(resolveTheme());
+
+  // Re-apply on system preference change (only if no stored preference)
+  prefersDark().addEventListener("change", () => {
+    applyTheme(resolveTheme());
+  });
+
+  // Re-apply after swup page transitions
+  document.addEventListener("astro:after-swap", () => {
+    applyTheme(resolveTheme());
+  });
+</script>

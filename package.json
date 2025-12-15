@@ -1,0 +1,27 @@
+{
+  "name": "annieehler.com-strapi",
+  "version": "1.0.0",
+  "description": "My personal website built with Astro with Strapi as the CMS",
+  "keywords": [],
+  "author": "Annie Ehler <annie.ehler.4@gmail.com>",
+  "license": "ISC",
+  "scripts": {
+    "dev": "concurrently \"cd backend && npm run --workspace=backend develop\" \"cd frontend && wait-on http://localhost:1337 && npm run --workspace=frontend dev\""
+  },
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "engines": {
+    "node": ">=20.0.0 <=24.x.x",
+    "npm": ">=6.0.0"
+  },
+  "dependencies": {
+    "node-addon-api": "^8.5.0",
+    "node-gyp": "^12.1.0"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "wait-on": "^9.0.3"
+  }
+}

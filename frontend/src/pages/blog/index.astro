@@ -1,0 +1,33 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { posts, siteMeta } from "../../content/siteData";
+---
+
+<Layout>
+  <section class="glow-card">
+    <div class="section-title">
+      <h2>Blog & Notes</h2>
+      <span class="pill">{siteMeta.name}</span>
+    </div>
+    <p class="mb-3.5 text-(--muted)">
+      Streaming architecture thoughts, DX rants, and colorful experiments. Posts
+      are wired for a CMS API—swap this data source when ready.
+    </p>
+    <div class="grid gap-3.5">
+      {
+        posts.map((post) => (
+          <article class="glow-card p-4">
+            <div class="flex items-center justify-between gap-2.5">
+              <h3 class="m-0">{post.title}</h3>
+              <span class="pill">{post.pubDate}</span>
+            </div>
+            <p class="mt-2 mb-3 text-(--muted)">{post.description}</p>
+            <a class="btn" href={`/blog/${post.slug}`}>
+              Read draft
+            </a>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+</Layout>

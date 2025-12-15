@@ -1,0 +1,34 @@
+---
+import Github from "@components/icons/pixel/Github.astro";
+import CTAIcon from "@components/CTAIcon.astro";
+interface Props {
+  headline: string;
+  subheadline: string;
+}
+const { headline, subheadline } = Astro.props;
+---
+
+<section class="flex min-h-[200px] w-full flex-col items-center">
+  <div
+    class="harsh-neutral-600 max-w-3xl border border-solid border-neutral-900 bg-neutral-100 p-8 dark:border-neutral-100 dark:bg-neutral-800"
+  >
+    <h1 class="font-jetbrains mb-4 text-center text-4xl">
+      {headline}
+    </h1>
+    <div
+      class="window-pane mx-auto mt-8 mb-4 max-h-48 w-[70%] border border-solid border-neutral-900 bg-neutral-50 p-4 dark:border-neutral-100 dark:bg-neutral-900"
+    >
+      <p>
+        {subheadline}
+      </p>
+    </div>
+    <div class="flex justify-around">
+      <CTAIcon text="View on GitHub">
+        <Github size={32} class="fill-neutral-950 dark:fill-neutral-100" />
+      </CTAIcon>
+      <CTAIcon text="Star the Repo">
+        <Github size={32} class="fill-neutral-950 dark:fill-neutral-100" />
+      </CTAIcon>
+    </div>
+  </div>
+</section>
