@@ -3,6 +3,10 @@ default:
   @just --list
 
 [group("Workspace")]
+install:
+  npm run setup
+
+[group("Workspace")]
 add +packages:
   npm i {{ packages }}
 

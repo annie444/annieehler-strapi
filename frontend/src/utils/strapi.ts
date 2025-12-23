@@ -13,7 +13,7 @@ export interface StrapiProps {
  * @param wrappedByList - If the response is a list, unwrap it
  * @returns
  */
-export default async function fetchApi<T>({
+export async function fetchApi<T>({
   endpoint,
   query,
   wrappedByKey,
@@ -30,7 +30,12 @@ export default async function fetchApi<T>({
       url.searchParams.append(key, value);
     });
   }
-  const res = await fetch(url.toString());
+
+  const res = await fetch(url.toString(), {
+    headers: {
+      Authorization: `Bearer ${import.meta.env.STRAPI_TOKEN}`,
+    },
+  });
   let data = await res.json();
 
   if (wrappedByKey) {

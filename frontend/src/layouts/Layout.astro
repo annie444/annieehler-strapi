@@ -8,34 +8,28 @@ import Theme from "@components/Theme.astro";
 import ToggleTheme from "@components/svelte/ToggleTheme.svelte";
 import Footer from "@components/Footer.astro";
 
-import { siteMeta } from "../content/siteData";
+import type { MetaProps } from "@utils/content/meta";
+
+type Props = MetaProps;
+
+const siteMeta: Props = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
-  <CommonHead name={siteMeta.name} title={siteMeta.title} />
+  <CommonHead {...siteMeta} />
   <body
     class="font-suse m-0 bg-pink-100 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-50"
   >
     <Theme defaultTheme="dark" />
-    <Header
-      title={siteMeta.name}
-      links={[
-        { label: "Home", url: "#top" },
-        { label: "About", url: "#about" },
-        { label: "Projects", url: "#projects" },
-        { label: "Contact", url: "#contact" },
-      ]}
-    />
+    <Header title={siteMeta.name} links={siteMeta.links} />
     <main>
       <slot />
     </main>
-    <Footer
-      links={[{ label: "Launch experimental interface", url: "/experiments" }]}
-    />
+    <Footer />
     <ToggleTheme
       class="fixed right-4 bottom-4 rounded-full md:right-8 md:bottom-8 xl:right-12 xl:bottom-12"
-      client:load={"svelte"}
+      client:load
     />
   </body>
 </html>
@@ -66,12 +60,12 @@ import { siteMeta } from "../content/siteData";
   }
 
   ::-webkit-scrollbar {
-    @apply w-[22px] bg-neutral-50;
+    @apply w-5.5 bg-neutral-50;
   }
 
   :where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *)
     ::-webkit-scrollbar {
-    @apply w-[22px] bg-neutral-900;
+    @apply w-5.5 bg-neutral-900;
   }
 
   ::-webkit-scrollbar-track {
@@ -196,12 +190,12 @@ import { siteMeta } from "../content/siteData";
   }
 
   .window-pane::-webkit-scrollbar {
-    @apply w-[22px] bg-neutral-50;
+    @apply w-5.5 bg-neutral-50;
   }
 
   :where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *)
     .window-pane::-webkit-scrollbar {
-    @apply w-[22px] bg-neutral-900;
+    @apply w-5.5 bg-neutral-900;
   }
 
   .window-pane::-webkit-scrollbar-track {

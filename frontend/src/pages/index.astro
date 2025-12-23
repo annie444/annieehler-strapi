@@ -2,10 +2,14 @@
 import Layout from "@layouts/Layout.astro";
 import Projects from "@components/Projects.astro";
 import Hero from "@components/Hero.astro";
-import { projects, siteMeta } from "../content/siteData";
+import { fetchProjects } from "@utils/content/project";
+import { fetchMeta } from "@utils/content/meta";
+
+const projects = await fetchProjects();
+const siteMeta = await fetchMeta();
 ---
 
-<Layout>
+<Layout {...siteMeta}>
   <Hero headline={siteMeta.title} subheadline={siteMeta.tagline} />
   <Projects projects={projects} />
 </Layout>

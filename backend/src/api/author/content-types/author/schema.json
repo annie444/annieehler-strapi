@@ -11,31 +11,39 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "name": {
+    "firstName": {
       "type": "string",
-      "required": true,
-      "unique": true
+      "required": true
+    },
+    "lastName": {
+      "type": "string",
+      "required": true
+    },
+    "email": {
+      "type": "email"
+    },
+    "github": {
+      "type": "string"
+    },
+    "website": {
+      "type": "string"
+    },
+    "linkedin": {
+      "type": "string"
+    },
+    "twitter": {
+      "type": "string"
     },
     "slug": {
       "type": "uid",
-      "targetField": "name",
+      "targetField": "firstName",
       "required": true
     },
-    "collaborator": {
+    "pages": {
       "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::collaborator.collaborator"
-    },
-    "socialLinks": {
-      "type": "component",
-      "component": "socials.social-links",
-      "repeatable": true
-    },
-    "blogPosts": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::blog-post.blog-post",
-      "inversedBy": "authors"
+      "relation": "manyToMany",
+      "target": "api::page-meta.page-meta",
+      "mappedBy": "authors"
     }
   }
 }

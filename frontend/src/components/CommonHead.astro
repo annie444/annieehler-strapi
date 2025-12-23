@@ -1,47 +1,25 @@
 ---
-interface Props {
-  name: string;
-  title: string;
-  description?: string;
-  type?: "website" | "article";
-  image?: string | URL;
-  locale?: string;
-  locales?: {
-    locale: string;
-    link: string;
-  }[];
-  imageType?: string;
-  imageWidth?: number | string;
-  imageHeight?: number | string;
-  imageAlt?: string;
-  twitterHandle?: string;
-  publishedTime?: string;
-  modifiedTime?: string;
-  expirationTime?: string;
-  authors?: string[];
-  section?: string;
-  tags?: string[];
-}
+import type { MetaProps } from "@utils/content/meta";
+import type { Author, Locale, Tag } from "@utils/content/shared";
+
+type Props = MetaProps;
 
 const {
   name,
+  siteLocale,
   title,
+  pageLocale,
   description,
-  type = "website",
+  pageType = "website",
   image,
-  locale,
-  locales,
-  imageType,
-  imageWidth,
-  imageHeight,
-  imageAlt,
   twitterHandle,
   publishedTime,
   modifiedTime,
-  expirationTime,
   authors,
   section,
   tags,
+  defaultLocale,
+  locales,
 }: Props = Astro.props;
 
 const baseUrl: URL = Astro.site ?? Astro.url;
@@ -63,7 +41,7 @@ const defaultCanonicalUrl = new URL(
   <meta property="og:title" content={title} />
   <link rel="canonical" href={defaultCanonicalUrl.href} />
   <meta name="robots" content="index, follow" />
-  <meta property="og:type" content={type} />
+  <meta property="og:type" content={pageType} />
   <meta property="og:url" content={baseUrl.href} />
   <meta property="og:site_name" content={name} />
   <meta
@@ -81,53 +59,55 @@ const defaultCanonicalUrl = new URL(
   }
   {
     image ? (
-      image instanceof URL ? (
-        <>
-          <meta property="og:image" content={image.href} />
-          <meta property="og:image:url" content={image.href} />
-          <meta property="og:image:secure_url" content={image.href} />
-          <meta property="twitter:image" content={image.href} />
-        </>
-      ) : (
-        <>
-          <meta property="og:image" content={image} />
-          <meta property="og:image:url" content={image} />
-          <meta property="og:image:secure_url" content={image} />
-          <meta property="twitter:image" content={image} />
-        </>
-      )
-    ) : null
-  }
-  {
-    image && imageType ? (
-      <meta property="og:image:type" content={imageType} />
-    ) : null
-  }
-  {
-    image && imageWidth ? (
-      <meta property="og:image:width" content={`${imageWidth}`} />
-    ) : null
-  }
-  {
-    image && imageHeight ? (
-      <meta property="og:image:height" content={`${imageHeight}`} />
-    ) : null
-  }
-  {
-    image && imageAlt ? (
       <>
-        <meta property="og:image:alt" content={imageAlt} />
-        <meta property="twitter:image:alt" content={imageAlt} />
+        <meta property="og:image" content={image.image} />
+        <meta property="og:image:url" content={image.image} />
+        <meta property="og:image:secure_url" content={image.image} />
+        <meta property="twitter:image" content={image.image} />
       </>
     ) : null
   }
-  {locale ? <meta property="og:locale" content={locale} /> : null}
+  {
+    image && image.mimeType ? (
+      <meta property="og:image:type" content={image.mimeType} />
+    ) : null
+  }
+  {
+    image && image.width ? (
+      <meta property="og:image:width" content={`${image.width}`} />
+    ) : null
+  }
+  {
+    image && image.height ? (
+      <meta property="og:image:height" content={`${image.height}`} />
+    ) : null
+  }
+  {
+    image && image.altText ? (
+      <>
+        <meta property="og:image:alt" content={image.altText} />
+        <meta property="twitter:image:alt" content={image.altText} />
+      </>
+    ) : null
+  }
+  {
+    pageLocale ? (
+      <meta property="og:locale" content={pageLocale} />
+    ) : siteLocale ? (
+      <meta property="og:locale" content={siteLocale} />
+    ) : null
+  }
+  {
+    defaultLocale ? (
+      <meta property="og:locale:default" content={defaultLocale.code} />
+    ) : null
+  }
   {
     locales
-      ? locales.map((loc) => (
+      ? locales.map((loc: Locale) => (
           <>
-            <meta property="og:locale:alternate" content={loc.locale} />
-            <link rel="alternate" hreflang={loc.locale} href={loc.link} />
+            <meta property="og:locale:alternate" content={loc.name} />
+            <link rel="alternate" hreflang={loc.name} href={`/${loc.code}`} />
           </>
         ))
       : null
@@ -141,31 +121,31 @@ const defaultCanonicalUrl = new URL(
     ) : null
   }
   {
-    type === "article" && publishedTime ? (
+    pageType === "article" && publishedTime ? (
       <meta property="article:published_time" content={publishedTime} />
     ) : null
   }
   {
-    type === "article" && modifiedTime ? (
+    pageType === "article" && modifiedTime ? (
       <meta property="article:modified_time" content={modifiedTime} />
     ) : null
   }
   {
-    expirationTime ? (
-      <meta property="article:expiration_time" content={expirationTime} />
-    ) : null
-  }
-  {
     authors
-      ? authors.map((author: string) => (
-          <meta property="article:author" content={author} />
+      ? authors.map((author: Author) => (
+          <meta
+            property="article:author"
+            content={`${author.firstName} ${author.lastName}`}
+          />
         ))
       : null
   }
   {section ? <meta property="article:section" content={section} /> : null}
   {
     tags
-      ? tags.map((tag: string) => <meta property="article:tag" content={tag} />)
+      ? tags.map((tag: Tag) => (
+          <meta property="article:tag" content={tag.name} />
+        ))
       : null
   }
   <!-- Preload custom fonts -->

@@ -6,6 +6,9 @@
   "author": "Annie Ehler <annie.ehler.4@gmail.com>",
   "license": "ISC",
   "scripts": {
+    "setup:backend": "cd backend && npm install",
+    "setup:frontend": "cd frontend && npm install",
+    "setup": "npm install && npm run setup:backend && npm run setup:frontend",
     "dev": "concurrently \"cd backend && npm run --workspace=backend develop\" \"cd frontend && wait-on http://localhost:1337 && npm run --workspace=frontend dev\""
   },
   "workspaces": [

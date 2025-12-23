@@ -27,8 +27,12 @@ export default defineConfig({
   },
 
   integrations: [
-    svelte(),
-    react(),
+    svelte({
+      include: ["**/*.svelte"],
+    }),
+    react({
+      include: ["**/*.jsx", "**/*.tsx"],
+    }),
     sitemap(),
     swup({
       native: true,

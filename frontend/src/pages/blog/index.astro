@@ -1,6 +1,30 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import { posts, siteMeta } from "../../content/siteData";
+import Layout from "@layouts/Layout.astro";
+import { fetchMeta } from "@utils/content/meta";
+
+const siteMeta = await fetchMeta();
+const posts = [
+  {
+    title: "Streaming Architecture Patterns",
+    slug: "streaming-architecture-patterns",
+    pubDate: "2024-05-15",
+    description:
+      "Exploring modern streaming architecture patterns for scalable applications.",
+  },
+  {
+    title: "Improving Developer Experience",
+    slug: "improving-developer-experience",
+    pubDate: "2024-04-10",
+    description:
+      "Tips and tricks to enhance the developer experience in your projects.",
+  },
+  {
+    title: "Colorful Experiments with CSS",
+    slug: "colorful-experiments-with-css",
+    pubDate: "2024-03-22",
+    description: "A dive into creative CSS techniques for vibrant web designs.",
+  },
+];
 ---
 
 <Layout>

@@ -478,41 +478,37 @@ export interface ApiAuthorAuthor extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    blogPosts: Schema.Attribute.Relation<
-      "manyToOne",
-      "api::blog-post.blog-post"
-    >;
-    collaborator: Schema.Attribute.Relation<
-      "oneToOne",
-      "api::collaborator.collaborator"
-    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> &
       Schema.Attribute.Private;
+    email: Schema.Attribute.Email;
+    firstName: Schema.Attribute.String & Schema.Attribute.Required;
+    github: Schema.Attribute.String;
+    lastName: Schema.Attribute.String & Schema.Attribute.Required;
+    linkedin: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       "oneToMany",
       "api::author.author"
     > &
       Schema.Attribute.Private;
-    name: Schema.Attribute.String &
-      Schema.Attribute.Required &
-      Schema.Attribute.Unique;
+    pages: Schema.Attribute.Relation<"manyToMany", "api::page-meta.page-meta">;
     publishedAt: Schema.Attribute.DateTime;
-    slug: Schema.Attribute.UID<"name"> & Schema.Attribute.Required;
-    socialLinks: Schema.Attribute.Component<"socials.social-links", true>;
+    slug: Schema.Attribute.UID<"firstName"> & Schema.Attribute.Required;
+    twitter: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> &
       Schema.Attribute.Private;
+    website: Schema.Attribute.String;
   };
 }
 
-export interface ApiBlogPostBlogPost extends Struct.CollectionTypeSchema {
-  collectionName: "blog_posts";
+export interface ApiPageMetaPageMeta extends Struct.CollectionTypeSchema {
+  collectionName: "page_metas";
   info: {
-    displayName: "BlogPost";
-    pluralName: "blog-posts";
-    singularName: "blog-post";
+    displayName: "Page Meta";
+    pluralName: "page-metas";
+    singularName: "page-meta";
   };
   options: {
     draftAndPublish: true;
@@ -523,125 +519,75 @@ export interface ApiBlogPostBlogPost extends Struct.CollectionTypeSchema {
     };
   };
   attributes: {
-    authors: Schema.Attribute.Relation<"oneToMany", "api::author.author">;
-    content: Schema.Attribute.DynamicZone<
-      ["pages.text-section", "pages.content-block", "pages.image-gallery"]
-    > &
-      Schema.Attribute.Required &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    coverImage: Schema.Attribute.Component<"media.image", false> &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
+    authors: Schema.Attribute.Relation<"manyToMany", "api::author.author">;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> &
       Schema.Attribute.Private;
-    excerpt: Schema.Attribute.String &
-      Schema.Attribute.Required &
+    description: Schema.Attribute.Text &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
         };
-      }> &
-      Schema.Attribute.SetMinMaxLength<{
-        minLength: 100;
+      }>;
+    image: Schema.Attribute.Component<"ui.image", false> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
       }>;
     locale: Schema.Attribute.String;
     localizations: Schema.Attribute.Relation<
       "oneToMany",
-      "api::blog-post.blog-post"
+      "api::page-meta.page-meta"
     >;
-    publishDate: Schema.Attribute.Date &
+    modifiedTime: Schema.Attribute.DateTime &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
         };
       }>;
+    pageType: Schema.Attribute.Enumeration<["website", "article"]> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    path: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
     publishedAt: Schema.Attribute.DateTime;
-    slug: Schema.Attribute.UID<"title"> &
+    publishedTime: Schema.Attribute.DateTime &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    section: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    slug: Schema.Attribute.UID<"path"> &
       Schema.Attribute.Required &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
         };
       }>;
-    tags: Schema.Attribute.Relation<"oneToMany", "api::tag.tag">;
+    tags: Schema.Attribute.Relation<"manyToMany", "api::tag.tag">;
     title: Schema.Attribute.String &
       Schema.Attribute.Required &
-      Schema.Attribute.Unique &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
         };
       }>;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> &
-      Schema.Attribute.Private;
-  };
-}
-
-export interface ApiCollaboratorCollaborator
-  extends Struct.CollectionTypeSchema {
-  collectionName: "collaborators";
-  info: {
-    displayName: "Collaborator";
-    pluralName: "collaborators";
-    singularName: "collaborator";
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  pluginOptions: {
-    i18n: {
-      localized: true;
-    };
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> &
-      Schema.Attribute.Private;
-    email: Schema.Attribute.Email &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    homepage: Schema.Attribute.String &
-      Schema.Attribute.Required &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    locale: Schema.Attribute.String;
-    localizations: Schema.Attribute.Relation<
-      "oneToMany",
-      "api::collaborator.collaborator"
-    >;
-    name: Schema.Attribute.String &
-      Schema.Attribute.Required &
-      Schema.Attribute.Unique &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    projects: Schema.Attribute.Relation<"manyToMany", "api::project.project">;
-    publishedAt: Schema.Attribute.DateTime;
-    slug: Schema.Attribute.UID<"name"> &
-      Schema.Attribute.Required &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    socialLinks: Schema.Attribute.Component<"socials.social-links", true> &
+    twitterHandle: Schema.Attribute.String &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
@@ -663,78 +609,34 @@ export interface ApiProjectProject extends Struct.CollectionTypeSchema {
   options: {
     draftAndPublish: true;
   };
-  pluginOptions: {
-    i18n: {
-      localized: true;
-    };
-  };
   attributes: {
-    client: Schema.Attribute.String &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    collaborators: Schema.Attribute.Relation<
-      "manyToMany",
-      "api::collaborator.collaborator"
-    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> &
       Schema.Attribute.Private;
-    date: Schema.Attribute.Date &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    description: Schema.Attribute.Text &
-      Schema.Attribute.Required &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    link: Schema.Attribute.String &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    locale: Schema.Attribute.String;
+    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    link: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       "oneToMany",
       "api::project.project"
-    >;
+    > &
+      Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    slug: Schema.Attribute.UID<"title"> &
-      Schema.Attribute.Required &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    tags: Schema.Attribute.Relation<"oneToMany", "api::tag.tag">;
-    title: Schema.Attribute.String &
-      Schema.Attribute.Required &
-      Schema.Attribute.Unique &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
+    tags: Schema.Attribute.Relation<"manyToMany", "api::tag.tag">;
+    text: Schema.Attribute.Blocks;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> &
       Schema.Attribute.Private;
   };
 }
 
-export interface ApiSiteSettingSiteSetting extends Struct.SingleTypeSchema {
-  collectionName: "site_settings";
+export interface ApiSiteMetaSiteMeta extends Struct.SingleTypeSchema {
+  collectionName: "site_metas";
   info: {
-    displayName: "SiteSettings";
-    pluralName: "site-settings";
-    singularName: "site-setting";
+    displayName: "Site Meta";
+    pluralName: "site-metas";
+    singularName: "site-meta";
   };
   options: {
     draftAndPublish: true;
@@ -748,7 +650,11 @@ export interface ApiSiteSettingSiteSetting extends Struct.SingleTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> &
       Schema.Attribute.Private;
-    defaultSEO: Schema.Attribute.Component<"seo.seo", false> &
+    defaultMeta: Schema.Attribute.Relation<
+      "oneToOne",
+      "api::page-meta.page-meta"
+    >;
+    links: Schema.Attribute.Component<"ui.link", true> &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
@@ -757,9 +663,9 @@ export interface ApiSiteSettingSiteSetting extends Struct.SingleTypeSchema {
     locale: Schema.Attribute.String;
     localizations: Schema.Attribute.Relation<
       "oneToMany",
-      "api::site-setting.site-setting"
+      "api::site-meta.site-meta"
     >;
-    logo: Schema.Attribute.Media<"images"> &
+    name: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
@@ -767,21 +673,8 @@ export interface ApiSiteSettingSiteSetting extends Struct.SingleTypeSchema {
         };
       }>;
     publishedAt: Schema.Attribute.DateTime;
-    siteDescription: Schema.Attribute.Text &
+    tagline: Schema.Attribute.Text &
       Schema.Attribute.Required &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    siteName: Schema.Attribute.String &
-      Schema.Attribute.Required &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    socialLink: Schema.Attribute.Component<"socials.social-links", true> &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
@@ -803,39 +696,18 @@ export interface ApiTagTag extends Struct.CollectionTypeSchema {
   options: {
     draftAndPublish: true;
   };
-  pluginOptions: {
-    i18n: {
-      localized: true;
-    };
-  };
   attributes: {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> &
       Schema.Attribute.Private;
-    description: Schema.Attribute.String &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    locale: Schema.Attribute.String;
-    localizations: Schema.Attribute.Relation<"oneToMany", "api::tag.tag">;
-    name: Schema.Attribute.String &
-      Schema.Attribute.Required &
-      Schema.Attribute.Unique &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<"oneToMany", "api::tag.tag"> &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    pages: Schema.Attribute.Relation<"manyToMany", "api::page-meta.page-meta">;
+    projects: Schema.Attribute.Relation<"manyToMany", "api::project.project">;
     publishedAt: Schema.Attribute.DateTime;
-    slug: Schema.Attribute.UID<"name"> &
-      Schema.Attribute.Required &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
+    slug: Schema.Attribute.UID<"name"> & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> &
       Schema.Attribute.Private;
@@ -1354,10 +1226,9 @@ declare module "@strapi/strapi" {
       "admin::transfer-token-permission": AdminTransferTokenPermission;
       "admin::user": AdminUser;
       "api::author.author": ApiAuthorAuthor;
-      "api::blog-post.blog-post": ApiBlogPostBlogPost;
-      "api::collaborator.collaborator": ApiCollaboratorCollaborator;
+      "api::page-meta.page-meta": ApiPageMetaPageMeta;
       "api::project.project": ApiProjectProject;
-      "api::site-setting.site-setting": ApiSiteSettingSiteSetting;
+      "api::site-meta.site-meta": ApiSiteMetaSiteMeta;
       "api::tag.tag": ApiTagTag;
       "plugin::content-releases.release": PluginContentReleasesRelease;
       "plugin::content-releases.release-action": PluginContentReleasesReleaseAction;

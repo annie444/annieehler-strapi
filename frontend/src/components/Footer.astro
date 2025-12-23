@@ -1,6 +1,6 @@
 ---
 interface Props {
-  links: { label: string; url: string }[];
+  links?: { label: string; url: string }[];
 }
 const { links } = Astro.props;
 ---
@@ -8,12 +8,14 @@ const { links } = Astro.props;
 <footer>
   <p>
     {
-      links.map((link, index) => (
-        <>
-          <a href={link.url}>{link.label}</a>
-          {index < links.length - 1 ? " | " : ""}
-        </>
-      ))
+      links
+        ? links.map((link, index) => (
+            <>
+              <a href={link.url}>{link.label}</a>
+              {index < links.length - 1 ? " | " : ""}
+            </>
+          ))
+        : null
     }
   </p>
 </footer>

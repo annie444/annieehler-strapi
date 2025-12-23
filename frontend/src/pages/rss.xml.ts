@@ -1,8 +1,9 @@
 import type { APIRoute } from "astro";
 import rss from "@astrojs/rss";
-import { posts, siteMeta } from "../content/siteData";
+import { fetchMeta } from "@utils/content/meta";
 
 export const GET: APIRoute = async ({ site }) => {
+  const siteMeta = await fetchMeta();
   const items = [...posts]
     .sort((a, b) => (b.pubDate as string).localeCompare(a.pubDate as string))
     .map((post) => {
