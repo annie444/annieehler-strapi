@@ -1,13 +1,13 @@
 import { fetchApi } from "@utils/strapi";
 import type { Tag, Author, Image } from "@utils/content/shared";
-import type { BlockContent } from "@strapi/blocks-react-renderer";
+import type { BlocksContent } from "@strapi/blocks-react-renderer";
 
 export interface BlogPostProps {
   id: string;
   slug: string;
   title: string;
   excerpt: string;
-  content?: BlockContent;
+  content?: BlocksContent;
   publishedAt: string; // ISO date
   updatedAt?: string;
   author?: Author;
@@ -48,7 +48,7 @@ export function estimateReadingTime(text: string): number {
 /**
  * Count words in block content (simplified)
  */
-export function countWordsInBlocks(blocks: BlockContent): number {
+export function countWordsInBlocks(blocks: BlocksContent): number {
   if (!blocks || !Array.isArray(blocks)) return 0;
 
   let wordCount = 0;

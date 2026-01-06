@@ -60,16 +60,16 @@ const defaultCanonicalUrl = new URL(
   {
     image ? (
       <>
-        <meta property="og:image" content={image.image} />
-        <meta property="og:image:url" content={image.image} />
-        <meta property="og:image:secure_url" content={image.image} />
-        <meta property="twitter:image" content={image.image} />
+        <meta property="og:image" content={image.url} />
+        <meta property="og:image:url" content={image.url} />
+        <meta property="og:image:secure_url" content={image.url} />
+        <meta property="twitter:image" content={image.url} />
       </>
     ) : null
   }
   {
-    image && image.mimeType ? (
-      <meta property="og:image:type" content={image.mimeType} />
+    image && image.mime ? (
+      <meta property="og:image:type" content={image.mime} />
     ) : null
   }
   {
@@ -83,10 +83,10 @@ const defaultCanonicalUrl = new URL(
     ) : null
   }
   {
-    image && image.altText ? (
+    image && image.alternativeText ? (
       <>
-        <meta property="og:image:alt" content={image.altText} />
-        <meta property="twitter:image:alt" content={image.altText} />
+        <meta property="og:image:alt" content={image.alternativeText} />
+        <meta property="twitter:image:alt" content={image.alternativeText} />
       </>
     ) : null
   }

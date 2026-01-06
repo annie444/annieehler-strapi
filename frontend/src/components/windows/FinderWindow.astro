@@ -37,11 +37,11 @@ const hasColumns = columns.length > 0;
   <Fragment slot="toolbar">
     {
       showPath && path && (
-        <div class="font-chi flex items-start mr-2">
+        <div class="font-chi mr-2 flex items-start">
           <span class="opacity-60">{path}</span>
         </div>
       )
-      }
+    }
     <div class="flex flex-none flex-col lg:flex-row">
       <slot name="toolbar-actions" />
     </div>

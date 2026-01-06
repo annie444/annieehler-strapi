@@ -24,55 +24,55 @@ const hasEnhancedDetails =
 
 <AccordionWindow title={title} open={true}>
   <div class="p-4">
-  <!-- Description -->
-  <p class="mb-4 text-neutral-700 dark:text-neutral-300">
-    {description}
-  </p>
+    <!-- Description -->
+    <p class="mb-4 text-neutral-700 dark:text-neutral-300">
+      {description}
+    </p>
 
-  <!-- Rich text content from Strapi -->
-  {
-    text && (
-      <div class="mb-4">
-        <Blocks content={text} client:load />
-      </div>
-    )
-  }
-
-  <!-- Enhanced project details -->
-  {hasEnhancedDetails && <ProjectDetails project={project} class="mb-4" />}
-
-  <!-- Tags -->
-  {
-    tags && tags.length > 0 && (
-      <div class="mb-4 flex flex-wrap gap-2">
-        {tags.map((tag) => (
-          <span class="border-2 border-solid border-neutral-900 bg-neutral-200 px-2 py-1 text-sm dark:border-neutral-300 dark:bg-neutral-800">
-            {tag.name}
-          </span>
-        ))}
-      </div>
-    )
-  }
-
-  <!-- Legacy link (if no enhanced links) -->
-  {
-    link && !project.codeUrl && !project.liveUrl && (
-      <a
-        href={link}
-        class="inline-block text-neutral-900 no-underline hover:underline dark:text-neutral-50"
-      >
-        Read more →
-      </a>
-    )
-  }
-
-  <!-- Featured badge -->
-  {
-    project.featured && (
-      <div class="absolute -top-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-yellow-400 text-sm dark:bg-yellow-500">
-        ★
-      </div>
-    )
+    <!-- Rich text content from Strapi -->
+    {
+      text && (
+        <div class="mb-4">
+          <Blocks content={text} client:load />
+        </div>
+      )
     }
-</div>
+
+    <!-- Enhanced project details -->
+    {hasEnhancedDetails && <ProjectDetails project={project} class="mb-4" />}
+
+    <!-- Tags -->
+    {
+      tags && tags.length > 0 && (
+        <div class="mb-4 flex flex-wrap gap-2">
+          {tags.map((tag) => (
+            <span class="border-2 border-solid border-neutral-900 bg-neutral-200 px-2 py-1 text-sm dark:border-neutral-300 dark:bg-neutral-800">
+              {tag.name}
+            </span>
+          ))}
+        </div>
+      )
+    }
+
+    <!-- Legacy link (if no enhanced links) -->
+    {
+      link && !project.codeUrl && !project.liveUrl && (
+        <a
+          href={link}
+          class="inline-block text-neutral-900 no-underline hover:underline dark:text-neutral-50"
+        >
+          Read more →
+        </a>
+      )
+    }
+
+    <!-- Featured badge -->
+    {
+      project.featured && (
+        <div class="absolute -top-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-yellow-400 text-sm dark:bg-yellow-500">
+          ★
+        </div>
+      )
+    }
+  </div>
 </AccordionWindow>

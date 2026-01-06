@@ -5,14 +5,12 @@ type Props = SvgProps;
 const { ...rest } = Astro.props as Props;
 ---
 
-<InternalSvg
-  viewBox={{ x: 0, y: 0, width: 100, height: 100 }}
-  {...rest}
->
- <path d="m95.066 14.938h-90v70h90zm-79.996 60v-40h9.9961v-10h50v10h9.9961v40z"/>
- <path d="m25.066 34.938h10v10h-10z"/>
- <path d="m35.066 44.938h10v10h-10z"/>
- <path d="m45.066 54.938h10v10h-10z"/>
- <path d="m55.066 44.938h10v10h-10z"/>
- <path d="m65.066 34.938h10v10h-10z"/>
+<InternalSvg viewBox={{ x: 0, y: 0, width: 100, height: 100 }} {...rest}>
+  <path d="m95.066 14.938h-90v70h90zm-79.996 60v-40h9.9961v-10h50v10h9.9961v40z"
+  ></path>
+  <path d="m25.066 34.938h10v10h-10z"></path>
+  <path d="m35.066 44.938h10v10h-10z"></path>
+  <path d="m45.066 54.938h10v10h-10z"></path>
+  <path d="m55.066 44.938h10v10h-10z"></path>
+  <path d="m65.066 34.938h10v10h-10z"></path>
 </InternalSvg>

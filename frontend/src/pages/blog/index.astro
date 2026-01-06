@@ -34,16 +34,22 @@ const sortedPosts = [...posts].sort((a, b) => {
       <FinderWindow title="Posts" showPath={true} path="~/blog" class="w-full">
         <!-- Toolbar with search and filters -->
         <Fragment slot="toolbar-actions">
-          <div class="grid grid-cols-1 lg:grid-cols-3 w-full items-center justify-between gap-2">
+          <div
+            class="grid w-full grid-cols-1 items-center justify-between gap-2 lg:grid-cols-3"
+          >
             <BlogSearch class="col-span-full lg:col-span-1" />
-            <TagFilter tags={tags} client:load class="col-span-full lg:col-span-2" />
+            <TagFilter
+              tags={tags}
+              client:load
+              class="col-span-full lg:col-span-2"
+            />
           </div>
         </Fragment>
 
         <!-- Icon grid -->
         <div
           id="blog-posts-grid"
-          class="grid-cols-[repeat(auto-fill,minmax(120px,1fr))] grid gap-2 p-4 justify-items-center"
+          class="grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] justify-items-center gap-2 p-4"
           data-posts={JSON.stringify(sortedPosts)}
         >
           {sortedPosts.map((post) => <BlogPostIcon post={post} />)}
@@ -89,7 +95,7 @@ const sortedPosts = [...posts].sort((a, b) => {
     const emptyState = document.getElementById("blog-empty-state");
     const clearBtn = document.getElementById("clear-filters-btn");
 
-    if (!grid) return;
+    if (!grid || grid === null) return;
 
     const postsData = JSON.parse(grid.dataset.posts || "[]");
     let currentSearchQuery = "";
@@ -119,6 +125,7 @@ const sortedPosts = [...posts].sort((a, b) => {
     });
 
     function filterPosts() {
+      if (!grid || grid === null) return;
       const icons = grid.querySelectorAll(".blog-post-icon");
       let visibleCount = 0;
 
@@ -149,6 +156,7 @@ const sortedPosts = [...posts].sort((a, b) => {
       if (emptyState) {
         emptyState.classList.toggle("hidden", visibleCount > 0);
       }
+      if (!grid || grid === null) return; 
       grid.classList.toggle("hidden", visibleCount === 0);
     }
   });

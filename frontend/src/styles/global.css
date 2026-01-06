@@ -94,6 +94,6 @@
   --color-neutral-950: oklch(18.22% 0 0);
 }
 
-@import "base.css";
-@import "utils.css";
-@import "components.css";
+@import "./base.css";
+@import "./utils.css";
+@import "./components.css";

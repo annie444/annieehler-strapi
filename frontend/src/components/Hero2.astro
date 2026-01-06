@@ -7,25 +7,18 @@
  * - Competency badges grouped by category
  * - Social links and resume download
  */
-import AccordionWindow from "@components/windows/AccordionWindow.astro";
-import FinderWindow from "@components/windows/FinderWindow.astro";
+import TextEditorWindow from "@components/windows/TextEditorWindow.astro";
 import CompetencyBadge from "@components/hero/CompetencyBadge.astro";
 import ResumeButton from "@components/hero/ResumeButton.astro";
 import Github from "@components/icons/pixel/Github.astro";
 import LinkedIn from "@components/icons/pixel/LinkedIn.astro";
 import Mail from "@components/icons/pixel/Email.astro";
-import {
-  getTerminalCommands,
-  type HeroProps,
-  type Competency,
-} from "@utils/content/hero";
+import { type HeroProps, type Competency } from "@utils/content/hero";
 
 type Props = HeroProps;
 
-const { headline, tagline, competencies, socialLinks, resumeUrl } = Astro.props;
-
-// Generate terminal commands from hero data
-const terminalCommands = getTerminalCommands(Astro.props);
+const { headline, tagline, competencies, socialLinks, resumeUrl, bio } =
+  Astro.props;
 
 // Group competencies by category
 const groupedCompetencies = competencies.reduce(
@@ -47,7 +40,9 @@ const categoryLabels: Record<string, string> = {
 };
 ---
 
-<section class="min-h-[calc(100vh-4rem)] lg:min-h-auto flex flex-col justify-center w-full px-4 py-8 md:px-8 md:py-12">
+<section
+  class="flex min-h-[calc(100vh-4rem)] w-full flex-col justify-center px-4 py-8 md:px-8 md:py-12 lg:min-h-auto"
+>
   <!-- Header with name and tagline -->
   <div class="mb-8 text-center">
     <h1 class="font-chi mb-2 text-4xl font-bold md:text-5xl">
@@ -58,25 +53,18 @@ const categoryLabels: Record<string, string> = {
     </p>
   </div>
 
-
   <!-- Terminal (main focus) -->
   <div class="mb-4 md:mb-6 lg:mb-8">
-    <AccordionWindow
-      title="Terminal"
-      open={true}
-      class="w-full"
-    >
-      <TerminalContent
-        commands={terminalCommands}
-        username="guest"
-        client:load
-      />
-    </AccordionWindow>
+    <TextEditorWindow title="whoami.txt" class="max-w-3xl mx-auto">
+      <p
+        class="font-suse text-sm whitespace-pre-wrap text-neutral-800 dark:text-neutral-200"
+      >
+        {bio}
+      </p>
+    </TextEditorWindow>
 
     <!-- Quick hint below terminal -->
-    <p
-      class="mt-3 text-center text-sm text-neutral-500 dark:text-neutral-400"
-    >
+    <p class="mt-3 text-center text-sm text-neutral-500 dark:text-neutral-400">
       Try typing
       <code
         class="font-jetbrains rounded bg-neutral-200 px-1 dark:bg-neutral-700"
@@ -94,21 +82,20 @@ const categoryLabels: Record<string, string> = {
   </div>
 
   <!-- Sidebar: Competencies + CTAs -->
-  <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+  <div class="grid grid-cols-1 gap-6 lg:grid-cols-5">
     <!-- Competencies Card -->
     <div
-      class="harsh-neutral-600 lg:col-span-4 border-em border-solid border-neutral-900 bg-neutral-50 p-4 dark:border-neutral-100 dark:bg-neutral-900"
+      class="harsh-neutral-600 border-em border-solid border-neutral-900 bg-neutral-50 p-4 lg:col-span-4 dark:border-neutral-100 dark:bg-neutral-900"
     >
       <h2 class="font-chi mb-4 text-lg font-bold">Skills</h2>
-      <div class="flex flex-row gap-4 flex-wrap">
-
+      <div class="flex flex-row flex-wrap gap-4">
         {
           Object.entries(groupedCompetencies).map(([category, comps]) => (
-            <div class="flex flex-row gap-4 items-center flex-nowrap">
+            <div class="flex flex-row flex-nowrap items-center gap-4">
               <h3 class="font-chi mr-4 text-base font-semibold tracking-wide text-neutral-500 dark:text-neutral-400">
                 {categoryLabels[category] || category}
               </h3>
-              <div class="flex flex-wrap gap-2 col-span-3">
+              <div class="col-span-3 flex flex-wrap gap-2">
                 {comps.map((comp) => (
                   <CompetencyBadge competency={comp} />
                 ))}
@@ -116,7 +103,6 @@ const categoryLabels: Record<string, string> = {
             </div>
           ))
         }
-
       </div>
     </div>
 

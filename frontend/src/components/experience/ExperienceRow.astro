@@ -33,7 +33,7 @@ const isCurrentJob = !experience.endDate;
 >
   <!-- Row summary (always visible) -->
   <summary
-    class="grid 2xl:grid-cols-[26px_2fr_14fr_2fr] xl:grid-cols-[26px_2fr_11fr_2fr] lg:grid-cols-[26px_2fr_7fr_2fr] md:grid-cols-[26px_2fr_4fr_2fr] grid-cols-[26px_2fr_3fr_2fr] cursor-pointer list-none items-center border-b border-solid border-neutral-200 px-3 py-2 transition-colors hover:bg-blue-100 dark:border-neutral-700 dark:hover:bg-blue-900/30"
+    class="grid cursor-pointer list-none grid-cols-[26px_2fr_3fr_2fr] items-center border-b border-solid border-neutral-200 px-3 py-2 transition-colors hover:bg-blue-100 md:grid-cols-[26px_2fr_4fr_2fr] lg:grid-cols-[26px_2fr_7fr_2fr] xl:grid-cols-[26px_2fr_11fr_2fr] 2xl:grid-cols-[26px_2fr_14fr_2fr] dark:border-neutral-700 dark:hover:bg-blue-900/30"
   >
     <!-- Folder icon -->
     <Folder
@@ -54,9 +54,7 @@ const isCurrentJob = !experience.endDate;
     </span>
 
     <!-- Role -->
-    <span
-      class="text-wrap text-neutral-600 dark:text-neutral-400"
-    >
+    <span class="text-wrap text-neutral-600 dark:text-neutral-400">
       {experience.role}
     </span>
 
@@ -78,13 +76,14 @@ const isCurrentJob = !experience.endDate;
         experience.link ? (
           <div class="mb-2 flex flex-row items-center justify-between">
             <p class="text-sm text-neutral-500 dark:text-neutral-400">
-                {experience.location} &centerdot; {duration}
+              {experience.location} &centerdot; {duration}
             </p>
             <a
               href={experience.link}
               target="_blank"
               rel="noopener noreferrer"
-              class="mr-4 md:mr-6 font-chi text-neutral-600 dark:text-neutral-400 underline hover:text-blue-600 dark:hover:text-blue-400">
+              class="font-chi mr-4 text-neutral-600 underline hover:text-blue-600 md:mr-6 dark:text-neutral-400 dark:hover:text-blue-400"
+            >
               Visit Site
             </a>
           </div>
@@ -92,26 +91,25 @@ const isCurrentJob = !experience.endDate;
           <p class="mb-2 text-sm text-neutral-500 dark:text-neutral-400">
             {experience.location} &centerdot; {duration}
           </p>
-        ) 
-      ) : (
-        experience.link ? (
-          <div class="mb-2 flex flex-row items-center justify-between">
-            <p class="text-sm text-neutral-500 dark:text-neutral-400">
-              {duration}
-            </p>
-            <a
-              href={experience.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="mr-4 md:mr-6 font-chi text-neutral-600 dark:text-neutral-400 underline hover:text-blue-600 dark:hover:text-blue-400">
-              Visit Site
-            </a>
-          </div>
-        ) : (
-          <p class="mb-2 text-sm text-neutral-500 dark:text-neutral-400">
+        )
+      ) : experience.link ? (
+        <div class="mb-2 flex flex-row items-center justify-between">
+          <p class="text-sm text-neutral-500 dark:text-neutral-400">
             {duration}
           </p>
-        )
+          <a
+            href={experience.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-chi mr-4 text-neutral-600 underline hover:text-blue-600 md:mr-6 dark:text-neutral-400 dark:hover:text-blue-400"
+          >
+            Visit Site
+          </a>
+        </div>
+      ) : (
+        <p class="mb-2 text-sm text-neutral-500 dark:text-neutral-400">
+          {duration}
+        </p>
       )
     }
 

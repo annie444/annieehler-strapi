@@ -13,7 +13,7 @@ interface Props {
   links: { label: string; url: string }[];
 }
 
-const { title, links } = Astro.props;
+const { title, links } = Astro.props as Props;
 const now = new Date();
 ---
 
@@ -23,9 +23,7 @@ const now = new Date();
   class="font-chi fixed top-0 left-0 z-10 flex w-full justify-between border-b border-solid border-b-neutral-300 bg-neutral-50 px-2 text-lg dark:border-b-neutral-700 dark:bg-neutral-800"
 >
   <!-- Logo/Title -->
-  <div
-    class="flex flex-row items-center p-0 font-semibold"
-  >
+  <div class="flex flex-row items-center p-0 font-semibold">
     <details class="mobile-menu relative">
       <summary
         class="flex cursor-pointer list-none items-center border-r border-solid border-r-neutral-900 px-2 py-0.5 dark:border-r-neutral-100"
@@ -37,7 +35,7 @@ const now = new Date();
 
       <!-- Dropdown Menu -->
       <nav
-        class="absolute top-full left-0 min-w-48 border-em harsh-neutral-600 border-solid border-neutral-900 bg-neutral-50 dark:border-neutral-100 dark:bg-neutral-800"
+        class="border-em harsh-neutral-600 absolute top-full left-0 min-w-48 border-solid border-neutral-900 bg-neutral-50 dark:border-neutral-100 dark:bg-neutral-800"
       >
         {
           links.map((link, index) => (
@@ -57,7 +55,7 @@ const now = new Date();
     </details>
 
     <!-- Desktop Navigation (lg+) -->
-    <nav class="hidden md:flex flex-row items-center">
+    <nav class="hidden flex-row items-center md:flex">
       {
         links.map((link) => (
           <a
@@ -74,12 +72,12 @@ const now = new Date();
   <!-- Right side: Dots + DateTime -->
   <div class="flex flex-row items-center px-0">
     <div
-      class="hidden sm:flex items-center sm:border-l sm:border-solid sm:border-l-neutral-200 px-0.5 sm:dark:border-l-neutral-700"
+      class="hidden items-center px-0.5 sm:flex sm:border-l sm:border-solid sm:border-l-neutral-200 sm:dark:border-l-neutral-700"
     >
       <Dots width="10px" height="32px" class="fill-neutral-400" />
     </div>
     <div
-      class="flex items-center sm:border-l sm:border-solid sm:border-l-neutral-200 px-2 py-1.5 sm:dark:border-l-neutral-700"
+      class="flex items-center px-2 py-1.5 sm:border-l sm:border-solid sm:border-l-neutral-200 sm:dark:border-l-neutral-700"
     >
       <span class="font-mono text-sm" id="current-datetime">
         {

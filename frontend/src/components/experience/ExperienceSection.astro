@@ -24,15 +24,13 @@ const sortedExperience = [...experience].sort((a, b) => {
 const itemCount = experience.length;
 ---
 
-<section
-  class:list={["w-full px-4 py-8 md:px-8", className]}
->
+<section class:list={["w-full px-4 py-8 md:px-8", className]}>
   <h2 class="font-chi mb-6 text-2xl font-bold">Experience</h2>
 
   <AccordionWindow title="Work History" open={true} class="experience-window">
     <!-- Column headers -->
     <div
-      class="grid 2xl:grid-cols-[26px_2fr_14fr_2fr] xl:grid-cols-[26px_2fr_11fr_2fr] lg:grid-cols-[26px_2fr_7fr_2fr] md:grid-cols-[26px_2fr_4fr_2fr] grid-cols-[26px_2fr_3fr_2fr] items-center border-b border-solid border-neutral-300 bg-neutral-200 px-3 py-1.5 dark:border-neutral-600 dark:bg-neutral-800"
+      class="grid grid-cols-[26px_2fr_3fr_2fr] items-center border-b border-solid border-neutral-300 bg-neutral-200 px-3 py-1.5 md:grid-cols-[26px_2fr_4fr_2fr] lg:grid-cols-[26px_2fr_7fr_2fr] xl:grid-cols-[26px_2fr_11fr_2fr] 2xl:grid-cols-[26px_2fr_14fr_2fr] dark:border-neutral-600 dark:bg-neutral-800"
     >
       <span class="w-5"></span>
       <span
@@ -56,7 +54,11 @@ const itemCount = experience.length;
     <div>
       {
         sortedExperience.map((exp, index) => (
-      <ExperienceRow experience={exp} expanded={index === 0} isEven={index % 2 === 0} />
+          <ExperienceRow
+            experience={exp}
+            expanded={index === 0}
+            isEven={index % 2 === 0}
+          />
         ))
       }
 
