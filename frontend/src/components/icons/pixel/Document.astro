@@ -1,0 +1,119 @@
+---
+/**
+ * Document Icon - Classic Mac document with folded corner
+ * Used for blog posts in the icon grid view
+ */
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"svg"> {
+  size?: number | string;
+  color?: string;
+}
+
+const { size = 48, color = "currentColor", ...rest } = Astro.props;
+---
+
+<svg
+  width={typeof size === "number" ? `${size}px` : size}
+  height={typeof size === "number" ? `${size}px` : size}
+  fill={color}
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 16 20"
+  preserveAspectRatio="xMidYMid meet"
+  shape-rendering="crispEdges"
+  {...rest}
+>
+  <!-- Document body -->
+  <rect x="1" y="0" width="10" height="1"></rect>
+  <rect x="0" y="1" width="1" height="18"></rect>
+  <rect
+    x="1"
+    y="1"
+    width="1"
+    height="1"
+    class="fill-neutral-50 dark:fill-neutral-900"></rect>
+  <rect
+    x="2"
+    y="1"
+    width="9"
+    height="1"
+    class="fill-neutral-50 dark:fill-neutral-900"></rect>
+  <rect x="11" y="0" width="1" height="1"></rect>
+  <rect x="12" y="1" width="1" height="1"></rect>
+  <rect x="13" y="2" width="1" height="1"></rect>
+  <rect x="14" y="3" width="1" height="1"></rect>
+  <rect x="15" y="4" width="1" height="15"></rect>
+
+  <!-- Folded corner -->
+  <rect x="11" y="1" width="1" height="1"></rect>
+  <rect
+    x="11"
+    y="2"
+    width="1"
+    height="1"
+    class="fill-neutral-300 dark:fill-neutral-600"></rect>
+  <rect x="12" y="2" width="1" height="1"></rect>
+  <rect
+    x="11"
+    y="3"
+    width="1"
+    height="1"
+    class="fill-neutral-300 dark:fill-neutral-600"></rect>
+  <rect
+    x="12"
+    y="3"
+    width="1"
+    height="1"
+    class="fill-neutral-300 dark:fill-neutral-600"></rect>
+  <rect x="13" y="3" width="1" height="1"></rect>
+  <rect x="11" y="4" width="4" height="1"></rect>
+
+  <!-- Document interior -->
+  <rect
+    x="1"
+    y="2"
+    width="10"
+    height="17"
+    class="fill-neutral-50 dark:fill-neutral-900"></rect>
+  <rect
+    x="11"
+    y="5"
+    width="4"
+    height="14"
+    class="fill-neutral-50 dark:fill-neutral-900"></rect>
+
+  <!-- Bottom border -->
+  <rect x="1" y="19" width="14" height="1"></rect>
+
+  <!-- Text lines (decorative) -->
+  <rect
+    x="3"
+    y="7"
+    width="8"
+    height="1"
+    class="fill-neutral-400 dark:fill-neutral-500"></rect>
+  <rect
+    x="3"
+    y="9"
+    width="10"
+    height="1"
+    class="fill-neutral-400 dark:fill-neutral-500"></rect>
+  <rect
+    x="3"
+    y="11"
+    width="9"
+    height="1"
+    class="fill-neutral-400 dark:fill-neutral-500"></rect>
+  <rect
+    x="3"
+    y="13"
+    width="10"
+    height="1"
+    class="fill-neutral-400 dark:fill-neutral-500"></rect>
+  <rect
+    x="3"
+    y="15"
+    width="6"
+    height="1"
+    class="fill-neutral-400 dark:fill-neutral-500"></rect>
+</svg>

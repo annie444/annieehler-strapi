@@ -1,0 +1,49 @@
+@utility border-em {
+  border-style: var(--tw-border-style);
+  border-width: 0.1em;
+}
+
+@utility border-t-rem {
+  border-top-style: var(--tw-border-style);
+  border-top-width: 0.1rem;
+}
+
+@utility transition-height {
+  transition-property: height, max-height;
+  transition-timing-function: var(
+    --tw-ease,
+    var(--default-transition-timing-function)
+  );
+  transition-duration: var(--tw-duration, var(--default-transition-duration));
+}
+
+@utility harsh-* {
+  box-shadow: 3px 3px --value(--color-*);
+}
+
+@layer utilities {
+  .animate-scroll {
+    animation: scroll 18s linear infinite;
+  }
+
+  svg:active .svg-hide {
+    display: none;
+  }
+
+  svg .svg-show {
+    display: none;
+  }
+
+  svg:active .svg-show {
+    display: inline;
+  }
+
+  @keyframes scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+}

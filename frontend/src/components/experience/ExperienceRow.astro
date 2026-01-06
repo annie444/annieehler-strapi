@@ -1,0 +1,171 @@
+---
+/**
+ * ExperienceRow - Single job row in Finder list view
+ *
+ * Displays as a row with folder icon, company, role, dates.
+ * Expands on click to show description and details.
+ */
+import Folder from "@components/icons/pixel/Folder.astro";
+import type { ExperienceProps } from "@utils/content/experience";
+import { formatDateRange, calculateDuration } from "@utils/content/experience";
+
+interface Props {
+  experience: ExperienceProps;
+  isEven?: boolean;
+  expanded?: boolean;
+}
+
+const { experience, expanded = false, isEven = false } = Astro.props;
+
+const dateRange = formatDateRange(experience.startDate, experience.endDate);
+const duration = calculateDuration(experience.startDate, experience.endDate);
+const isCurrentJob = !experience.endDate;
+---
+
+<details
+  open={expanded}
+  class:list={[
+    "group",
+    isEven
+      ? "bg-neutral-100 dark:bg-neutral-800/50"
+      : "bg-neutral-50 dark:bg-neutral-900",
+  ]}
+>
+  <!-- Row summary (always visible) -->
+  <summary
+    class="grid 2xl:grid-cols-[26px_2fr_14fr_2fr] xl:grid-cols-[26px_2fr_11fr_2fr] lg:grid-cols-[26px_2fr_7fr_2fr] md:grid-cols-[26px_2fr_4fr_2fr] grid-cols-[26px_2fr_3fr_2fr] cursor-pointer list-none items-center border-b border-solid border-neutral-200 px-3 py-2 transition-colors hover:bg-blue-100 dark:border-neutral-700 dark:hover:bg-blue-900/30"
+  >
+    <!-- Folder icon -->
+    <Folder
+      size={20}
+      class="text-yellow-500 transition-transform group-open:rotate-12 dark:text-yellow-400"
+    />
+
+    <!-- Company -->
+    <span class="font-chi font-bold">
+      {experience.company}
+      {
+        isCurrentJob && (
+          <span class="ml-1 inline-block rounded bg-green-200 px-1 py-0.5 text-sm font-medium text-green-800 dark:bg-green-800 dark:text-green-200">
+            Current
+          </span>
+        )
+      }
+    </span>
+
+    <!-- Role -->
+    <span
+      class="text-wrap text-neutral-600 dark:text-neutral-400"
+    >
+      {experience.role}
+    </span>
+
+    <!-- Dates -->
+    <span
+      class="font-chi text-right text-sm text-neutral-500 dark:text-neutral-500"
+    >
+      {dateRange}
+    </span>
+  </summary>
+
+  <!-- Expanded details -->
+  <div
+    class="experience-details border-b border-solid border-neutral-200 bg-neutral-50 px-4 py-3 pl-10 dark:border-neutral-700 dark:bg-neutral-900/50"
+  >
+    <!-- Location -->
+    {
+      experience.location ? (
+        experience.link ? (
+          <div class="mb-2 flex flex-row items-center justify-between">
+            <p class="text-sm text-neutral-500 dark:text-neutral-400">
+                {experience.location} &centerdot; {duration}
+            </p>
+            <a
+              href={experience.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="mr-4 md:mr-6 font-chi text-neutral-600 dark:text-neutral-400 underline hover:text-blue-600 dark:hover:text-blue-400">
+              Visit Site
+            </a>
+          </div>
+        ) : (
+          <p class="mb-2 text-sm text-neutral-500 dark:text-neutral-400">
+            {experience.location} &centerdot; {duration}
+          </p>
+        ) 
+      ) : (
+        experience.link ? (
+          <div class="mb-2 flex flex-row items-center justify-between">
+            <p class="text-sm text-neutral-500 dark:text-neutral-400">
+              {duration}
+            </p>
+            <a
+              href={experience.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="mr-4 md:mr-6 font-chi text-neutral-600 dark:text-neutral-400 underline hover:text-blue-600 dark:hover:text-blue-400">
+              Visit Site
+            </a>
+          </div>
+        ) : (
+          <p class="mb-2 text-sm text-neutral-500 dark:text-neutral-400">
+            {duration}
+          </p>
+        )
+      )
+    }
+
+    <!-- Description -->
+    <p class="mb-3 text-neutral-700 dark:text-neutral-300">
+      {experience.description}
+    </p>
+
+    <!-- Highlights -->
+    {
+      experience.highlights && experience.highlights.length > 0 && (
+        <ul class="mb-3 list-inside list-disc space-y-1 text-neutral-600 dark:text-neutral-400">
+          {experience.highlights.map((highlight) => (
+            <li>{highlight}</li>
+          ))}
+        </ul>
+      )
+    }
+
+    <!-- Technologies -->
+    {
+      experience.technologies && experience.technologies.length > 0 && (
+        <div class="flex flex-wrap gap-1">
+          {experience.technologies.map((tech) => (
+            <span class="inline-block border border-solid border-neutral-300 bg-neutral-200 px-1.5 py-0.5 text-sm dark:border-neutral-600 dark:bg-neutral-800">
+              {tech.name}
+            </span>
+          ))}
+        </div>
+      )
+    }
+  </div>
+</details>
+
+<style>
+  /* Hide default details marker */
+  summary::-webkit-details-marker,
+  summary::marker {
+    display: none;
+  }
+
+  /* Smooth expand animation */
+  .experience-details {
+    animation: slideDown 0.15s ease-out;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      max-height: 0;
+    }
+    to {
+      opacity: 1;
+      max-height: 500px;
+    }
+  }
+</style>

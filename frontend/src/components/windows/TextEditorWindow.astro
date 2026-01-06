@@ -1,0 +1,77 @@
+---
+/**
+ * TextEditorWindow Component - SimpleText/TeachText Style
+ *
+ * A specialized window component that mimics the Mac OS System 8.0 text editors.
+ * Features a decorative menu bar, scrollable content area, and status footer.
+ */
+import Window from "./Window.astro";
+
+interface Props {
+  title: string;
+  wordCount?: number;
+  readingTime?: number;
+  class?: string;
+}
+
+const { title, wordCount, readingTime, class: className = "" } = Astro.props;
+
+const showStats = wordCount !== undefined || readingTime !== undefined;
+---
+
+<Window title={title} variant="editor" class={className}>
+  <!-- Menu bar slot content (decorative) -->
+  <Fragment slot="menubar">
+    <div class="editor-menu font-chi flex gap-4 text-sm">
+      <span
+        class="cursor-default px-1 hover:bg-neutral-200 dark:hover:bg-neutral-700"
+        >File</span
+      >
+      <span
+        class="cursor-default px-1 hover:bg-neutral-200 dark:hover:bg-neutral-700"
+        >Edit</span
+      >
+      <span
+        class="cursor-default px-1 hover:bg-neutral-200 dark:hover:bg-neutral-700"
+        >Format</span
+      >
+    </div>
+  </Fragment>
+
+  <!-- Content area with window-pane styling -->
+  <div class="editor-content window-pane">
+    <slot />
+  </div>
+
+  <!-- Footer with document stats -->
+  <Fragment slot="footer">
+    <div
+      class="editor-stats font-chi flex w-full items-center justify-between text-xs"
+    >
+      <span class="opacity-60">
+        {
+          showStats ? (
+            <>
+              {wordCount !== undefined && (
+                <span>{wordCount.toLocaleString()} words</span>
+              )}
+              {wordCount !== undefined && readingTime !== undefined && (
+                <span class="mx-2">·</span>
+              )}
+              {readingTime !== undefined && <span>{readingTime} min read</span>}
+            </>
+          ) : (
+            "Ready"
+          )
+        }
+      </span>
+      <slot name="footer-right" />
+    </div>
+  </Fragment>
+</Window>
+
+<style>
+  .editor-content {
+    min-height: 200px;
+  }
+</style>

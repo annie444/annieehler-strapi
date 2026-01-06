@@ -1,0 +1,124 @@
+---
+/**
+ * BlogPostLayout - Text editor-style layout for blog posts
+ */
+import TextEditorWindow from "@components/windows/TextEditorWindow.astro";
+import PostMetadata from "./PostMetadata.astro";
+import type { BlogPostProps } from "@utils/content/blog";
+import { countWordsInBlocks } from "@utils/content/blog";
+
+interface Props {
+  post: BlogPostProps;
+  class?: string;
+}
+
+const { post, class: className = "" } = Astro.props;
+
+// Calculate word count from content blocks
+const wordCount = post.content ? countWordsInBlocks(post.content) : undefined;
+---
+
+<article class:list={["blog-post-layout", className]}>
+  <TextEditorWindow
+    title={post.title}
+    wordCount={wordCount}
+    readingTime={post.readingTime}
+    class="mx-auto max-w-4xl"
+  >
+    <!-- Post header -->
+    <header
+      class="mb-8 border-b border-neutral-200 pb-6 dark:border-neutral-700"
+    >
+      <h1 class="font-chi mb-4 text-3xl leading-tight font-bold md:text-4xl">
+        {post.title}
+      </h1>
+
+      {
+        post.excerpt && (
+          <p class="mb-4 text-lg text-neutral-600 dark:text-neutral-400">
+            {post.excerpt}
+          </p>
+        )
+      }
+
+      <PostMetadata post={post} />
+    </header>
+
+    <!-- Post content -->
+    <div class="post-content prose prose-neutral dark:prose-invert max-w-none">
+      <slot />
+    </div>
+
+    <!-- Footer with navigation -->
+    <Fragment slot="footer-right">
+      <a
+        href="/blog"
+        class="font-chi text-sm text-neutral-500 underline hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200"
+      >
+        ← Back to posts
+      </a>
+    </Fragment>
+  </TextEditorWindow>
+</article>
+
+<style is:global>
+  @reference "../../styles/global.css";
+
+  /* Prose styling for blog content */
+  .post-content h2 {
+    @apply font-chi mt-8 mb-4 text-2xl font-bold;
+  }
+
+  .post-content h3 {
+    @apply font-chi mt-6 mb-3 text-xl font-bold;
+  }
+
+  .post-content p {
+    @apply mb-4 leading-relaxed;
+  }
+
+  .post-content ul,
+  .post-content ol {
+    @apply mb-4 ml-6;
+  }
+
+  .post-content li {
+    @apply mb-2;
+  }
+
+  .post-content ul li {
+    @apply list-disc;
+  }
+
+  .post-content ol li {
+    @apply list-decimal;
+  }
+
+  .post-content a {
+    @apply text-blue-600 underline hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300;
+  }
+
+  .post-content code {
+    @apply font-jetbrains rounded bg-neutral-200 px-1 py-0.5 text-base dark:bg-neutral-700;
+  }
+
+  .post-content pre {
+    @apply font-jetbrains mb-4 overflow-x-auto rounded border border-neutral-300 bg-neutral-100 p-4 text-base dark:border-neutral-700 dark:bg-neutral-800;
+  }
+
+  .post-content pre code {
+    @apply bg-transparent p-0;
+  }
+
+  .post-content blockquote {
+    @apply mb-4 border-l-4 border-neutral-300 pl-4 text-neutral-600 italic dark:border-neutral-600 dark:text-neutral-400;
+  }
+
+  .post-content img {
+    @apply my-6 rounded border border-neutral-200 dark:border-neutral-700;
+  }
+
+  .post-content hr {
+    @apply my-8 border-neutral-200 dark:border-neutral-700;
+  }
+</style>

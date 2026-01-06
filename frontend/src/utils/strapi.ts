@@ -31,20 +31,25 @@ export async function fetchApi<T>({
     });
   }
 
-  const res = await fetch(url.toString(), {
-    headers: {
-      Authorization: `Bearer ${import.meta.env.STRAPI_TOKEN}`,
-    },
-  });
-  let data = await res.json();
+  try {
+    const res = await fetch(url.toString(), {
+      headers: {
+        Authorization: `Bearer ${import.meta.env.STRAPI_TOKEN}`,
+      },
+    });
+    let data = await res.json();
 
-  if (wrappedByKey) {
-    data = data[wrappedByKey];
+    if (wrappedByKey) {
+      data = data[wrappedByKey];
+    }
+
+    if (wrappedByList) {
+      data = data[0];
+    }
+
+    return data as T;
+  } catch (error) {
+    console.error("Error fetching data from Strapi:", error);
+    throw error;
   }
-
-  if (wrappedByList) {
-    data = data[0];
-  }
-
-  return data as T;
 }

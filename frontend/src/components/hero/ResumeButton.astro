@@ -1,0 +1,29 @@
+---
+/**
+ * ResumeButton - PDF download CTA with System 8.0 button styling
+ */
+import Download from "@components/icons/pixel/Download.astro";
+
+interface Props {
+  href: string;
+  class?: string;
+}
+
+const { href, class: className = "" } = Astro.props;
+---
+
+<a
+  href={href}
+  download
+  class:list={[
+    "resume-button inline-flex items-center gap-3 px-4 py-2",
+    "harsh-neutral-600 border-2 border-solid border-neutral-900 bg-neutral-300",
+    "hover:bg-neutral-200 active:translate-x-0.5 active:translate-y-0.5 active:shadow-none",
+    "dark:border-neutral-100 dark:bg-neutral-700 dark:hover:bg-neutral-600",
+    "font-chi text-base font-semibold transition-all duration-100",
+    className,
+  ]}
+>
+  <Download size={20} class="fill-current" />
+  <span>Download Resume</span>
+</a>

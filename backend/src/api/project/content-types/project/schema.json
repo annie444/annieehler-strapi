@@ -4,7 +4,8 @@
   "info": {
     "singularName": "project",
     "pluralName": "projects",
-    "displayName": "Project"
+    "displayName": "Project",
+    "description": "Portfolio projects with detailed case studies"
   },
   "options": {
     "draftAndPublish": true
@@ -15,12 +16,17 @@
       "type": "string",
       "required": true
     },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true
+    },
     "description": {
       "type": "text",
       "required": true
     },
-    "link": {
-      "type": "string"
+    "text": {
+      "type": "blocks"
     },
     "tags": {
       "type": "relation",
@@ -28,8 +34,51 @@
       "target": "api::tag.tag",
       "inversedBy": "projects"
     },
-    "text": {
-      "type": "blocks"
+    "link": {
+      "type": "string"
+    },
+    "problem": {
+      "type": "text"
+    },
+    "constraints": {
+      "type": "json"
+    },
+    "approach": {
+      "type": "text"
+    },
+    "result": {
+      "type": "text"
+    },
+    "codeUrl": {
+      "type": "string"
+    },
+    "liveUrl": {
+      "type": "string"
+    },
+    "screenshots": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "diagram": {
+      "type": "text"
+    },
+    "projectStatus": {
+      "type": "enumeration",
+      "required": true,
+      "default": "completed",
+      "enum": [
+        "completed",
+        "in-progress",
+        "archived"
+      ]
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

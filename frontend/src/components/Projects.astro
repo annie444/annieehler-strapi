@@ -1,9 +1,17 @@
 ---
+/**
+ * Projects Grid - Displays project cards in a responsive grid
+ *
+ * Uses AccordionWindow for each project, leveraging native <details>
+ * for expand/collapse behavior (no JavaScript needed).
+ */
 import type { ProjectProps } from "@utils/content/project";
 import Project from "./Project.astro";
+
 interface Props {
   projects: ProjectProps[];
 }
+
 const { projects } = Astro.props;
 ---
 
@@ -13,54 +21,9 @@ const { projects } = Astro.props;
 >
   {
     projects.map((project) => (
-      <Project
-        title={project.title}
-        description={project.description}
-        tags={project.tags}
-        link={project.link}
-        text={project.text ? project.text : undefined}
-      />
+      <div>
+        <Project {...project} />
+      </div>
     ))
   }
 </section>
-
-<script>
-  const active = "active";
-  document.addEventListener("DOMContentLoaded", () => {
-    // Set initial max-height for all items (full card height)
-    document.querySelectorAll(".window-item").forEach((item) => {
-      const element = item as HTMLElement;
-      element.style.maxHeight = element.scrollHeight + "px";
-      element.dataset.height = element.scrollHeight.toString();
-      element.classList.add(active);
-    });
-
-    function openItem(this: Element) {
-      const el = this as HTMLElement;
-      const item = el.closest(".window-item") as HTMLElement;
-      const headerEl = item.querySelector(".window-title") as HTMLElement;
-
-      const isActive = item.classList.contains(active);
-
-      // Toggle current item
-      if (isActive) {
-        // Collapse to just header height + border (4px for border-2)
-        item.style.maxHeight = headerEl.offsetHeight + 7 + "px";
-        item.classList.remove(active);
-      } else {
-        // Expand to full height
-        const height = item.dataset.height;
-        if (height) {
-          item.style.maxHeight = height + "px";
-        } else {
-          item.style.maxHeight = item.scrollHeight + "px";
-        }
-        item.classList.add(active);
-      }
-    }
-
-    document.querySelectorAll(".window-title svg").forEach((header) => {
-      header.addEventListener("click", openItem);
-    });
-  });
-</script>

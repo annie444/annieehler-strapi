@@ -1,0 +1,15 @@
+@layer components {
+  .window-pane {
+    overflow-y: scroll;
+    height: 100%;
+    padding: 1rem 2rem;
+    font-size: 18px;
+    letter-spacing: -0.025em;
+    /*margin-bottom: 1rem;*/
+  }
+
+  .window-title {
+    background-size: 7% 16%;
+    background-clip: content-box;
+  }
+}

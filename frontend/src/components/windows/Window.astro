@@ -1,0 +1,125 @@
+---
+/**
+ * Base Window Component - System 8.0 Style
+ *
+ * A reusable window chrome component that provides the classic Mac OS System 8.0
+ * window appearance with title bar, control buttons, and content area.
+ *
+ * Variants:
+ * - standard: Default window with all controls
+ * - finder: Window optimized for file browser views (adds toolbar slot)
+ * - editor: Window optimized for text content (adds menu bar slot)
+ * - dialog: Simpler window for dialogs (no resize/minimize)
+ */
+import Resize from "@components/icons/Resize.astro";
+import Minimize from "@components/icons/Minimize.astro";
+import Close from "@components/icons/Close.astro";
+
+interface Props {
+  title: string;
+  variant?: "standard" | "finder" | "editor" | "dialog";
+  showControls?: boolean;
+  class?: string;
+}
+
+const {
+  title,
+  variant = "standard",
+  showControls = true,
+  class: className = "",
+} = Astro.props;
+
+const showResizeMinimize = variant !== "dialog" && showControls;
+const showClose = showControls;
+---
+
+<article
+  class:list={[
+    "window-item harsh-neutral-600 font-pixel border-em flex flex-col overflow-hidden border-solid",
+    "border-neutral-900 bg-neutral-50",
+    "dark:border-neutral-100 dark:bg-neutral-900",
+    className,
+  ]}
+>
+  <!-- Title Bar -->
+  <header
+    class="window-title my-0.5 flex h-6 flex-none items-center bg-[linear-gradient(var(--color-neutral-900)_50%,transparent_50%)] px-1 py-0.5 dark:bg-[linear-gradient(var(--color-neutral-500)_50%,transparent_50%)]"
+  >
+    {
+      showClose && (
+        <Close
+          aria-label="Close window"
+          size="22px"
+          class="relative ml-2 block cursor-pointer fill-neutral-50 stroke-neutral-900 dark:fill-neutral-900 dark:stroke-neutral-100"
+          role="button"
+        />
+      )
+    }
+    <span
+      class="font-chi mx-auto cursor-default bg-neutral-50 px-2 text-center text-2xl/tight font-bold dark:bg-neutral-900"
+    >
+      {title}
+    </span>
+    {
+      showResizeMinimize && (
+        <div class="mr-3 flex flex-row items-center">
+          <Resize
+            aria-label="Resize window"
+            size="22px"
+            class="relative block cursor-pointer fill-neutral-50 stroke-neutral-900 dark:fill-neutral-900 dark:stroke-neutral-100"
+            role="button"
+          />
+          <Minimize
+            aria-label="Minimize window"
+            size="22px"
+            class="relative block cursor-pointer fill-neutral-50 stroke-neutral-900 dark:fill-neutral-900 dark:stroke-neutral-100"
+            role="button"
+          />
+        </div>
+      )
+    }
+  </header>
+
+  <!-- Menu Bar (editor variant only) -->
+  {
+    variant === "editor" && (
+      <div class="border-t-rem flex flex-none flex-row border-solid border-neutral-900 bg-neutral-100 px-2 py-1 dark:border-neutral-100 dark:bg-neutral-800">
+        <slot name="menubar">
+          <span class="font-chi text-sm opacity-60">File</span>
+          <span class="font-chi ml-4 text-sm opacity-60">Edit</span>
+        </slot>
+      </div>
+    )
+  }
+
+  <!-- Toolbar (finder variant only) -->
+  {
+    variant === "finder" && (
+      <div class="border-t-rem flex flex-none flex-col border-solid border-neutral-900 bg-neutral-100 px-3 py-1.5 dark:border-neutral-100 dark:bg-neutral-800">
+        <slot name="toolbar" />
+      </div>
+    )
+  }
+
+  <!-- Divider line -->
+  <div
+    class="border-t-rem flex flex-none flex-row justify-between border-solid border-neutral-900 dark:border-neutral-100"
+  >
+  </div>
+
+  <!-- Content Area -->
+  <div class="window-content flex-1 overflow-auto">
+    <slot />
+  </div>
+
+  <!-- Footer (optional, for editor variant) -->
+  {
+    variant === "editor" && (
+      <div class="border-t-rem flex flex-none flex-row items-center justify-between border-solid border-neutral-900 bg-neutral-100 px-3 py-1 dark:border-neutral-100 dark:bg-neutral-800">
+        <slot name="footer">
+          <span class="font-chi text-xs opacity-60">Ready</span>
+        </slot>
+      </div>
+    )
+  }
+</article>

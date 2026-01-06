@@ -14,12 +14,29 @@ export interface Locale {
   isDefault: boolean;
 }
 
+/**
+ * Strapi v5 media format
+ * Matches the structure returned by Strapi's media fields
+ */
 export interface Image {
-  image: string;
-  mimeType?: string;
-  width?: number | string;
-  height?: number | string;
-  altText?: string;
+  url: string;
+  mime?: string;
+  width?: number;
+  height?: number;
+  alternativeText?: string;
+  name?: string;
+  formats?: {
+    thumbnail?: ImageFormat;
+    small?: ImageFormat;
+    medium?: ImageFormat;
+    large?: ImageFormat;
+  };
+}
+
+export interface ImageFormat {
+  url: string;
+  width: number;
+  height: number;
 }
 
 export interface Author {

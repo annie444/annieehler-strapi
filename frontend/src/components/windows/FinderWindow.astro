@@ -1,0 +1,87 @@
+---
+/**
+ * FinderWindow Component - System 8.0 File Browser Style
+ *
+ * A specialized window component that mimics the Mac OS System 8.0 Finder.
+ * Features a toolbar area and column headers for list view display.
+ */
+import Window from "./Window.astro";
+
+interface Column {
+  key: string;
+  label: string;
+  width?: string;
+}
+
+interface Props {
+  title: string;
+  columns?: Column[];
+  showPath?: boolean;
+  path?: string;
+  class?: string;
+}
+
+const {
+  title,
+  columns = [],
+  showPath = false,
+  path = "",
+  class: className = "",
+} = Astro.props;
+
+const hasColumns = columns.length > 0;
+---
+
+<Window title={title} variant="finder" class={className}>
+  <!-- Toolbar slot content -->
+  <Fragment slot="toolbar">
+    {
+      showPath && path && (
+        <div class="font-chi flex items-start mr-2">
+          <span class="opacity-60">{path}</span>
+        </div>
+      )
+      }
+    <div class="flex flex-none flex-col lg:flex-row">
+      <slot name="toolbar-actions" />
+    </div>
+  </Fragment>
+
+  <!-- Main content with optional column headers -->
+  <div class="flex flex-col">
+    {
+      hasColumns && (
+        <div class="border-b-rem flex flex-row border-solid border-neutral-300 bg-neutral-200 dark:border-neutral-700 dark:bg-neutral-800">
+          {columns.map((col) => (
+            <div
+              class="finder-column-header font-chi border-r-rem shrink-0 cursor-default border-solid border-neutral-300 px-3 py-1.5 text-sm font-semibold dark:border-neutral-700"
+              style={col.width ? `width: ${col.width}` : "flex: 1"}
+            >
+              {col.label}
+            </div>
+          ))}
+        </div>
+      )
+    }
+
+    <div class="finder-list flex-1 overflow-auto">
+      <slot />
+    </div>
+  </div>
+</Window>
+
+<style>
+  .finder-column-header:last-child {
+    border-right: none;
+  }
+
+  @utility border-b-rem {
+    border-bottom-style: var(--tw-border-style);
+    border-bottom-width: 0.1rem;
+  }
+
+  @utility border-r-rem {
+    border-right-style: var(--tw-border-style);
+    border-right-width: 0.1rem;
+  }
+</style>

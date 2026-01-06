@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /Users/annieehler/Projects/OpenSource/Websites/annieehler.com-strapi/annieehler.com-strapi status)",
+      "Bash(git -C /Users/annieehler/Projects/OpenSource/Websites/annieehler.com-strapi/annieehler.com-strapi diff)",
+      "Bash(git -C /Users/annieehler/Projects/OpenSource/Websites/annieehler.com-strapi/annieehler.com-strapi log --oneline -5)",
+      "Bash(npm --workspace=frontend run build)",
+      "Bash(npm --workspace=frontend run lint)",
+      "Bash(npm --workspace=frontend run fmt)",
+      "Bash(wc:*)",
+      "Bash(node -e:*)"
+    ]
+  }
+}

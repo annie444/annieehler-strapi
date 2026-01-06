@@ -1,57 +1,155 @@
 ---
+/**
+ * Blog Index - Icon grid view like Mac Finder
+ */
 import Layout from "@layouts/Layout.astro";
+import FinderWindow from "@components/windows/FinderWindow.astro";
+import BlogPostIcon from "@components/blog/BlogPostIcon.astro";
+import TagFilter from "@components/blog/TagFilter.svelte";
+import BlogSearch from "@components/blog/BlogSearch.astro";
 import { fetchMeta } from "@utils/content/meta";
+import { fetchBlogPosts, fetchBlogTags } from "@utils/content/blog";
 
 const siteMeta = await fetchMeta();
-const posts = [
-  {
-    title: "Streaming Architecture Patterns",
-    slug: "streaming-architecture-patterns",
-    pubDate: "2024-05-15",
-    description:
-      "Exploring modern streaming architecture patterns for scalable applications.",
-  },
-  {
-    title: "Improving Developer Experience",
-    slug: "improving-developer-experience",
-    pubDate: "2024-04-10",
-    description:
-      "Tips and tricks to enhance the developer experience in your projects.",
-  },
-  {
-    title: "Colorful Experiments with CSS",
-    slug: "colorful-experiments-with-css",
-    pubDate: "2024-03-22",
-    description: "A dive into creative CSS techniques for vibrant web designs.",
-  },
-];
+const posts = await fetchBlogPosts();
+const tags = await fetchBlogTags();
+
+// Sort posts: featured first, then by date
+const sortedPosts = [...posts].sort((a, b) => {
+  if (a.featured && !b.featured) return -1;
+  if (!a.featured && b.featured) return 1;
+  return new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime();
+});
 ---
 
-<Layout>
-  <section class="glow-card">
-    <div class="section-title">
-      <h2>Blog & Notes</h2>
-      <span class="pill">{siteMeta.name}</span>
-    </div>
-    <p class="mb-3.5 text-(--muted)">
-      Streaming architecture thoughts, DX rants, and colorful experiments. Posts
-      are wired for a CMS API—swap this data source when ready.
-    </p>
-    <div class="grid gap-3.5">
-      {
-        posts.map((post) => (
-          <article class="glow-card p-4">
-            <div class="flex items-center justify-between gap-2.5">
-              <h3 class="m-0">{post.title}</h3>
-              <span class="pill">{post.pubDate}</span>
-            </div>
-            <p class="mt-2 mb-3 text-(--muted)">{post.description}</p>
-            <a class="btn" href={`/blog/${post.slug}`}>
-              Read draft
-            </a>
-          </article>
-        ))
-      }
+<Layout {...siteMeta} title="Blog">
+  <section class="blog-index w-full px-4 py-8 md:px-8">
+    <div class="mx-auto max-w-6xl">
+      <h1 class="font-chi mb-6 text-3xl font-bold">Blog & Notes</h1>
+      <p class="mb-8 max-w-2xl text-neutral-600 dark:text-neutral-400">
+        Technical essays, design write-ups, postmortems, and careful rants about
+        systems and tradeoffs. Thinking in public.
+      </p>
+
+      <FinderWindow title="Posts" showPath={true} path="~/blog" class="w-full">
+        <!-- Toolbar with search and filters -->
+        <Fragment slot="toolbar-actions">
+          <div class="grid grid-cols-1 lg:grid-cols-3 w-full items-center justify-between gap-2">
+            <BlogSearch class="col-span-full lg:col-span-1" />
+            <TagFilter tags={tags} client:load class="col-span-full lg:col-span-2" />
+          </div>
+        </Fragment>
+
+        <!-- Icon grid -->
+        <div
+          id="blog-posts-grid"
+          class="grid-cols-[repeat(auto-fill,minmax(120px,1fr))] grid gap-2 p-4 justify-items-center"
+          data-posts={JSON.stringify(sortedPosts)}
+        >
+          {sortedPosts.map((post) => <BlogPostIcon post={post} />)}
+
+          {
+            sortedPosts.length === 0 && (
+              <div class="col-span-full p-8 text-center text-neutral-500 dark:text-neutral-400">
+                <p class="font-chi">No posts yet. Check back soon!</p>
+              </div>
+            )
+          }
+        </div>
+
+        <!-- Empty state for filtered results -->
+        <div
+          id="blog-empty-state"
+          class="hidden p-8 text-center text-neutral-500 dark:text-neutral-400"
+        >
+          <p class="font-chi">No posts match your filters.</p>
+          <button
+            id="clear-filters-btn"
+            class="font-chi mt-2 text-sm underline hover:text-neutral-700 dark:hover:text-neutral-200"
+          >
+            Clear filters
+          </button>
+        </div>
+      </FinderWindow>
+
+      <!-- Stats -->
+      <p
+        class="mt-4 text-center text-sm text-neutral-500 dark:text-neutral-400"
+      >
+        {sortedPosts.length} posts · {tags.length} tags
+      </p>
     </div>
   </section>
 </Layout>
+
+<script>
+  // Client-side filtering for blog posts
+  document.addEventListener("DOMContentLoaded", () => {
+    const grid = document.getElementById("blog-posts-grid");
+    const emptyState = document.getElementById("blog-empty-state");
+    const clearBtn = document.getElementById("clear-filters-btn");
+
+    if (!grid) return;
+
+    const postsData = JSON.parse(grid.dataset.posts || "[]");
+    let currentSearchQuery = "";
+    let currentTags: string[] = [];
+
+    // Handle tag filter events
+    document.addEventListener("filter-tags", ((e: CustomEvent) => {
+      currentTags = e.detail.tags || [];
+      filterPosts();
+    }) as EventListener);
+
+    // Handle search events
+    document.addEventListener("search-posts", ((e: CustomEvent) => {
+      currentSearchQuery = e.detail.query || "";
+      filterPosts();
+    }) as EventListener);
+
+    // Clear filters button
+    clearBtn?.addEventListener("click", () => {
+      currentTags = [];
+      currentSearchQuery = "";
+      // Dispatch event to clear TagFilter state
+      document.dispatchEvent(
+        new CustomEvent("filter-tags", { detail: { tags: [] } }),
+      );
+      filterPosts();
+    });
+
+    function filterPosts() {
+      const icons = grid.querySelectorAll(".blog-post-icon");
+      let visibleCount = 0;
+
+      icons.forEach((icon, index) => {
+        const post = postsData[index];
+        if (!post) return;
+
+        // Check search query
+        const matchesSearch =
+          !currentSearchQuery ||
+          post.title.toLowerCase().includes(currentSearchQuery) ||
+          post.excerpt.toLowerCase().includes(currentSearchQuery);
+
+        // Check tags
+        const matchesTags =
+          currentTags.length === 0 ||
+          currentTags.some((tag: string) =>
+            post.tags?.some((t: { slug: string }) => t.slug === tag),
+          );
+
+        const isVisible = matchesSearch && matchesTags;
+        (icon as HTMLElement).style.display = isVisible ? "" : "none";
+
+        if (isVisible) visibleCount++;
+      });
+
+      // Show/hide empty state
+      if (emptyState) {
+        emptyState.classList.toggle("hidden", visibleCount > 0);
+      }
+      grid.classList.toggle("hidden", visibleCount === 0);
+    }
+  });
+</script>

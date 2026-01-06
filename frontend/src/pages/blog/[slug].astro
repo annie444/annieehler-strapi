@@ -1,0 +1,81 @@
+---
+/**
+ * Blog Post Page - Dynamic route for individual blog posts
+ */
+import Layout from "@layouts/Layout.astro";
+import BlogPostLayout from "@components/blog/BlogPostLayout.astro";
+import Blocks from "@components/react/Blocks";
+import { fetchMeta } from "@utils/content/meta";
+import { fetchBlogPosts, fetchBlogPost } from "@utils/content/blog";
+
+// Generate static paths for all blog posts
+export async function getStaticPaths() {
+  const posts = await fetchBlogPosts();
+
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: Awaited<ReturnType<typeof fetchBlogPost>>;
+}
+
+const { slug } = Astro.params;
+let { post } = Astro.props;
+
+// Fallback fetch if not passed via props (for dev mode)
+if (!post && slug) {
+  post = await fetchBlogPost(slug);
+}
+
+// 404 if post not found
+if (!post) {
+  return Astro.redirect("/404");
+}
+
+const siteMeta = await fetchMeta();
+
+// Build page metadata
+const pageTitle = `${post.title} | Blog`;
+const pageDescription = post.excerpt || siteMeta.description;
+---
+
+<Layout {...siteMeta} title={pageTitle} description={pageDescription}>
+  <section class="blog-post w-full px-4 py-8 md:px-8">
+    <BlogPostLayout post={post}>
+      {
+        post.content ? (
+          <Blocks content={post.content} client:load />
+        ) : (
+          <p class="text-neutral-500 italic dark:text-neutral-400">
+            This post doesn't have content yet.
+          </p>
+        )
+      }
+    </BlogPostLayout>
+
+    <!-- Navigation to other posts (could be enhanced) -->
+    <nav class="mx-auto mt-8 max-w-4xl">
+      <a
+        href="/blog"
+        class="font-chi inline-flex items-center gap-2 text-sm text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
+      >
+        <svg
+          class="h-4 w-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        Back to all posts
+      </a>
+    </nav>
+  </section>
+</Layout>

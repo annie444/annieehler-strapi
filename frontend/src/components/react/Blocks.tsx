@@ -3,7 +3,7 @@ import {
   type BlocksContent,
 } from "@strapi/blocks-react-renderer";
 
-export function Blocks({ content }: { content: BlocksContent }) {
+export default function Blocks({ content }: { content: BlocksContent }) {
   return (
     <BlocksRenderer
       content={content}

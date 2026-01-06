@@ -1,0 +1,77 @@
+---
+/**
+ * Terminal Icon - Classic Mac terminal/console
+ * Used for the hero terminal section
+ */
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"svg"> {
+  size?: number | string;
+  color?: string;
+}
+
+const { size = 48, color = "currentColor", ...rest } = Astro.props;
+---
+
+<svg
+  width={typeof size === "number" ? `${size}px` : size}
+  height={typeof size === "number" ? `${size}px` : size}
+  fill={color}
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 20 16"
+  preserveAspectRatio="xMidYMid meet"
+  shape-rendering="crispEdges"
+  {...rest}
+>
+  <!-- Window frame -->
+  <rect x="1" y="0" width="18" height="1"></rect>
+  <rect x="0" y="1" width="1" height="14"></rect>
+  <rect x="19" y="1" width="1" height="14"></rect>
+  <rect x="1" y="15" width="18" height="1"></rect>
+
+  <!-- Title bar -->
+  <rect
+    x="1"
+    y="1"
+    width="18"
+    height="2"
+    class="fill-neutral-300 dark:fill-neutral-600"></rect>
+
+  <!-- Close button -->
+  <rect
+    x="2"
+    y="1"
+    width="2"
+    height="2"
+    class="fill-neutral-50 dark:fill-neutral-900"></rect>
+  <rect
+    x="2"
+    y="1"
+    width="2"
+    height="1"
+    class="fill-neutral-400 dark:fill-neutral-500"></rect>
+
+  <!-- Terminal body (black/dark) -->
+  <rect
+    x="1"
+    y="3"
+    width="18"
+    height="12"
+    class="fill-neutral-900 dark:fill-neutral-950"></rect>
+
+  <!-- Prompt symbol > -->
+  <rect x="2" y="5" width="1" height="1" class="fill-green-400"></rect>
+  <rect x="3" y="6" width="1" height="1" class="fill-green-400"></rect>
+  <rect x="2" y="7" width="1" height="1" class="fill-green-400"></rect>
+
+  <!-- Cursor block -->
+  <rect x="5" y="5" width="2" height="3" class="fill-green-400"></rect>
+
+  <!-- Previous command text (decorative) -->
+  <rect x="2" y="10" width="1" height="1" class="fill-neutral-500"></rect>
+  <rect x="3" y="11" width="1" height="1" class="fill-neutral-500"></rect>
+  <rect x="2" y="12" width="1" height="1" class="fill-neutral-500"></rect>
+  <rect x="5" y="10" width="6" height="1" class="fill-neutral-400"></rect>
+  <rect x="5" y="11" width="8" height="1" class="fill-neutral-400"></rect>
+  <rect x="5" y="12" width="4" height="1" class="fill-neutral-400"></rect>
+</svg>

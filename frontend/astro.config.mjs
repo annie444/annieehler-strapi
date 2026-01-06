@@ -23,6 +23,12 @@ export default defineConfig({
       rollupOptions: {
         external: ["sharp"],
       },
+      // Disable source maps for dependencies to avoid console warnings
+      sourcemap: false,
+    },
+    optimizeDeps: {
+      // Exclude problematic packages from pre-bundling source maps
+      exclude: ["aria-query", "axobject-query"],
     },
   },
 

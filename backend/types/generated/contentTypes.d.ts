@@ -470,6 +470,7 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
 export interface ApiAuthorAuthor extends Struct.CollectionTypeSchema {
   collectionName: "authors";
   info: {
+    description: "Content authors and contributors";
     displayName: "Author";
     pluralName: "authors";
     singularName: "author";
@@ -478,6 +479,10 @@ export interface ApiAuthorAuthor extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    blogPosts: Schema.Attribute.Relation<
+      "oneToMany",
+      "api::blog-post.blog-post"
+    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> &
       Schema.Attribute.Private;
@@ -500,6 +505,121 @@ export interface ApiAuthorAuthor extends Struct.CollectionTypeSchema {
     updatedBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> &
       Schema.Attribute.Private;
     website: Schema.Attribute.String;
+  };
+}
+
+export interface ApiBlogPostBlogPost extends Struct.CollectionTypeSchema {
+  collectionName: "blog_posts";
+  info: {
+    description: "Blog articles with rich content";
+    displayName: "Blog Post";
+    pluralName: "blog-posts";
+    singularName: "blog-post";
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    author: Schema.Attribute.Relation<"manyToOne", "api::author.author">;
+    content: Schema.Attribute.Blocks;
+    coverImage: Schema.Attribute.Media<"images">;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> &
+      Schema.Attribute.Private;
+    excerpt: Schema.Attribute.Text &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 300;
+      }>;
+    featured: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      "oneToMany",
+      "api::blog-post.blog-post"
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    readingTime: Schema.Attribute.Integer &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 1;
+        },
+        number
+      >;
+    slug: Schema.Attribute.UID<"title"> & Schema.Attribute.Required;
+    tags: Schema.Attribute.Relation<"manyToMany", "api::tag.tag">;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiExperienceExperience extends Struct.CollectionTypeSchema {
+  collectionName: "experiences";
+  info: {
+    description: "Work history and professional experience";
+    displayName: "Experience";
+    pluralName: "experiences";
+    singularName: "experience";
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    company: Schema.Attribute.String & Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text & Schema.Attribute.Required;
+    endDate: Schema.Attribute.Date;
+    highlights: Schema.Attribute.JSON;
+    link: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      "oneToMany",
+      "api::experience.experience"
+    > &
+      Schema.Attribute.Private;
+    location: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    role: Schema.Attribute.String & Schema.Attribute.Required;
+    startDate: Schema.Attribute.Date & Schema.Attribute.Required;
+    technologies: Schema.Attribute.Relation<"manyToMany", "api::tag.tag">;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiHeroHero extends Struct.SingleTypeSchema {
+  collectionName: "heroes";
+  info: {
+    description: "Homepage hero section content";
+    displayName: "Hero";
+    pluralName: "heroes";
+    singularName: "hero";
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    bio: Schema.Attribute.Text & Schema.Attribute.Required;
+    competencies: Schema.Attribute.Component<"hero.competency", true>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> &
+      Schema.Attribute.Private;
+    headline: Schema.Attribute.String & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<"oneToMany", "api::hero.hero"> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    resumeUrl: Schema.Attribute.String;
+    socialLinks: Schema.Attribute.Component<"hero.social-link", true>;
+    tagline: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> &
+      Schema.Attribute.Private;
   };
 }
 
@@ -602,6 +722,7 @@ export interface ApiPageMetaPageMeta extends Struct.CollectionTypeSchema {
 export interface ApiProjectProject extends Struct.CollectionTypeSchema {
   collectionName: "projects";
   info: {
+    description: "Portfolio projects with detailed case studies";
     displayName: "Project";
     pluralName: "projects";
     singularName: "project";
@@ -610,18 +731,33 @@ export interface ApiProjectProject extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    approach: Schema.Attribute.Text;
+    codeUrl: Schema.Attribute.String;
+    constraints: Schema.Attribute.JSON;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> &
       Schema.Attribute.Private;
     description: Schema.Attribute.Text & Schema.Attribute.Required;
+    diagram: Schema.Attribute.Text;
+    featured: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     link: Schema.Attribute.String;
+    liveUrl: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       "oneToMany",
       "api::project.project"
     > &
       Schema.Attribute.Private;
+    problem: Schema.Attribute.Text;
+    projectStatus: Schema.Attribute.Enumeration<
+      ["completed", "in-progress", "archived"]
+    > &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<"completed">;
     publishedAt: Schema.Attribute.DateTime;
+    result: Schema.Attribute.Text;
+    screenshots: Schema.Attribute.Media<"images", true>;
+    slug: Schema.Attribute.UID<"title"> & Schema.Attribute.Required;
     tags: Schema.Attribute.Relation<"manyToMany", "api::tag.tag">;
     text: Schema.Attribute.Blocks;
     title: Schema.Attribute.String & Schema.Attribute.Required;
@@ -689,6 +825,7 @@ export interface ApiSiteMetaSiteMeta extends Struct.SingleTypeSchema {
 export interface ApiTagTag extends Struct.CollectionTypeSchema {
   collectionName: "tags";
   info: {
+    description: "Tags for categorizing content";
     displayName: "Tag";
     pluralName: "tags";
     singularName: "tag";
@@ -697,9 +834,17 @@ export interface ApiTagTag extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    blogPosts: Schema.Attribute.Relation<
+      "manyToMany",
+      "api::blog-post.blog-post"
+    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<"oneToOne", "admin::user"> &
       Schema.Attribute.Private;
+    experiences: Schema.Attribute.Relation<
+      "manyToMany",
+      "api::experience.experience"
+    >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<"oneToMany", "api::tag.tag"> &
       Schema.Attribute.Private;
@@ -1226,6 +1371,9 @@ declare module "@strapi/strapi" {
       "admin::transfer-token-permission": AdminTransferTokenPermission;
       "admin::user": AdminUser;
       "api::author.author": ApiAuthorAuthor;
+      "api::blog-post.blog-post": ApiBlogPostBlogPost;
+      "api::experience.experience": ApiExperienceExperience;
+      "api::hero.hero": ApiHeroHero;
       "api::page-meta.page-meta": ApiPageMetaPageMeta;
       "api::project.project": ApiProjectProject;
       "api::site-meta.site-meta": ApiSiteMetaSiteMeta;

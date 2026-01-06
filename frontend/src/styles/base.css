@@ -1,0 +1,10 @@
+@layer base {
+  * {
+    @apply box-border;
+  }
+
+  summary::-webkit-details-marker,
+  summary::marker {
+    display: none;
+  }
+}

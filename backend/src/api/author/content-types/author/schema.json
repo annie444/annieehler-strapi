@@ -4,7 +4,8 @@
   "info": {
     "singularName": "author",
     "pluralName": "authors",
-    "displayName": "Author"
+    "displayName": "Author",
+    "description": "Content authors and contributors"
   },
   "options": {
     "draftAndPublish": true
@@ -38,6 +39,12 @@
       "type": "uid",
       "targetField": "firstName",
       "required": true
+    },
+    "blogPosts": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::blog-post.blog-post",
+      "mappedBy": "author"
     },
     "pages": {
       "type": "relation",

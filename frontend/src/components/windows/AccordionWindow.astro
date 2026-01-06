@@ -1,0 +1,90 @@
+---
+/**
+ * AccordionWindow - System 8.0 style window with accordion expand/collapse
+ *
+ * Uses native <details> element for zero-JS accordion behavior.
+ * Click on the title bar to expand/collapse content.
+ */
+import Resize from "@components/icons/Resize.astro";
+import Minimize from "@components/icons/Minimize.astro";
+import Close from "@components/icons/Close.astro";
+
+interface Props {
+  title: string;
+  open?: boolean;
+  class?: string;
+}
+
+const { title, open = false, class: className } = Astro.props;
+---
+
+<details
+  open={open}
+  class:list={[
+    "window-item harsh-neutral-600 border-em mb-4 flex min-w-[320px] flex-col border-solid border-neutral-900 bg-neutral-50 dark:border-neutral-100 dark:bg-neutral-900",
+    className,
+  ]}
+>
+  <!-- Title Bar (clickable summary) -->
+  <summary
+    class="window-title my-0.5 flex h-6 flex-none cursor-pointer list-none items-center bg-[linear-gradient(var(--color-neutral-900)_50%,transparent_50%)] px-1 py-0.5 dark:bg-[linear-gradient(var(--color-neutral-500)_50%,transparent_50%)]"
+  >
+    <Close
+      aria-hidden="true"
+      size="22px"
+      class="relative ml-2 block fill-neutral-50 stroke-neutral-900 dark:fill-neutral-900 dark:stroke-neutral-100"
+    />
+    <span
+      class="font-chi mx-auto cursor-default bg-neutral-50 px-2 py-0 my-1 text-center text-2xl/[1] font-bold dark:bg-neutral-900"
+    >
+      {title}
+    </span>
+    <div class="mr-3 flex flex-row items-center">
+      <Resize
+        aria-hidden="true"
+        size="22px"
+        class="relative block fill-neutral-50 stroke-neutral-900 dark:fill-neutral-900 dark:stroke-neutral-100"
+      />
+      <Minimize
+        aria-hidden="true"
+        size="22px"
+        class="relative block fill-neutral-50 stroke-neutral-900 dark:fill-neutral-900 dark:stroke-neutral-100"
+      />
+    </div>
+  </summary>
+
+  <!-- Divider -->
+  <div
+    class="border-t-rem flex flex-none flex-row justify-between border-solid border-neutral-900 text-base dark:border-neutral-100"
+  >
+  </div>
+
+  <!-- Content -->
+  <div class="window-content">
+    <slot />
+  </div>
+</details>
+
+<style is:global>
+  /* Hide default details marker */
+  summary::-webkit-details-marker,
+  summary::marker {
+    display: none;
+  }
+
+  /* Smooth content reveal */
+  .window-content {
+    animation: slideDown 0.2s ease-out;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

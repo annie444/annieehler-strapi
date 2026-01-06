@@ -8,7 +8,7 @@ const config: Config = {
   singleQuote: false,
   overrides: [
     {
-      files: "*.astro",
+      files: ["*.astro", "**/*.astro"],
       options: {
         parser: "astro",
       },

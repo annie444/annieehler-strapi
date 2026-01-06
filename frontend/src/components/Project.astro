@@ -1,28 +1,78 @@
 ---
-import AccordionWindow from "@components/AccordionWindow.astro";
+/**
+ * Project Card - Accordion window with project details
+ */
+import AccordionWindow from "@components/windows/AccordionWindow.astro";
+import ProjectDetails from "@components/projects/ProjectDetails.astro";
+import Blocks from "@components/react/Blocks";
 import type { ProjectProps } from "@utils/content/project";
-import { Blocks } from "@components/react/Blocks.tsx";
+
 type Props = ProjectProps;
-const { title, description, tags, link, text } = Astro.props;
+
+const project = Astro.props;
+const { title, description, tags, link, text } = project;
+
+// Check if we have enhanced details
+const hasEnhancedDetails =
+  project.problem ||
+  project.constraints ||
+  project.approach ||
+  project.result ||
+  project.codeUrl ||
+  project.liveUrl;
 ---
 
-<AccordionWindow title={title}>
-  <p class="mb-4">
+<AccordionWindow title={title} open={true}>
+  <div class="p-4">
+  <!-- Description -->
+  <p class="mb-4 text-neutral-700 dark:text-neutral-300">
     {description}
   </p>
-  {text ? <Blocks content={text} /> : null}
-  <ul class="flex list-none gap-2 p-0">
-    {
-      tags.map((tag) => (
-        <li class="border-2 border-solid border-neutral-900 bg-neutral-200 px-2 py-1 text-sm dark:border-neutral-300 dark:bg-neutral-800">
-          {tag.name}
-        </li>
-      ))
+
+  <!-- Rich text content from Strapi -->
+  {
+    text && (
+      <div class="mb-4">
+        <Blocks content={text} client:load />
+      </div>
+    )
+  }
+
+  <!-- Enhanced project details -->
+  {hasEnhancedDetails && <ProjectDetails project={project} class="mb-4" />}
+
+  <!-- Tags -->
+  {
+    tags && tags.length > 0 && (
+      <div class="mb-4 flex flex-wrap gap-2">
+        {tags.map((tag) => (
+          <span class="border-2 border-solid border-neutral-900 bg-neutral-200 px-2 py-1 text-sm dark:border-neutral-300 dark:bg-neutral-800">
+            {tag.name}
+          </span>
+        ))}
+      </div>
+    )
+  }
+
+  <!-- Legacy link (if no enhanced links) -->
+  {
+    link && !project.codeUrl && !project.liveUrl && (
+      <a
+        href={link}
+        class="inline-block text-neutral-900 no-underline hover:underline dark:text-neutral-50"
+      >
+        Read more →
+      </a>
+    )
+  }
+
+  <!-- Featured badge -->
+  {
+    project.featured && (
+      <div class="absolute -top-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-yellow-400 text-sm dark:bg-yellow-500">
+        ★
+      </div>
+    )
     }
-  </ul>
-  <a
-    href={link}
-    class="mt-4 inline-block text-neutral-900 no-underline dark:text-neutral-50"
-    >Read more →</a
-  >
+</div>
 </AccordionWindow>

@@ -1,30 +1,67 @@
 ---
+/**
+ * Header - System 8.0 style menu bar
+ *
+ * Desktop (lg+): Traditional horizontal menu bar
+ * Mobile (<lg): Dropdown menu triggered by hamburger button
+ */
 import { Command } from "@lucide/astro";
 import Dots from "@components/icons/Dots.astro";
+
 interface Props {
   title: string;
   links: { label: string; url: string }[];
 }
+
 const { title, links } = Astro.props;
 const now = new Date();
 ---
 
 <div class="h-14"></div>
 <header
+  id="nav"
   class="font-chi fixed top-0 left-0 z-10 flex w-full justify-between border-b border-solid border-b-neutral-300 bg-neutral-50 px-2 text-lg dark:border-b-neutral-700 dark:bg-neutral-800"
 >
-  <div class="flex flex-row items-center">
-    <div
-      class="flex flex-row items-center border-r border-solid border-r-neutral-900 py-1 pr-2 font-semibold dark:border-r-neutral-100"
-    >
-      <Command width="1rem" height="1rem" class="mr-2" />
-      {title}
-    </div>
-    <nav class="flex flex-row items-center">
+  <!-- Logo/Title -->
+  <div
+    class="flex flex-row items-center p-0 font-semibold"
+  >
+    <details class="mobile-menu relative">
+      <summary
+        class="flex cursor-pointer list-none items-center border-r border-solid border-r-neutral-900 px-2 py-0.5 dark:border-r-neutral-100"
+        aria-label="Toggle navigation menu"
+      >
+        <Command width="1rem" height="1rem" class="mr-2" />
+        {title}
+      </summary>
+
+      <!-- Dropdown Menu -->
+      <nav
+        class="absolute top-full left-0 min-w-48 border-em harsh-neutral-600 border-solid border-neutral-900 bg-neutral-50 dark:border-neutral-100 dark:bg-neutral-800"
+      >
+        {
+          links.map((link, index) => (
+            <a
+              class:list={[
+                "block px-4 py-0.5 no-underline hover:bg-neutral-200 dark:hover:bg-neutral-700",
+                index < links.length - 1 &&
+                  "border-b border-solid border-neutral-300 dark:border-neutral-600",
+              ]}
+              href={link.url}
+            >
+              {link.label}
+            </a>
+          ))
+        }
+      </nav>
+    </details>
+
+    <!-- Desktop Navigation (lg+) -->
+    <nav class="hidden md:flex flex-row items-center">
       {
         links.map((link) => (
           <a
-            class="border-r border-solid border-r-neutral-900 px-3 py-1 no-underline dark:border-r-neutral-100"
+            class="border-r border-solid border-r-neutral-900 px-3 py-0.5 no-underline dark:border-r-neutral-100"
             href={link.url}
           >
             {link.label}
@@ -33,14 +70,16 @@ const now = new Date();
       }
     </nav>
   </div>
-  <div class="flex flex-row items-center p-0">
+
+  <!-- Right side: Dots + DateTime -->
+  <div class="flex flex-row items-center px-0">
     <div
-      class="flex items-center border-l border-solid border-l-neutral-200 px-0.5 dark:border-l-neutral-700"
+      class="hidden sm:flex items-center sm:border-l sm:border-solid sm:border-l-neutral-200 px-0.5 sm:dark:border-l-neutral-700"
     >
-      <Dots width="10px" height="35px" class="fill-neutral-400" />
+      <Dots width="10px" height="32px" class="fill-neutral-400" />
     </div>
     <div
-      class="flex items-center border-l border-solid border-l-neutral-200 px-2 py-2 dark:border-l-neutral-700"
+      class="flex items-center sm:border-l sm:border-solid sm:border-l-neutral-200 px-2 py-1.5 sm:dark:border-l-neutral-700"
     >
       <span class="font-mono text-sm" id="current-datetime">
         {
@@ -57,7 +96,39 @@ const now = new Date();
   </div>
 </header>
 
+<style>
+  /* Hide default details marker */
+  .mobile-menu summary::-webkit-details-marker,
+  .mobile-menu summary::marker {
+    display: none;
+  }
+
+  /* Close menu when clicking a link */
+  .mobile-menu[open] nav a {
+    display: block;
+  }
+</style>
+
 <script>
+  // Close mobile menu when clicking a link
+  document.querySelectorAll(".mobile-menu nav a").forEach((link) => {
+    link.addEventListener("click", () => {
+      const details = link.closest("details");
+      if (details) {
+        details.removeAttribute("open");
+      }
+    });
+  });
+
+  // Close menu when clicking outside
+  document.addEventListener("click", (e) => {
+    const menu = document.querySelector(".mobile-menu");
+    if (menu?.hasAttribute("open") && !menu.contains(e.target as Node)) {
+      menu.removeAttribute("open");
+    }
+  });
+
+  // Update datetime display
   const refreshDateTime = () => {
     const now = new Date();
     const formatted = now.toLocaleDateString("en-US", {

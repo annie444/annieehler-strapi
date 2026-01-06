@@ -1,0 +1,13 @@
+---
+import type { SvgProps } from "@utils/svg";
+import InternalSvg from "@components/icons/InternalSvg.astro";
+type Props = SvgProps;
+const { ...rest } = Astro.props as Props;
+---
+
+<InternalSvg
+  viewBox={{ x: 0, y: 0, width: 16, height: 16 }}
+  {...rest}
+>
+  <path d="m2 0 v1 h-1 v1 h-1 v12 h1 v1 h1 v1 h12 v-1 h1 v-1 h1 v-12 h-1 v-1 h-1 v-1 h-12zm0 2 h2 v2 h-2 v-2zm0 3 h2 v9 h-2 v-9zm4 0 h2 v1 h1 v-1 h3 v1 h1 v1 h1 v7 h-2 v-6 h-1 v-1 h-2 v1 h-1 v6 h-2 v-9 z"/>
+</InternalSvg>

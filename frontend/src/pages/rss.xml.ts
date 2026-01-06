@@ -1,24 +1,22 @@
 import type { APIRoute } from "astro";
 import rss from "@astrojs/rss";
 import { fetchMeta } from "@utils/content/meta";
+import { fetchBlogPosts } from "@utils/content/blog";
 
 export const GET: APIRoute = async ({ site }) => {
   const siteMeta = await fetchMeta();
+  const posts = await fetchBlogPosts();
+
   const items = [...posts]
-    .sort((a, b) => (b.pubDate as string).localeCompare(a.pubDate as string))
+    .sort((a, b) => (b.publishedAt ?? "").localeCompare(a.publishedAt ?? ""))
     .map((post) => {
       const link = `${site}/blog/${post.slug}`;
-      const description =
-        post.description ?? `${post.title} by ${siteMeta.name}`;
+      const description = post.excerpt ?? `${post.title} by ${siteMeta.name}`;
       return {
         title: post.title,
         description,
-        pubDate: new Date(post.pubDate),
+        pubDate: post.publishedAt ? new Date(post.publishedAt) : new Date(),
         link,
-        content:
-          post.content instanceof Array
-            ? post.content.join("\n\n")
-            : post.content,
       };
     });
 

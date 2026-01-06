@@ -13,10 +13,10 @@
   --font-suse: "SUSE", var(--font-sans);
   --font-tektur: "Tektur", var(--font-sans);
   --font-chi: "ChiKareGo2", var(--font-mono);
-  --font-pixel: "JetBrains Mono", "Pixelify Sans", "ChiKareGo2", var(--font-mono)
-
-  /* Grapefruit Pink */
-  --color-pink-50: oklch(94.46% 0.026 14.74);
+  --font-pixel:
+    "JetBrains Mono", "Pixelify Sans", "ChiKareGo2",
+    var(--font-mono) /* Grapefruit Pink */
+      --color-pink-50: oklch(94.46% 0.026 14.74);
   --color-pink-100: oklch(89.23% 0.053 16.76);
   --color-pink-200: oklch(79.12% 0.115 17.97);
   --color-pink-300: oklch(70.51% 0.175 21.05);
@@ -94,71 +94,6 @@
   --color-neutral-950: oklch(18.22% 0 0);
 }
 
-@layer base {
-  * {
-    @apply box-border;
-  }
-}
-
-@utility border-em {
-  border-style: var(--tw-border-style);
-  border-width: 0.1em;
-}
-
-@utility border-t-rem {
-  border-top-style: var(--tw-border-style);
-  border-top-width: 0.1rem;
-}
-
-@utility transition-height {
-  transition-property: height, max-height;
-  transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
-  transition-duration: var(--tw-duration, var(--default-transition-duration));
-}
-
-@utility harsh-* {
-  box-shadow: 3px 3px --value(--color-*);
-}
-
-@layer utilities {
-  .animate-scroll {
-    animation: scroll 18s linear infinite;
-  }
-
-  svg:active .svg-hide {
-    display: none;
-  }
-
-  svg .svg-show {
-    display: none;
-  }
-
-  svg:active .svg-show {
-    display: inline;
-  }
-
-  @keyframes scroll {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(-50%);
-    }
-  }
-}
-
-@layer components {
-  .window-pane {
-    overflow-y: scroll;
-    height: 100%;
-    padding: 1rem 2rem;
-    font-size: 18px;
-    letter-spacing: -0.025em;
-    /*margin-bottom: 1rem;*/
-  }
-
-  .window-title {
-    background-size: 7% 16%;
-    background-clip: content-box;
-  }
-}
+@import "base.css";
+@import "utils.css";
+@import "components.css";

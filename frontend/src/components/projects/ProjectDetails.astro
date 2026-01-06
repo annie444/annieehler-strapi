@@ -1,0 +1,120 @@
+---
+/**
+ * ProjectDetails - Structured sections for project information
+ * Shows problem, constraints, approach, result, and links
+ */
+import Github from "@components/icons/pixel/Github.astro";
+import Arrow from "@components/icons/pixel/Arrow.astro";
+import type { ProjectProps } from "@utils/content/project";
+
+interface Props {
+  project: ProjectProps;
+  class?: string;
+}
+
+const { project, class: className = "" } = Astro.props;
+
+const hasDetails =
+  project.problem || project.constraints || project.approach || project.result;
+const hasLinks = project.codeUrl || project.liveUrl;
+---
+
+<div class:list={["project-details", className]}>
+  {
+    hasDetails && (
+      <div class="details-sections space-y-4">
+        {project.problem && (
+          <div class="detail-section">
+            <h4 class="font-chi mb-1 text-sm font-bold tracking-wide text-neutral-500 uppercase dark:text-neutral-400">
+              Problem
+            </h4>
+            <p class="text-sm">{project.problem}</p>
+          </div>
+        )}
+
+        {project.constraints && project.constraints.length > 0 && (
+          <div class="detail-section">
+            <h4 class="font-chi mb-1 text-sm font-bold tracking-wide text-neutral-500 uppercase dark:text-neutral-400">
+              Constraints
+            </h4>
+            <ul class="list-inside list-disc space-y-1 text-sm text-neutral-700 dark:text-neutral-300">
+              {project.constraints.map((constraint) => (
+                <li>{constraint}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {project.approach && (
+          <div class="detail-section">
+            <h4 class="font-chi mb-1 text-sm font-bold tracking-wide text-neutral-500 uppercase dark:text-neutral-400">
+              Approach
+            </h4>
+            <p class="text-sm">{project.approach}</p>
+          </div>
+        )}
+
+        {project.result && (
+          <div class="detail-section">
+            <h4 class="font-chi mb-1 text-sm font-bold tracking-wide text-neutral-500 uppercase dark:text-neutral-400">
+              Result
+            </h4>
+            <p class="text-sm">{project.result}</p>
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  {
+    hasLinks && (
+      <div class="project-links mt-4 flex flex-wrap gap-2">
+        {project.codeUrl && (
+          <a
+            href={project.codeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 border-2 border-solid border-neutral-900 bg-neutral-200 px-3 py-1.5 text-sm font-medium transition-colors hover:bg-neutral-300 dark:border-neutral-100 dark:bg-neutral-700 dark:hover:bg-neutral-600"
+          >
+            <Github size={16} class="fill-current" />
+            View Code
+          </a>
+        )}
+
+        {project.liveUrl && (
+          <a
+            href={project.liveUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 border-2 border-solid border-neutral-900 bg-blue-200 px-3 py-1.5 text-sm font-medium transition-colors hover:bg-blue-300 dark:border-neutral-100 dark:bg-blue-700 dark:hover:bg-blue-600"
+          >
+            <Arrow class="h-4 w-4" />
+            View Live
+          </a>
+        )}
+      </div>
+    )
+  }
+
+  {
+    project.projectStatus && (
+      <div class="mt-3">
+        <span
+          class:list={[
+            "inline-block rounded px-2 py-0.5 text-sm font-medium",
+            project.projectStatus === "completed" &&
+              "bg-green-200 text-green-800 dark:bg-green-800 dark:text-green-200",
+            project.projectStatus === "in-progress" &&
+              "bg-yellow-200 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-200",
+            project.projectStatus === "archived" &&
+              "bg-neutral-200 text-neutral-600 dark:bg-neutral-700 dark:text-neutral-400",
+          ]}
+        >
+          {project.projectStatus === "completed" && "Completed"}
+          {project.projectStatus === "in-progress" && "In Progress"}
+          {project.projectStatus === "archived" && "Archived"}
+        </span>
+      </div>
+    )
+  }
+</div>

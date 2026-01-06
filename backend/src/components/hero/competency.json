@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_hero_competencies",
+  "info": {
+    "displayName": "Competency",
+    "description": "A skill or competency with optional icon and category"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "icon": {
+      "type": "string"
+    },
+    "category": {
+      "type": "enumeration",
+      "enum": ["languages", "frameworks", "tools", "practices"],
+      "default": "tools"
+    }
+  }
+}

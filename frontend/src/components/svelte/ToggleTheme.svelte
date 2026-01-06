@@ -6,11 +6,9 @@
   import { cn } from "@utils/tw";
 
   let theme: Theme = $state<Theme>("light");
-  let mounted: boolean = $state<boolean>(false);
 
   onMount(() => {
     theme = resolveTheme();
-    mounted = true;
 
     const handler = (event: CustomEvent<Theme>): void => {
       theme = event.detail;
