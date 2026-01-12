@@ -74,20 +74,11 @@ export function countWordsInBlocks(blocks: BlocksContent): number {
  * Fetch all blog posts from Strapi
  */
 export async function fetchBlogPosts(): Promise<BlogPostProps[]> {
-  try {
-    const posts = await fetchApi<BlogPostProps[]>({
-      endpoint: "blog-posts?populate=*&sort=publishedAt:desc",
-      wrappedByKey: "data",
-    });
-    return posts;
-  } catch (error) {
-    console.warn(
-      "Failed to fetch blog posts from API, using mock data:",
-      error,
-    );
-    const { mockBlogPosts } = await import("@/data/mockBlogPosts");
-    return mockBlogPosts;
-  }
+  const posts = await fetchApi<BlogPostProps[]>({
+    endpoint: "blog-posts?populate=*&sort=publishedAt:desc",
+    wrappedByKey: "data",
+  });
+  return posts;
 }
 
 /**
@@ -96,20 +87,11 @@ export async function fetchBlogPosts(): Promise<BlogPostProps[]> {
 export async function fetchBlogPost(
   slug: string,
 ): Promise<BlogPostProps | null> {
-  try {
-    const posts = await fetchApi<BlogPostProps[]>({
-      endpoint: `blog-posts?populate=*&filters[slug][$eq]=${encodeURIComponent(slug)}`,
-      wrappedByKey: "data",
-    });
-    return posts?.[0] ?? null;
-  } catch (error) {
-    console.warn(
-      `Failed to fetch blog post "${slug}" from API, using mock data:`,
-      error,
-    );
-    const { mockBlogPosts } = await import("@/data/mockBlogPosts");
-    return mockBlogPosts.find((p) => p.slug === slug) ?? null;
-  }
+  const posts = await fetchApi<BlogPostProps[]>({
+    endpoint: `blog-posts?populate=*&filters[slug][$eq]=${encodeURIComponent(slug)}`,
+    wrappedByKey: "data",
+  });
+  return posts?.[0] ?? null;
 }
 
 /**

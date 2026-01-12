@@ -2,9 +2,11 @@
   "main": "dist/_worker.js/index.js",
   "name": "annieehler-portfolio-site",
   "compatibility_date": "2026-01-12",
-  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "compatibility_flags": [
+    "nodejs_compat",
+    "global_fetch_strictly_public"
+  ],
   "build": {
-    "command": "npm run build",
     "cwd": "./frontend",
     "watch_dir": "./frontend",
   },

@@ -159,15 +159,9 @@ export function getTerminalCommands(hero: HeroProps): TerminalCommand[] {
  * Fetch hero data from Strapi
  */
 export async function fetchHero(): Promise<HeroProps> {
-  try {
-    const hero = await fetchApi<HeroProps>({
-      endpoint: "hero?populate=*",
-      wrappedByKey: "data",
-    });
-    return hero;
-  } catch (error) {
-    console.warn("Failed to fetch hero from API, using mock data:", error);
-    const { mockHero } = await import("@/data/mockHero");
-    return mockHero;
-  }
+  const hero = await fetchApi<HeroProps>({
+    endpoint: "hero?populate=*",
+    wrappedByKey: "data",
+  });
+  return hero;
 }

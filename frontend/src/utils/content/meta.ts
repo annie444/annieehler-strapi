@@ -49,34 +49,11 @@ export interface MetaProps {
 }
 
 export async function fetchGlobalMeta(): Promise<SiteMetaProps> {
-  try {
-    const siteMeta = await fetchApi<SiteMetaProps>({
-      endpoint: "site-meta?populate=*",
-      wrappedByKey: "data",
-    });
-    return siteMeta;
-  } catch (error) {
-    console.error("Error fetching global site meta:", error);
-    return {
-      name: "My Website",
-      tagline: "Welcome to my website",
-      locale: "en",
-      links: [
-        {
-          label: "Home",
-          url: "/",
-        },
-        {
-          label: "Blog",
-          url: "/blog",
-        },
-      ],
-      defaultMeta: {
-        title: "My Website",
-        locale: "en",
-      },
-    };
-  }
+  const siteMeta = await fetchApi<SiteMetaProps>({
+    endpoint: "site-meta?populate=*",
+    wrappedByKey: "data",
+  });
+  return siteMeta;
 }
 
 export async function fetchPageMeta(pageId: string): Promise<PageMetaProps> {

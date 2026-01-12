@@ -4,13 +4,13 @@
   "version": "0.0.1",
   "description": "Astro frontend for my personal website",
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
+    "dev": "wrangler types --config ../wrangler.jsonc && astro dev",
+    "build": "wrangler types --config ../wrangler.jsonc && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "wrangler:deploy": "wrangler deploy",
-    "wrangler": "wrangler",
-    "lint": "eslint .",
+    "wrangler:deploy": "wrangler deploy --config ../wrangler.jsonc",
+    "wrangler": "wrangler --config ../wrangler.jsonc",
+    "lint": "wrangler types --config ../wrangler.jsonc && astro check && eslint .",
     "fmt": "prettier --write .",
     "fmt:check": "prettier --check .",
     "deploy": "npm run build && npm run wrangler:deploy"

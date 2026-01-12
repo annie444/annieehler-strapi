@@ -60,19 +60,9 @@ export function calculateDuration(startDate: string, endDate?: string): string {
  * Falls back to mock data if API is unavailable
  */
 export async function fetchExperience(): Promise<ExperienceProps[]> {
-  try {
-    const experience = await fetchApi<ExperienceProps[]>({
-      endpoint: "experiences?populate=*&sort=startDate:desc",
-      wrappedByKey: "data",
-    });
-    return experience;
-  } catch (error) {
-    console.warn(
-      "Failed to fetch experience from API, using mock data:",
-      error,
-    );
-    // Import mock data as fallback
-    const { mockExperience } = await import("@/data/mockExperience");
-    return mockExperience;
-  }
+  const experience = await fetchApi<ExperienceProps[]>({
+    endpoint: "experiences?populate=*&sort=startDate:desc",
+    wrappedByKey: "data",
+  });
+  return experience;
 }

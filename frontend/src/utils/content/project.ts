@@ -30,28 +30,17 @@ export interface ProjectProps {
 }
 
 export async function fetchProjects(): Promise<ProjectProps[]> {
-  try {
-    const projects = await fetchApi<ProjectProps[]>({
-      endpoint: "projects?populate=*",
-      wrappedByKey: "data",
-    });
-    return projects;
-  } catch (error) {
-    console.warn("Failed to fetch projects from API, using mock data:", error);
-    const { mockProjects } = await import("@/data/mockProjects");
-    return mockProjects;
-  }
+  const projects = await fetchApi<ProjectProps[]>({
+    endpoint: "projects?populate=*",
+    wrappedByKey: "data",
+  });
+  return projects;
 }
 
 export async function fetchProject(slug: string): Promise<ProjectProps | null> {
-  try {
-    const projects = await fetchApi<ProjectProps[]>({
-      endpoint: `projects?populate=*&filters[slug][$eq]=${encodeURIComponent(slug)}`,
-      wrappedByKey: "data",
-    });
-    return projects?.[0] ?? null;
-  } catch (error) {
-    console.warn(`Failed to fetch project "${slug}" from API:`, error);
-    return null;
-  }
+  const projects = await fetchApi<ProjectProps[]>({
+    endpoint: `projects?populate=*&filters[slug][$eq]=${encodeURIComponent(slug)}`,
+    wrappedByKey: "data",
+  });
+  return projects?.[0] ?? null;
 }

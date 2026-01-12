@@ -92,5 +92,16 @@ export default defineConfig({
     pagefind(),
   ],
 
-  adapter: cloudflare(),
+  adapter: cloudflare({
+    imageService: "compile",
+    platformProxy: {
+      enabled: true,
+      envFiles: [".env"],
+      configPath: "../wrangler.jsonc",
+      persist: {
+        path: "./.cache/wrangler/v3",
+      },
+    },
+  }),
 });
+
