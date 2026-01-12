@@ -1,0 +1,38 @@
+{
+  "main": "dist/_worker.js/index.js",
+  "name": "annieehler-portfolio-site",
+  "compatibility_date": "2026-01-12",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "build": {
+    "command": "npm run build",
+    "cwd": "./frontend",
+    "watch_dir": "./frontend",
+  },
+  "workers_dev": true,
+  "preview_urls": true,
+  "minify": true,
+  "upload_source_maps": false,
+  "route": {
+    "pattern": "annieehler.com/*",
+    "zone_name": "annieehler.com",
+  },
+  "assets": {
+    "binding": "ASSETS",
+    "directory": "./dist",
+  },
+  "observability": {
+    "enabled": false,
+    "head_sampling_rate": 1,
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+      "persist": true,
+      "invocation_logs": true,
+    },
+    "traces": {
+      "enabled": true,
+      "persist": true,
+      "head_sampling_rate": 0.75,
+    },
+  },
+}

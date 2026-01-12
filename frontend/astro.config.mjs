@@ -9,6 +9,8 @@ import mermaid from "astro-mermaid";
 import pagefind from "astro-pagefind";
 import expressiveCode from "astro-expressive-code";
 
+import cloudflare from "@astrojs/cloudflare";
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://annieehler.com",
@@ -89,4 +91,6 @@ export default defineConfig({
     expressiveCode(),
     pagefind(),
   ],
+
+  adapter: cloudflare(),
 });
