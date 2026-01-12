@@ -20,7 +20,7 @@
   },
   "assets": {
     "binding": "ASSETS",
-    "directory": "./dist",
+    "directory": "./frontend/dist",
   },
   "observability": {
     "enabled": false,
