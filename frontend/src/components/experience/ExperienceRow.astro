@@ -5,7 +5,7 @@
  * Displays as a row with folder icon, company, role, dates.
  * Expands on click to show description and details.
  */
-import Folder from "@components/icons/pixel/Folder.astro";
+import AnimatedFolder from "@components/icons/pixel/AnimatedFolder.astro";
 import type { ExperienceProps } from "@utils/content/experience";
 import { formatDateRange, calculateDuration } from "@utils/content/experience";
 
@@ -20,26 +20,21 @@ const { experience, expanded = false, isEven = false } = Astro.props;
 const dateRange = formatDateRange(experience.startDate, experience.endDate);
 const duration = calculateDuration(experience.startDate, experience.endDate);
 const isCurrentJob = !experience.endDate;
+
+const detailsId = `experience-${experience.slug}`;
 ---
 
 <details
   open={expanded}
-  class:list={[
-    "group",
-    isEven
-      ? "bg-neutral-100 dark:bg-neutral-800/50"
-      : "bg-neutral-50 dark:bg-neutral-900",
-  ]}
+  id={detailsId}
+  class:list={["group", isEven ? "bg-grey-medium" : "bg-grey-light"]}
 >
   <!-- Row summary (always visible) -->
   <summary
-    class="grid cursor-pointer list-none grid-cols-[26px_2fr_3fr_2fr] items-center border-b border-solid border-neutral-200 px-3 py-2 transition-colors hover:bg-blue-100 md:grid-cols-[26px_2fr_4fr_2fr] lg:grid-cols-[26px_2fr_7fr_2fr] xl:grid-cols-[26px_2fr_11fr_2fr] 2xl:grid-cols-[26px_2fr_14fr_2fr] dark:border-neutral-700 dark:hover:bg-blue-900/30"
+    class="border-grey-dark grid cursor-pointer list-none grid-cols-[26px_2fr_3fr_2fr] items-center border-b border-solid px-3 py-2 transition-colors hover:bg-blue-100 md:grid-cols-[26px_2fr_4fr_2fr] lg:grid-cols-[26px_2fr_7fr_2fr] xl:grid-cols-[26px_2fr_11fr_2fr] 2xl:grid-cols-[26px_2fr_14fr_2fr]"
   >
     <!-- Folder icon -->
-    <Folder
-      size={20}
-      class="text-yellow-500 transition-transform group-open:rotate-12 dark:text-yellow-400"
-    />
+    <AnimatedFolder size={20} open={expanded} class="fill-foreground" />
 
     <!-- Company -->
     <span class="font-chi font-bold">
@@ -54,74 +49,68 @@ const isCurrentJob = !experience.endDate;
     </span>
 
     <!-- Role -->
-    <span class="text-wrap text-neutral-600 dark:text-neutral-400">
+    <span class="text-foreground text-wrap">
       {experience.role}
     </span>
 
     <!-- Dates -->
-    <span
-      class="font-chi text-right text-sm text-neutral-500 dark:text-neutral-500"
-    >
+    <span class="font-chi text-foreground-dim text-right text-sm">
       {dateRange}
     </span>
   </summary>
 
   <!-- Expanded details -->
   <div
-    class="experience-details border-b border-solid border-neutral-200 bg-neutral-50 px-4 py-3 pl-10 dark:border-neutral-700 dark:bg-neutral-900/50"
+    class="experience-details border-grey-medium bg-grey-light border-b border-solid px-4 py-3 pl-10"
   >
     <!-- Location -->
     {
       experience.location ? (
         experience.link ? (
           <div class="mb-2 flex flex-row items-center justify-between">
-            <p class="text-sm text-neutral-500 dark:text-neutral-400">
+            <p class="text-foreground-dim text-sm">
               {experience.location} &centerdot; {duration}
             </p>
             <a
               href={experience.link}
               target="_blank"
               rel="noopener noreferrer"
-              class="font-chi mr-4 text-neutral-600 underline hover:text-blue-600 md:mr-6 dark:text-neutral-400 dark:hover:text-blue-400"
+              class="font-chi text-foreground-dim mr-4 underline hover:text-blue-600 md:mr-6 dark:hover:text-blue-400"
             >
               Visit Site
             </a>
           </div>
         ) : (
-          <p class="mb-2 text-sm text-neutral-500 dark:text-neutral-400">
+          <p class="text-foreground-dim mb-2 text-sm">
             {experience.location} &centerdot; {duration}
           </p>
         )
       ) : experience.link ? (
         <div class="mb-2 flex flex-row items-center justify-between">
-          <p class="text-sm text-neutral-500 dark:text-neutral-400">
-            {duration}
-          </p>
+          <p class="text-foreground-dim text-sm">{duration}</p>
           <a
             href={experience.link}
             target="_blank"
             rel="noopener noreferrer"
-            class="font-chi mr-4 text-neutral-600 underline hover:text-blue-600 md:mr-6 dark:text-neutral-400 dark:hover:text-blue-400"
+            class="font-chi text-foreground-dim mr-4 underline hover:text-blue-600 md:mr-6 dark:hover:text-blue-400"
           >
             Visit Site
           </a>
         </div>
       ) : (
-        <p class="mb-2 text-sm text-neutral-500 dark:text-neutral-400">
-          {duration}
-        </p>
+        <p class="text-foreground-dim mb-2 text-sm">{duration}</p>
       )
     }
 
     <!-- Description -->
-    <p class="mb-3 text-neutral-700 dark:text-neutral-300">
+    <p class="text-foreground mb-3">
       {experience.description}
     </p>
 
     <!-- Highlights -->
     {
       experience.highlights && experience.highlights.length > 0 && (
-        <ul class="mb-3 list-inside list-disc space-y-1 text-neutral-600 dark:text-neutral-400">
+        <ul class="text-foreground mb-3 list-inside list-disc space-y-1">
           {experience.highlights.map((highlight) => (
             <li>{highlight}</li>
           ))}
@@ -134,7 +123,7 @@ const isCurrentJob = !experience.endDate;
       experience.technologies && experience.technologies.length > 0 && (
         <div class="flex flex-wrap gap-1">
           {experience.technologies.map((tech) => (
-            <span class="inline-block border border-solid border-neutral-300 bg-neutral-200 px-1.5 py-0.5 text-sm dark:border-neutral-600 dark:bg-neutral-800">
+            <span class="border-grey-dark bg-grey-medium inline-block border border-solid px-1.5 py-0.5 text-sm">
               {tech.name}
             </span>
           ))}

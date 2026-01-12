@@ -1,0 +1,210 @@
+---
+import type { SvgProps } from "@utils/svg";
+import InternalSvg from "@components/icons/InternalSvg.astro";
+import {
+  topPoint,
+  sideTopPoint,
+  sideMiddlePoint,
+  sideBottomPoint,
+  State,
+  Side,
+  type Point,
+} from "@utils/folder";
+
+type Props = SvgProps & { open: boolean };
+
+const { open, ...rest } = Astro.props as Props;
+
+const ptState: State = open ? State.Open : State.Closed;
+
+const topPoints: Point[] = Array.from({ length: 22 }, (_, i) => i + 1).reduce(
+  (acc: Point[], num) => {
+    acc.push(topPoint(num, ptState));
+    return acc;
+  },
+  [] as Point[],
+);
+
+const sideTopPoints = (side: Side): Point[] =>
+  Array.from({ length: 3 }, (_, i) => i + 1).reduce(
+    (acc: Point[], num: number) => {
+      acc.push(sideTopPoint(num, side, ptState));
+      return acc;
+    },
+    [] as Point[],
+  );
+
+const sideMiddlePoints = (side: Side): Point[] =>
+  Array.from({ length: 3 }, (_, i) => i + 1).reduce(
+    (acc: Point[], num: number) => {
+      acc.push(sideMiddlePoint(num, side, ptState));
+      return acc;
+    },
+    [] as Point[],
+  );
+
+const sideBottomPoints = (side: Side): Point[] =>
+  Array.from({ length: 3 }, (_, i) => i + 1).reduce(
+    (acc: Point[], num: number) => {
+      acc.push(sideBottomPoint(num, side, ptState));
+      return acc;
+    },
+    [] as Point[],
+  );
+---
+
+<InternalSvg
+  viewBox={{ x: 0, y: 0, width: 27, height: 19 }}
+  {...rest}
+  data-state={open ? "open" : "closed"}
+  data-anim="0"
+  class="anim-folder"
+>
+  <rect width="1" height="1" x="1" y="4"></rect>
+  <rect width="1" height="1" x="13" y="4"></rect>
+  <rect width="1" height="1" x="14" y="4"></rect>
+  <rect width="1" height="1" x="15" y="4"></rect>
+  <rect width="1" height="1" x="16" y="4"></rect>
+  <rect width="1" height="1" x="17" y="4"></rect>
+  <rect width="1" height="1" x="18" y="4"></rect>
+  <rect width="1" height="1" x="19" y="4"></rect>
+  <rect width="1" height="1" x="20" y="4"></rect>
+  <rect width="1" height="1" x="21" y="4"></rect>
+  <rect width="1" height="1" x="22" y="4"></rect>
+  <rect width="1" height="1" x="1" y="18"></rect>
+  <rect width="1" height="1" x="2" y="18"></rect>
+  <rect width="1" height="1" x="3" y="18"></rect>
+  <rect width="1" height="1" x="4" y="18"></rect>
+  <rect width="1" height="1" x="5" y="18"></rect>
+  <rect width="1" height="1" x="6" y="18"></rect>
+  <rect width="1" height="1" x="7" y="18"></rect>
+  <rect width="1" height="1" x="8" y="18"></rect>
+  <rect width="1" height="1" x="9" y="18"></rect>
+  <rect width="1" height="1" x="10" y="18"></rect>
+  <rect width="1" height="1" x="11" y="18"></rect>
+  <rect width="1" height="1" x="12" y="18"></rect>
+  <rect width="1" height="1" x="13" y="18"></rect>
+  <rect width="1" height="1" x="14" y="18"></rect>
+  <rect width="1" height="1" x="15" y="18"></rect>
+  <rect width="1" height="1" x="16" y="18"></rect>
+  <rect width="1" height="1" x="17" y="18"></rect>
+  <rect width="1" height="1" x="18" y="18"></rect>
+  <rect width="1" height="1" x="19" y="18"></rect>
+  <rect width="1" height="1" x="20" y="18"></rect>
+  <rect width="1" height="1" x="21" y="18"></rect>
+  <rect width="1" height="1" x="22" y="18"></rect>
+  <rect width="1" height="1" x="0" y="5"></rect>
+  <rect width="1" height="1" x="0" y="6"></rect>
+  <rect width="1" height="1" x="0" y="7"></rect>
+  <rect width="1" height="1" x="0" y="8"></rect>
+  <rect width="1" height="1" x="0" y="9"></rect>
+  <rect width="1" height="1" x="0" y="10"></rect>
+  <rect width="1" height="1" x="0" y="11"></rect>
+  <rect width="1" height="1" x="0" y="12"></rect>
+  <rect width="1" height="1" x="0" y="13"></rect>
+  <rect width="1" height="1" x="0" y="14"></rect>
+  <rect width="1" height="1" x="0" y="15"></rect>
+  <rect width="1" height="1" x="0" y="16"></rect>
+  <rect width="1" height="1" x="0" y="17"></rect>
+  <rect width="1" height="1" x="0" y="18"></rect>
+  <rect width="1" height="1" x="23" y="5"></rect>
+  <rect width="1" height="1" x="23" y="6"></rect>
+  <rect width="1" height="1" x="23" y="7"></rect>
+  <rect width="1" height="1" x="23" y="17"></rect>
+  <rect width="1" height="1" x="23" y="18"></rect>
+  <rect width="1" height="1" x="2" y="3"></rect>
+  <rect width="1" height="1" x="3" y="2"></rect>
+  <rect width="1" height="1" x="4" y="1"></rect>
+  <rect width="1" height="1" x="5" y="0"></rect>
+  <rect width="1" height="1" x="6" y="0"></rect>
+  <rect width="1" height="1" x="7" y="0"></rect>
+  <rect width="1" height="1" x="8" y="0"></rect>
+  <rect width="1" height="1" x="9" y="0"></rect>
+  <rect width="1" height="1" x="10" y="1"></rect>
+  <rect width="1" height="1" x="11" y="2"></rect>
+  <rect width="1" height="1" x="12" y="3"></rect>
+  {
+    topPoints.map((pt, i) => (
+      <rect
+        width="1"
+        height="1"
+        class="anim-folder-top"
+        id={`folder-top-${i + 1}`}
+        x={pt.x}
+        y={pt.y}
+      />
+    ))
+  }
+  {
+    sideTopPoints(Side.Right).map((pt, i) => (
+      <rect
+        width="1"
+        height="1"
+        class="anim-folder-side-top"
+        id={`folder-right-top-${i + 1}`}
+        x={pt.x}
+        y={pt.y}
+      />
+    ))
+  }
+  {
+    sideMiddlePoints(Side.Right).map((pt, i) => (
+      <rect
+        width="1"
+        height="1"
+        class="anim-folder-side-middle"
+        id={`folder-right-middle-${i + 1}`}
+        x={pt.x}
+        y={pt.y}
+      />
+    ))
+  }
+  {
+    sideBottomPoints(Side.Right).map((pt, i) => (
+      <rect
+        width="1"
+        height="1"
+        class="anim-folder-side-bottom"
+        id={`folder-right-bottom-${i + 1}`}
+        x={pt.x}
+        y={pt.y}
+      />
+    ))
+  }
+  {
+    sideTopPoints(Side.Left).map((pt, i) => (
+      <rect
+        width="1"
+        height="1"
+        class="anim-folder-side-top"
+        id={`folder-left-top-${i + 1}`}
+        x={pt.x}
+        y={pt.y}
+      />
+    ))
+  }
+  {
+    sideMiddlePoints(Side.Left).map((pt, i) => (
+      <rect
+        width="1"
+        height="1"
+        class="anim-folder-side-middle"
+        id={`folder-left-middle-${i + 1}`}
+        x={pt.x}
+        y={pt.y}
+      />
+    ))
+  }
+  {
+    sideBottomPoints(Side.Left).map((pt, i) => (
+      <rect
+        width="1"
+        height="1"
+        class="anim-folder-side-bottom"
+        id={`folder-left-bottom-${i + 1}`}
+        x={pt.x}
+        y={pt.y}
+      />
+    ))
+  }
+</InternalSvg>

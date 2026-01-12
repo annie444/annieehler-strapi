@@ -1,0 +1,12 @@
+---
+import type { SvgProps } from "@utils/svg";
+import InternalSvg from "@components/icons/InternalSvg.astro";
+type Props = SvgProps;
+const { ...rest } = Astro.props as Props;
+---
+
+<InternalSvg viewBox={{ x: 0, y: 0, width: 100, height: 100 }} {...rest}>
+  <path
+    d="m70.832 4.168h-41.664v8.332h-8.3359v8.332h-8.332v8.3359h-8.332v41.664h8.332v8.3359h8.332v8.332h8.3359v8.332h41.664v-8.332h8.3359v-8.332h8.332v-8.3359h8.332v-41.664h-8.332v-8.3359h-8.332v-8.332h-8.3359zm0 8.332v8.332h8.3359v8.3359h8.332v16.664h-8.332v8.3359h8.332v16.664h-16.668v16.668h-16.664v-8.332h-8.3359v8.332h-16.664v-8.332h-8.3359v-8.3359h-8.332v-16.664h8.332v-8.3359h-8.332v-16.664h16.668v-16.668h16.664v8.332h8.3359v-8.332zm-25 16.668v20.832h8.3359v8.332h8.332v8.3359h8.332v-8.3359h-8.332v-8.332h-8.332v-20.832z"
+    fill-rule="evenodd"></path>
+</InternalSvg>

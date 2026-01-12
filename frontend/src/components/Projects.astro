@@ -17,13 +17,52 @@ const { projects } = Astro.props;
 
 <section
   id="projects"
-  class="grid grid-cols-[repeat(auto-fit,minmax(320px,1fr))] gap-8 p-8"
+  class="masonry grid grid-cols-1 gap-8 p-8 md:grid-cols-[repeat(auto-fit,minmax(760px,1fr))]"
 >
   {
     projects.map((project) => (
-      <div>
+      <div class="project-item">
         <Project {...project} />
       </div>
     ))
   }
 </section>
+
+<script>
+  import {
+    resizeAllGridItems,
+    resizeGridItem,
+    setupMasonryGrid,
+  } from "@utils/masonry";
+
+  setupMasonryGrid("projects", "project-item", "project-content");
+
+  function resizeOnToggle() {
+    const projectWindows = document.getElementsByClassName(
+      "project-window",
+    ) as HTMLCollectionOf<HTMLDetailsElement>;
+    for (const project of projectWindows) {
+      project.addEventListener("toggle", (e: ToggleEvent) => {
+        const target = e.target as HTMLDetailsElement;
+        const item = target.closest(".project-item") as HTMLElement;
+        if (target.open) {
+          resizeGridItem(item);
+        } else {
+          item.style.gridRowEnd = "span 1";
+        }
+      });
+    }
+  }
+
+  window.addEventListener("resize", resizeAllGridItems);
+  window.addEventListener("DOMContentLoaded", () => {
+    resizeAllGridItems();
+    resizeOnToggle();
+  });
+</script>
+
+<style is:global>
+  .masonry {
+    grid-auto-rows: 28px;
+  }
+</style>

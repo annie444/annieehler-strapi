@@ -14,13 +14,13 @@ const { competency, class: className = "" } = Astro.props;
 
 <div
   class:list={[
-    "competency-badge inline-flex items-center gap-2 px-3 py-1.5",
-    "border-2 border-solid border-neutral-900 bg-neutral-200",
-    "dark:border-neutral-100 dark:bg-neutral-700",
+    "inline-flex items-center gap-2 px-2 py-1",
+    "border-2 border-solid border-neutral-900 bg-neutral-100",
+    "dark:border-neutral-100 dark:bg-neutral-900",
     "text-base font-medium",
     className,
   ]}
 >
-  {competency.icon && <span class="competency-icon">{competency.icon}</span>}
-  <span class="competency-name font-chi">{competency.name}</span>
+  {competency.icon && <span>{competency.icon}</span>}
+  <span class="font-chi">{competency.name}</span>
 </div>

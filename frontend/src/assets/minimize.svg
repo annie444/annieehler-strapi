@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+  stroke-width="4"
+  viewBox="0 0 50 50"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <rect width="40" height="40" x="5" y="5"></rect>
+  <path d="M 5,19 H 45" class="svg-hide"></path>
+  <path d="M 5,31 H 45" class="svg-hide"></path>
+</svg>

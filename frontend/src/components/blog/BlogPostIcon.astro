@@ -56,7 +56,7 @@ const displayTitle =
   </span>
 
   <!-- Date -->
-  <span class="mt-1 text-[10px] text-neutral-500 dark:text-neutral-400">
+  <span class="text-foreground-dim mt-1 text-[10px]">
     {formattedDate}
   </span>
 
@@ -65,7 +65,7 @@ const displayTitle =
     post.tags && post.tags.length > 0 && (
       <div class="mt-1 flex flex-wrap justify-center gap-1 opacity-0 transition-opacity group-hover:opacity-100">
         {post.tags.slice(0, 2).map((tag) => (
-          <span class="rounded bg-neutral-200 px-1 py-0.5 text-[9px] dark:bg-neutral-700">
+          <span class="bg-grey-medium rounded px-1 py-0.5 text-[9px]">
             {tag.name}
           </span>
         ))}

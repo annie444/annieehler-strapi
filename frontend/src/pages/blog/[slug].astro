@@ -49,7 +49,7 @@ const pageDescription = post.excerpt || siteMeta.description;
         post.content ? (
           <Blocks content={post.content} client:load />
         ) : (
-          <p class="text-neutral-500 italic dark:text-neutral-400">
+          <p class="text-foreground-dim italic">
             This post doesn't have content yet.
           </p>
         )
@@ -60,7 +60,7 @@ const pageDescription = post.excerpt || siteMeta.description;
     <nav class="mx-auto mt-8 max-w-4xl">
       <a
         href="/blog"
-        class="font-chi inline-flex items-center gap-2 text-sm text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
+        class="font-chi text-foreground-dim hover:text-foreground inline-flex items-center gap-2 text-sm"
       >
         <svg
           class="h-4 w-4"

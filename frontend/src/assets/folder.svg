@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+  stroke-width="1"
+  viewBox="0 0 20 16"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <!-- Folder tab -->
+  <rect x="1" y="0" width="6" height="1"></rect>
+  <rect x="0" y="1" width="1" height="1"></rect>
+  <rect
+    x="1"
+    y="1"
+    width="6"
+    height="1"
+    fill="oklch(84.93% 0.158 87.53)"
+    class="fill-yellow-400 dark:fill-yellow-600"></rect>
+  <rect x="7" y="1" width="1" height="1"></rect>
+
+  <!-- Folder body outline -->
+  <rect x="0" y="2" width="1" height="13"></rect>
+  <rect x="19" y="2" width="1" height="13"></rect>
+  <rect x="1" y="15" width="18" height="1"></rect>
+
+  <!-- Top edge -->
+  <rect
+    x="1"
+    y="2"
+    width="18"
+    height="1"
+    fill="oklch(84.93% 0.158 87.53)"
+    class="fill-yellow-400 dark:fill-yellow-600"></rect>
+  <rect x="8" y="1" width="11" height="1"></rect>
+
+  <!-- Folder body fill -->
+  <rect
+    x="1"
+    y="3"
+    width="18"
+    height="12"
+    fill="oklch(88.19% 0.131 89.66)"
+    class="fill-yellow-300 dark:fill-yellow-700"></rect>
+
+  <!-- Highlight -->
+  <rect
+    x="1"
+    y="3"
+    width="17"
+    height="1"
+    fill="oklch(91.84% 0.093 89.97)"
+    class="fill-yellow-200 dark:fill-yellow-500"></rect>
+  <rect
+    x="1"
+    y="4"
+    width="1"
+    height="10"
+    fill="oklch(91.84% 0.093 89.97)"
+    class="fill-yellow-200 dark:fill-yellow-500"></rect>
+
+  <!-- Shadow -->
+  <rect
+    x="2"
+    y="14"
+    width="17"
+    height="1"
+    fill="oklch(81.67% 0.167 82.9)"
+    class="fill-yellow-500 dark:fill-yellow-800"></rect>
+  <rect
+    x="18"
+    y="4"
+    width="1"
+    height="10"
+    fill="oklch(81.67% 0.167 82.9)"
+    class="fill-yellow-500 dark:fill-yellow-800"></rect>
+</svg>

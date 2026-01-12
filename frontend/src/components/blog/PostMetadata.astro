@@ -2,6 +2,8 @@
 /**
  * PostMetadata - Display post metadata (author, date, tags, reading time)
  */
+import Calendar from "@components/icons/pixel/Calendar.astro";
+import Clock from "@components/icons/pixel/Clock.astro";
 import type { BlogPostProps } from "@utils/content/blog";
 import { formatPublishDate } from "@utils/content/blog";
 
@@ -19,47 +21,23 @@ const updatedDate = post.updatedAt ? formatPublishDate(post.updatedAt) : null;
 <div class:list={["post-metadata", className]}>
   <!-- Date and reading time -->
   <div
-    class="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-neutral-600 dark:text-neutral-400"
+    class="text-foreground-dim flex flex-wrap items-center gap-x-4 gap-y-1 text-sm"
   >
     <time datetime={post.publishedAt} class="flex items-center gap-1">
-      <svg
-        class="h-4 w-4"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-        ></path>
-      </svg>
+      <Calendar class="h-4 w-4" fill="none" stroke="currentColor" />
       {formattedDate}
     </time>
 
     {
       updatedDate && updatedDate !== formattedDate && (
-        <span class="text-neutral-500">(Updated {updatedDate})</span>
+        <span class="text-foreground-dim">(Updated {updatedDate})</span>
       )
     }
 
     {
       post.readingTime && (
         <span class="flex items-center gap-1">
-          <svg
-            class="h-4 w-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
+          <Clock class="h-4 w-4" fill="none" stroke="currentColor" />
           {post.readingTime} min read
         </span>
       )
@@ -70,7 +48,7 @@ const updatedDate = post.updatedAt ? formatPublishDate(post.updatedAt) : null;
   {
     post.author && (
       <div class="mt-2 flex items-center gap-2 text-sm">
-        <span class="text-neutral-500 dark:text-neutral-400">By</span>
+        <span class="text-foreground-dim">By</span>
         <span class="font-medium">
           {post.author.firstName} {post.author.lastName}
         </span>
@@ -85,7 +63,7 @@ const updatedDate = post.updatedAt ? formatPublishDate(post.updatedAt) : null;
         {post.tags.map((tag) => (
           <a
             href={`/blog?tags=${tag.slug}`}
-            class="inline-block border-2 border-solid border-neutral-900 bg-neutral-200 px-2 py-0.5 text-xs font-medium transition-colors hover:bg-neutral-300 dark:border-neutral-100 dark:bg-neutral-700 dark:hover:bg-neutral-600"
+            class="border-foreground bg-grey-medium hover:bg-grey-dark inline-block border-2 border-solid px-2 py-0.5 text-xs font-medium transition-colors"
           >
             {tag.name}
           </a>

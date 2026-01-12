@@ -584,6 +584,7 @@ export interface ApiExperienceExperience extends Struct.CollectionTypeSchema {
     location: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     role: Schema.Attribute.String & Schema.Attribute.Required;
+    slug: Schema.Attribute.UID<"company"> & Schema.Attribute.Required;
     startDate: Schema.Attribute.Date & Schema.Attribute.Required;
     technologies: Schema.Attribute.Relation<"manyToMany", "api::tag.tag">;
     updatedAt: Schema.Attribute.DateTime;

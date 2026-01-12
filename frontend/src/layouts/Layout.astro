@@ -18,9 +18,7 @@ const siteMeta: Props = Astro.props;
 <!doctype html>
 <html lang="en">
   <CommonHead {...siteMeta} />
-  <body
-    class="font-suse m-0 w-full bg-pink-100 p-0 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-50"
-  >
+  <body class="font-suse bg-background text-foreground m-0 w-full p-0">
     <Theme defaultTheme="dark" />
     <Header title={siteMeta.name} links={siteMeta.links} />
     <main>
@@ -60,78 +58,38 @@ const siteMeta: Props = Astro.props;
   }
 
   ::-webkit-scrollbar {
-    @apply w-5.5 bg-neutral-50;
-  }
-
-  :where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *)
-    ::-webkit-scrollbar {
-    @apply w-5.5 bg-neutral-900;
+    @apply bg-grey-light w-5.5;
   }
 
   ::-webkit-scrollbar-track {
-    @apply w-2.5 bg-neutral-50;
+    @apply bg-grey-light w-2.5;
     background:
       linear-gradient(
         45deg,
-        var(--color-neutral-900) 25%,
+        var(--color-foreground) 25%,
         transparent 0,
         transparent 75%,
-        var(--color-neutral-900) 0,
-        var(--color-neutral-900)
+        var(--color-foreground) 0,
+        var(--color-foreground)
       ),
       linear-gradient(
         45deg,
-        var(--color-neutral-900) 25%,
+        var(--color-foreground) 25%,
         transparent 0,
         transparent 75%,
-        var(--color-neutral-900) 0,
-        var(--color-neutral-900)
+        var(--color-foreground) 0,
+        var(--color-foreground)
       );
     background-position:
       0 0,
       2px 2px;
     background-size: 4px 4px;
-    border-left: 3px solid var(--color-neutral-900);
-  }
-
-  :where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *)
-    ::-webkit-scrollbar-track {
-    @apply w-2.5 bg-neutral-900;
-    background:
-      linear-gradient(
-        45deg,
-        var(--color-neutral-100) 25%,
-        transparent 0,
-        transparent 75%,
-        var(--color-neutral-100) 0,
-        var(--color-neutral-100)
-      ),
-      linear-gradient(
-        45deg,
-        var(--color-neutral-100) 25%,
-        transparent 0,
-        transparent 75%,
-        var(--color-neutral-100) 0,
-        var(--color-neutral-100)
-      );
-    background-position:
-      0 0,
-      2px 2px;
-    background-size: 4px 4px;
-    border-left: 3px solid var(--color-neutral-100);
+    border-left: 3px solid var(--color-foreground);
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply box-content w-5 bg-neutral-50;
-    border-color: var(--color-neutral-900);
-    border-width: 2px none 2px 2px;
-    border-style: solid;
-  }
-
-  :where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *)
-    ::-webkit-scrollbar-thumb {
-    @apply box-content w-5 bg-neutral-900;
-    border-color: var(--color-neutral-100);
+    @apply bg-grey-light box-content w-5;
+    border-color: var(--color-foreground);
     border-width: 2px none 2px 2px;
     border-style: solid;
   }
@@ -190,78 +148,38 @@ const siteMeta: Props = Astro.props;
   }
 
   .window-pane::-webkit-scrollbar {
-    @apply w-5.5 bg-neutral-50;
-  }
-
-  :where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *)
-    .window-pane::-webkit-scrollbar {
-    @apply w-5.5 bg-neutral-900;
+    @apply bg-grey-light w-5.5;
   }
 
   .window-pane::-webkit-scrollbar-track {
-    @apply w-2.5 bg-neutral-50;
+    @apply bg-grey-light w-2.5;
     background:
       linear-gradient(
         45deg,
-        var(--color-neutral-900) 25%,
+        var(--color-foreground) 25%,
         transparent 0,
         transparent 75%,
-        var(--color-neutral-900) 0,
-        var(--color-neutral-900)
+        var(--color-foreground) 0,
+        var(--color-foreground)
       ),
       linear-gradient(
         45deg,
-        var(--color-neutral-900) 25%,
+        var(--color-foreground) 25%,
         transparent 0,
         transparent 75%,
-        var(--color-neutral-900) 0,
-        var(--color-neutral-900)
+        var(--color-foreground) 0,
+        var(--color-foreground)
       );
     background-position:
       0 0,
       2px 2px;
     background-size: 4px 4px;
-    border-left: 3px solid var(--color-neutral-900);
-  }
-
-  :where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *)
-    .window-pane::-webkit-scrollbar-track {
-    @apply w-2.5 bg-neutral-900;
-    background:
-      linear-gradient(
-        45deg,
-        var(--color-neutral-100) 25%,
-        transparent 0,
-        transparent 75%,
-        var(--color-neutral-100) 0,
-        var(--color-neutral-100)
-      ),
-      linear-gradient(
-        45deg,
-        var(--color-neutral-100) 25%,
-        transparent 0,
-        transparent 75%,
-        var(--color-neutral-100) 0,
-        var(--color-neutral-100)
-      );
-    background-position:
-      0 0,
-      2px 2px;
-    background-size: 4px 4px;
-    border-left: 3px solid var(--color-neutral-100);
+    border-left: 3px solid var(--color-foreground);
   }
 
   .window-pane::-webkit-scrollbar-thumb {
-    @apply box-content w-5 bg-neutral-50;
-    border-color: var(--color-neutral-900);
-    border-width: 2px none 2px 2px;
-    border-style: solid;
-  }
-
-  :where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *)
-    .window-pane::-webkit-scrollbar-thumb {
-    @apply box-content w-5 bg-neutral-900;
-    border-color: var(--color-neutral-100);
+    @apply bg-grey-light box-content w-5;
+    border-color: var(--color-foreground);
     border-width: 2px none 2px 2px;
     border-style: solid;
   }

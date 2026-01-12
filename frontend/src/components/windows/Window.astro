@@ -108,7 +108,7 @@ const showClose = showControls;
   </div>
 
   <!-- Content Area -->
-  <div class="window-content flex-1 overflow-auto">
+  <div class="window-pane flex-1 overflow-auto">
     <slot />
   </div>
 
@@ -123,3 +123,18 @@ const showClose = showControls;
     )
   }
 </article>
+
+<style is:global>
+  .window-pane {
+    overflow-y: scroll;
+    height: 100%;
+    padding: 1rem 2rem;
+    font-size: 18px;
+    letter-spacing: -0.025em;
+  }
+
+  .window-title {
+    background-size: 7% 16%;
+    background-clip: content-box;
+  }
+</style>

@@ -5,6 +5,7 @@ export interface ExperienceProps {
   id: string;
   company: string;
   role: string;
+  slug: string;
   startDate: string; // ISO date (YYYY-MM)
   endDate?: string; // ISO date, undefined = present
   description: string;

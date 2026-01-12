@@ -5,17 +5,18 @@
  * Uses native <details> element for zero-JS accordion behavior.
  * Click on the title bar to expand/collapse content.
  */
+import type { HTMLAttributes } from "astro/types";
 import Resize from "@components/icons/Resize.astro";
 import Minimize from "@components/icons/Minimize.astro";
 import Close from "@components/icons/Close.astro";
 
-interface Props {
+interface Props extends Omit<HTMLAttributes<"details">, "class" | "open"> {
   title: string;
   open?: boolean;
   class?: string;
 }
 
-const { title, open = false, class: className } = Astro.props;
+const { title, open = false, class: className, ...rest } = Astro.props as Props;
 ---
 
 <details
@@ -24,10 +25,11 @@ const { title, open = false, class: className } = Astro.props;
     "window-item harsh-neutral-600 border-em mb-4 flex min-w-[320px] flex-col border-solid border-neutral-900 bg-neutral-50 dark:border-neutral-100 dark:bg-neutral-900",
     className,
   ]}
+  {...rest}
 >
   <!-- Title Bar (clickable summary) -->
   <summary
-    class="window-title my-0.5 flex h-6 flex-none cursor-pointer list-none items-center bg-[linear-gradient(var(--color-neutral-900)_50%,transparent_50%)] px-1 py-0.5 dark:bg-[linear-gradient(var(--color-neutral-500)_50%,transparent_50%)]"
+    class="window-title my-0.5 flex h-6 flex-none cursor-pointer list-none items-center bg-[linear-gradient(var(--color-foreground-dim)_50%,transparent_50%)] px-1 py-0.5"
   >
     <Close
       aria-hidden="true"
@@ -75,6 +77,11 @@ const { title, open = false, class: className } = Astro.props;
   /* Smooth content reveal */
   .window-content {
     animation: slideDown 0.2s ease-out;
+  }
+
+  .window-title {
+    background-size: 7% 16%;
+    background-clip: content-box;
   }
 
   @keyframes slideDown {

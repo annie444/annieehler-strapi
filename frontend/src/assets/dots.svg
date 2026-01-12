@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+  stroke-width="10"
+  viewBox="0 0 32 240"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <circle cx="16" cy="69" r="12"></circle>
+  <circle cx="16" cy="103" r="12"></circle>
+  <circle cx="16" cy="137" r="12"></circle>
+  <circle cx="16" cy="171" r="12"></circle>
+</svg>

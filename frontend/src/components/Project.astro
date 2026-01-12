@@ -2,28 +2,41 @@
 /**
  * Project Card - Accordion window with project details
  */
+import type { HTMLAttributes } from "astro/types";
 import AccordionWindow from "@components/windows/AccordionWindow.astro";
 import ProjectDetails from "@components/projects/ProjectDetails.astro";
 import Blocks from "@components/react/Blocks";
 import type { ProjectProps } from "@utils/content/project";
 
-type Props = ProjectProps;
+type Props = ProjectProps & Omit<HTMLAttributes<"details">, "class" | "open">;
 
-const project = Astro.props;
-const { title, description, tags, link, text } = project;
+const {
+  title,
+  description,
+  tags,
+  link,
+  text,
+  slug,
+  problem,
+  constraints,
+  approach,
+  result,
+  codeUrl,
+  liveUrl,
+  screenshots,
+  diagram,
+  projectStatus,
+  featured,
+  ...rest
+} = Astro.props as Props;
 
 // Check if we have enhanced details
 const hasEnhancedDetails =
-  project.problem ||
-  project.constraints ||
-  project.approach ||
-  project.result ||
-  project.codeUrl ||
-  project.liveUrl;
+  problem || constraints || approach || result || codeUrl || liveUrl;
 ---
 
-<AccordionWindow title={title} open={true}>
-  <div class="p-4">
+<AccordionWindow title={title} open={true} {...rest} class="project-window">
+  <div class="project-content p-4">
     <!-- Description -->
     <p class="mb-4 text-neutral-700 dark:text-neutral-300">
       {description}
@@ -39,7 +52,31 @@ const hasEnhancedDetails =
     }
 
     <!-- Enhanced project details -->
-    {hasEnhancedDetails && <ProjectDetails project={project} class="mb-4" />}
+    {
+      hasEnhancedDetails && (
+        <ProjectDetails
+          project={{
+            title,
+            description,
+            tags,
+            link,
+            text,
+            slug,
+            problem,
+            constraints,
+            approach,
+            result,
+            codeUrl,
+            liveUrl,
+            screenshots,
+            diagram,
+            projectStatus,
+            featured,
+          }}
+          class="mb-4"
+        />
+      )
+    }
 
     <!-- Tags -->
     {
@@ -56,7 +93,7 @@ const hasEnhancedDetails =
 
     <!-- Legacy link (if no enhanced links) -->
     {
-      link && !project.codeUrl && !project.liveUrl && (
+      link && !codeUrl && !liveUrl && (
         <a
           href={link}
           class="inline-block text-neutral-900 no-underline hover:underline dark:text-neutral-50"
@@ -68,7 +105,7 @@ const hasEnhancedDetails =
 
     <!-- Featured badge -->
     {
-      project.featured && (
+      featured && (
         <div class="absolute -top-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-yellow-400 text-sm dark:bg-yellow-500">
           ★
         </div>

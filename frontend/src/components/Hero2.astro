@@ -13,6 +13,7 @@ import ResumeButton from "@components/hero/ResumeButton.astro";
 import Github from "@components/icons/pixel/Github.astro";
 import LinkedIn from "@components/icons/pixel/LinkedIn.astro";
 import Mail from "@components/icons/pixel/Email.astro";
+import Dialog from "@components/dialogs/Dialog.astro";
 import { type HeroProps, type Competency } from "@utils/content/hero";
 
 type Props = HeroProps;
@@ -41,75 +42,60 @@ const categoryLabels: Record<string, string> = {
 ---
 
 <section
-  class="flex min-h-[calc(100vh-4rem)] w-full flex-col justify-center px-4 py-8 md:px-8 md:py-12 lg:min-h-auto"
+  class="flex w-full flex-col items-center justify-center px-4 py-8 md:px-8 md:py-12"
 >
   <!-- Header with name and tagline -->
   <div class="mb-8 text-center">
     <h1 class="font-chi mb-2 text-4xl font-bold md:text-5xl">
       {headline}
     </h1>
-    <p class="font-suse text-xl text-neutral-600 dark:text-neutral-400">
+    <p class="font-suse text-foreground-dim text-xl">
       {tagline}
     </p>
   </div>
 
-  <!-- Terminal (main focus) -->
-  <div class="mb-4 md:mb-6 lg:mb-8">
-    <TextEditorWindow title="whoami.txt" class="max-w-3xl mx-auto">
-      <p
-        class="font-suse text-sm whitespace-pre-wrap text-neutral-800 dark:text-neutral-200"
+  <div
+    class="flex flex-col items-start justify-center gap-4 md:flex-row md:gap-6 lg:gap-8"
+  >
+    <!-- Terminal (main focus) -->
+    <div class="flex flex-col">
+      <TextEditorWindow
+        title="whoami.txt"
+        class="mb-4 max-w-3xl md:mb-6 lg:mb-8"
       >
-        {bio}
-      </p>
-    </TextEditorWindow>
-
-    <!-- Quick hint below terminal -->
-    <p class="mt-3 text-center text-sm text-neutral-500 dark:text-neutral-400">
-      Try typing
-      <code
-        class="font-jetbrains rounded bg-neutral-200 px-1 dark:bg-neutral-700"
-        >whoami</code
-      >,
-      <code
-        class="font-jetbrains rounded bg-neutral-200 px-1 dark:bg-neutral-700"
-        >skills</code
-      >, or
-      <code
-        class="font-jetbrains rounded bg-neutral-200 px-1 dark:bg-neutral-700"
-        >help</code
-      >
-    </p>
-  </div>
-
-  <!-- Sidebar: Competencies + CTAs -->
-  <div class="grid grid-cols-1 gap-6 lg:grid-cols-5">
-    <!-- Competencies Card -->
-    <div
-      class="harsh-neutral-600 border-em border-solid border-neutral-900 bg-neutral-50 p-4 lg:col-span-4 dark:border-neutral-100 dark:bg-neutral-900"
-    >
-      <h2 class="font-chi mb-4 text-lg font-bold">Skills</h2>
-      <div class="flex flex-row flex-wrap gap-4">
-        {
-          Object.entries(groupedCompetencies).map(([category, comps]) => (
-            <div class="flex flex-row flex-nowrap items-center gap-4">
-              <h3 class="font-chi mr-4 text-base font-semibold tracking-wide text-neutral-500 dark:text-neutral-400">
-                {categoryLabels[category] || category}
-              </h3>
-              <div class="col-span-3 flex flex-wrap gap-2">
-                {comps.map((comp) => (
-                  <CompetencyBadge competency={comp} />
-                ))}
-              </div>
-            </div>
-          ))
-        }
-      </div>
+        <p class="font-suse text-foreground p-6 text-base whitespace-pre-wrap">
+          {bio.trim()}
+        </p>
+      </TextEditorWindow>
     </div>
 
-    <!-- CTAs Card -->
-    <div
-      class="harsh-neutral-600 border-em border-solid border-neutral-900 bg-neutral-50 p-4 dark:border-neutral-100 dark:bg-neutral-900"
-    >
+    <!-- Competencies Card -->
+    <div class="flex flex-col">
+      <Dialog class="max-w-3xl shrink p-4">
+        <h2 class="font-chi mb-4 text-lg font-bold">Skills</h2>
+        <div class="grid grid-cols-[5.85rem_1fr] gap-4">
+          {
+            Object.entries(groupedCompetencies).map(([category, comps]) => (
+              <>
+                <h3 class="font-chi text-foreground-dim mr-4 text-base font-semibold tracking-wide">
+                  {categoryLabels[category] || category}
+                </h3>
+                <div class="flex flex-wrap gap-2">
+                  {comps.map((comp) => (
+                    <CompetencyBadge competency={comp} />
+                  ))}
+                </div>
+              </>
+            ))
+          }
+        </div>
+      </Dialog>
+    </div>
+  </div>
+
+  <!-- CTAs Card -->
+  <div class="max-w-xl">
+    <Dialog class="p-4">
       <h2 class="font-chi mb-4 text-lg font-bold">Connect</h2>
 
       <div class="flex flex-col gap-3">
@@ -127,23 +113,19 @@ const categoryLabels: Record<string, string> = {
                 target="_blank"
                 rel="noopener noreferrer"
                 title={link.label}
-                class="harsh-neutral-600 flex h-10 w-10 items-center justify-center border-2 border-solid border-neutral-900 bg-neutral-300 transition-colors hover:bg-neutral-200 dark:border-neutral-100 dark:bg-neutral-700 dark:hover:bg-neutral-600"
+                class:list={[
+                  "harsh-grey-dark border-foreground bg-grey-light hover:bg-grey-dark",
+                  "flex h-10 w-10 items-center justify-center",
+                  "border-2 border-solid transition-all duration-100",
+                  "active:translate-x-0.5 active:translate-y-0.5 active:shadow-none",
+                ]}
               >
                 {link.platform === "github" ? (
-                  <Github
-                    size={24}
-                    class="fill-neutral-900 dark:fill-neutral-100"
-                  />
+                  <Github size={24} class="fill-foreground" />
                 ) : link.platform === "linkedin" ? (
-                  <LinkedIn
-                    size={24}
-                    class="fill-neutral-900 dark:fill-neutral-100"
-                  />
+                  <LinkedIn size={24} class="fill-foreground" />
                 ) : link.platform === "email" ? (
-                  <Mail
-                    size={24}
-                    class="fill-neutral-900 dark:fill-neutral-100"
-                  />
+                  <Mail size={24} class="fill-foreground" />
                 ) : (
                   <span class="font-chi text-base font-bold uppercase">
                     {link.platform.slice(0, 2)}
@@ -154,6 +136,6 @@ const categoryLabels: Record<string, string> = {
           }
         </div>
       </div>
-    </div>
+    </Dialog>
   </div>
 </section>

@@ -70,7 +70,7 @@
     className,
   )}
 >
-  <span class="font-chi text-neutral-500 dark:text-neutral-400"> Filter: </span>
+  <span class="font-chi text-foreground-dim"> Filter: </span>
 
   <div class="flex flex-wrap gap-2">
     {#each tags as tag (tag.slug)}
@@ -78,10 +78,10 @@
         onclick={() => toggleTag(tag.slug)}
         class={cn(
           "tag-pill font-chi px-2 py-1 text-xs font-medium transition-colors",
-          "border-2 border-solid border-neutral-900 dark:border-neutral-100",
+          "border-2 border-solid border-foreground",
           selectedTags.has(tag.slug)
-            ? "bg-blue-400 text-white dark:bg-blue-600"
-            : "bg-neutral-200 hover:bg-neutral-300 dark:bg-neutral-700 dark:hover:bg-neutral-600",
+            ? "bg-blue-400 text-grey-dark dark:bg-blue-600"
+            : "bg-grey-medium hover:bg-grey-dark",
         )}
       >
         {tag.name}
@@ -91,7 +91,8 @@
     {#if hasFilters}
       <button
         onclick={clearFilters}
-        class="font-chi ml-2 text-xs text-neutral-500 underline hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200"
+        class="font-chi ml-2 text-xs text-foreground-dim underline
+        hover:text-grey-dark"
       >
         Clear
       </button>

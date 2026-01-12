@@ -22,7 +22,7 @@ const showStats = wordCount !== undefined || readingTime !== undefined;
 <Window title={title} variant="editor" class={className}>
   <!-- Menu bar slot content (decorative) -->
   <Fragment slot="menubar">
-    <div class="editor-menu font-chi flex gap-4 text-sm">
+    <div class="font-chi flex gap-4 text-sm">
       <span
         class="cursor-default px-1 hover:bg-neutral-200 dark:hover:bg-neutral-700"
         >File</span
@@ -39,15 +39,13 @@ const showStats = wordCount !== undefined || readingTime !== undefined;
   </Fragment>
 
   <!-- Content area with window-pane styling -->
-  <div class="editor-content window-pane">
+  <div class="max-h-dvh min-h-50">
     <slot />
   </div>
 
   <!-- Footer with document stats -->
   <Fragment slot="footer">
-    <div
-      class="editor-stats font-chi flex w-full items-center justify-between text-xs"
-    >
+    <div class="font-chi flex w-full items-center justify-between text-xs">
       <span class="opacity-60">
         {
           showStats ? (
@@ -69,9 +67,3 @@ const showStats = wordCount !== undefined || readingTime !== undefined;
     </div>
   </Fragment>
 </Window>
-
-<style>
-  .editor-content {
-    min-height: 200px;
-  }
-</style>

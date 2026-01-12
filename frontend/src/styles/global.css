@@ -3,20 +3,34 @@
 
 @custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *));
 
+:root {
+  --background: oklch(94.46% 0.026 14.74);
+  --foreground: oklch(21.78% 0 0);
+  --foreground-dim: oklch(32.11% 0 0);
+  --grey-light: oklch(96.12% 0 0);
+  --grey-medium: oklch(92.49% 0 0);
+  --grey-dark: oklch(84.52% 0 0);
+}
+
+.dark, .dark *, [data-theme="dark"], [data-theme="dark"] * {
+  --background: oklch(21.78% 0 0);
+  --foreground: oklch(96.12% 0 0);
+  --foreground-dim: oklch(84.52% 0 0);
+  --grey-light: oklch(32.11% 0 0);
+  --grey-medium: oklch(42.02% 0 0);
+  --grey-dark: oklch(51.03% 0 0);
+}
+
 @theme {
-  --font-brygada: "Brygada 1918", var(--font-serif);
-  --font-caveat: "Caveat", cursive, var(--font-serif);
-  --font-dynapuff: "DynaPuff", var(--font-serif);
   --font-jetbrains: "JetBrains Mono", var(--font-mono);
-  --font-playwrite: "Playwrite Cuba", cursive, var(--font-serif);
-  --font-pixelify: "Pixelify Sans", var(--font-sans);
   --font-suse: "SUSE", var(--font-sans);
-  --font-tektur: "Tektur", var(--font-sans);
   --font-chi: "ChiKareGo2", var(--font-mono);
   --font-pixel:
-    "JetBrains Mono", "Pixelify Sans", "ChiKareGo2",
-    var(--font-mono) /* Grapefruit Pink */
-      --color-pink-50: oklch(94.46% 0.026 14.74);
+    "JetBrains Mono", "ChiKareGo2",
+    var(--font-mono);
+
+  /* Grapefruit Pink */
+  --color-pink-50: oklch(94.46% 0.026 14.74);
   --color-pink-100: oklch(89.23% 0.053 16.76);
   --color-pink-200: oklch(79.12% 0.115 17.97);
   --color-pink-300: oklch(70.51% 0.175 21.05);
@@ -94,6 +108,14 @@
   --color-neutral-950: oklch(18.22% 0 0);
 }
 
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-foreground-dim: var(--foreground-dim);
+  --color-grey-light: var(--grey-light);
+  --color-grey-medium: var(--grey-medium);
+  --color-grey-dark: var(--grey-dark);
+}
+
 @import "./base.css";
 @import "./utils.css";
-@import "./components.css";

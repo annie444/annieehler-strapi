@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+  viewBox="0 0 16 16"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    d="m2 0 v1 h-1 v1 h-1 v12 h1 v1 h1 v1 h12 v-1 h1 v-1 h1 v-12 h-1 v-1 h-1 v-1 h-12zm0 2 h2 v2 h-2 v-2zm0 3 h2 v9 h-2 v-9zm4 0 h2 v1 h1 v-1 h3 v1 h1 v1 h1 v7 h-2 v-6 h-1 v-1 h-2 v1 h-1 v6 h-2 v-9 z"
+  ></path>
+</svg>

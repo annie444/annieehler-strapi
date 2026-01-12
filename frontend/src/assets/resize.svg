@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+  stroke-width="1"
+  viewBox="0 0 10 10"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <rect width="8" height="8" x="1" y="1"></rect>
+  <path d="M 1,6 H 6 V 1" class="svg-hide"></path>
+</svg>

@@ -21,10 +21,16 @@ const sortedExperience = [...experience].sort((a, b) => {
   return new Date(b.startDate).getTime() - new Date(a.startDate).getTime();
 });
 
+const experienceIds = sortedExperience.map((exp) => `experience-${exp.slug}`);
+
 const itemCount = experience.length;
 ---
 
-<section class:list={["w-full px-4 py-8 md:px-8", className]}>
+<section
+  id="work-experience"
+  class:list={["w-full px-4 py-8 md:px-8", className]}
+  data-experiences={experienceIds.join(",")}
+>
   <h2 class="font-chi mb-6 text-2xl font-bold">Experience</h2>
 
   <AccordionWindow title="Work History" open={true} class="experience-window">
@@ -91,3 +97,10 @@ const itemCount = experience.length;
     Click on a row to expand details
   </p>
 </section>
+
+<script>
+  import { attachExperienceFolderAnimations } from "@utils/folder";
+  window.addEventListener("DOMContentLoaded", () => {
+    attachExperienceFolderAnimations();
+  });
+</script>

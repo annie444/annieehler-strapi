@@ -26,7 +26,7 @@ const sortedPosts = [...posts].sort((a, b) => {
   <section class="blog-index w-full px-4 py-8 md:px-8">
     <div class="mx-auto max-w-6xl">
       <h1 class="font-chi mb-6 text-3xl font-bold">Blog & Notes</h1>
-      <p class="mb-8 max-w-2xl text-neutral-600 dark:text-neutral-400">
+      <p class="text-foreground-dim mb-8 max-w-2xl">
         Technical essays, design write-ups, postmortems, and careful rants about
         systems and tradeoffs. Thinking in public.
       </p>
@@ -56,7 +56,7 @@ const sortedPosts = [...posts].sort((a, b) => {
 
           {
             sortedPosts.length === 0 && (
-              <div class="col-span-full p-8 text-center text-neutral-500 dark:text-neutral-400">
+              <div class="text-foreground-dim col-span-full p-8 text-center">
                 <p class="font-chi">No posts yet. Check back soon!</p>
               </div>
             )
@@ -66,12 +66,12 @@ const sortedPosts = [...posts].sort((a, b) => {
         <!-- Empty state for filtered results -->
         <div
           id="blog-empty-state"
-          class="hidden p-8 text-center text-neutral-500 dark:text-neutral-400"
+          class="text-foreground-dim hidden p-8 text-center"
         >
           <p class="font-chi">No posts match your filters.</p>
           <button
             id="clear-filters-btn"
-            class="font-chi mt-2 text-sm underline hover:text-neutral-700 dark:hover:text-neutral-200"
+            class="font-chi hover:text-foreground mt-2 text-sm underline"
           >
             Clear filters
           </button>
@@ -79,9 +79,7 @@ const sortedPosts = [...posts].sort((a, b) => {
       </FinderWindow>
 
       <!-- Stats -->
-      <p
-        class="mt-4 text-center text-sm text-neutral-500 dark:text-neutral-400"
-      >
+      <p class="text-foreground-dim mt-4 text-center text-sm">
         {sortedPosts.length} posts · {tags.length} tags
       </p>
     </div>
@@ -156,7 +154,7 @@ const sortedPosts = [...posts].sort((a, b) => {
       if (emptyState) {
         emptyState.classList.toggle("hidden", visibleCount > 0);
       }
-      if (!grid || grid === null) return; 
+      if (!grid || grid === null) return;
       grid.classList.toggle("hidden", visibleCount === 0);
     }
   });

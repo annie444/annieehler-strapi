@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+  viewBox="0 0 100 100"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path d="m95.066 14.938h-90v70h90zm-79.996 60v-40h9.9961v-10h50v10h9.9961v40z"
+  ></path>
+  <path d="m25.066 34.938h10v10h-10z"></path>
+  <path d="m35.066 44.938h10v10h-10z"></path>
+  <path d="m45.066 54.938h10v10h-10z"></path>
+  <path d="m55.066 44.938h10v10h-10z"></path>
+  <path d="m65.066 34.938h10v10h-10z"></path>
+</svg>

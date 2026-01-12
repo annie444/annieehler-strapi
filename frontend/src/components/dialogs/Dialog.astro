@@ -1,0 +1,24 @@
+---
+/**
+ * AccordionWindow - System 8.0 style window with accordion expand/collapse
+ *
+ * Uses native <details> element for zero-JS accordion behavior.
+ * Click on the title bar to expand/collapse content.
+ */
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<div
+  class:list={[
+    "harsh-grey-dark border-em border-foreground bg-grey-light mb-4 flex min-w-[320px] flex-col border-solid",
+    className,
+  ]}
+>
+  <!-- Content -->
+  <slot />
+</div>
