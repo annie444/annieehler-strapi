@@ -1,4 +1,6 @@
 ---
+name: Strapi update
+
 on:
   repository_dispatch:
     types: [strapi-update]
