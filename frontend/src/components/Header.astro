@@ -40,6 +40,7 @@ const now = new Date();
         {
           links.map((link, index) => (
             <a
+              data-swup-preload
               class:list={[
                 "block px-4 py-0.5 no-underline hover:bg-neutral-200 dark:hover:bg-neutral-700",
                 index < links.length - 1 &&
@@ -59,6 +60,7 @@ const now = new Date();
       {
         links.map((link) => (
           <a
+            data-swup-preload
             class="border-r border-solid border-r-neutral-900 px-3 py-0.5 no-underline dark:border-r-neutral-100"
             href={link.url}
           >

@@ -6,7 +6,9 @@
  * for expand/collapse behavior (no JavaScript needed).
  */
 import type { ProjectProps } from "@utils/content/project";
-import Project from "./Project.astro";
+import Heading from "@components/ui/Heading.astro";
+import Project from "@components/projects/Project.astro";
+import Section from "@components/ui/Section.astro";
 
 interface Props {
   projects: ProjectProps[];
@@ -15,18 +17,22 @@ interface Props {
 const { projects } = Astro.props;
 ---
 
-<section
-  id="projects"
-  class="masonry grid grid-cols-1 gap-8 p-8 md:grid-cols-[repeat(auto-fit,minmax(760px,1fr))]"
->
-  {
-    projects.map((project) => (
-      <div class="project-item">
-        <Project {...project} />
-      </div>
-    ))
-  }
-</section>
+<Section id="projects">
+  <Heading>Projects</Heading>
+
+  <div
+    id="project-grid"
+    class="masonry grid grid-cols-1 gap-8 md:grid-cols-[repeat(auto-fit,minmax(760px,1fr))]"
+  >
+    {
+      projects.map((project) => (
+        <div class="project-item">
+          <Project {...project} />
+        </div>
+      ))
+    }
+  </div>
+</Section>
 
 <script>
   import {
@@ -35,7 +41,7 @@ const { projects } = Astro.props;
     setupMasonryGrid,
   } from "@utils/masonry";
 
-  setupMasonryGrid("projects", "project-item", "project-content");
+  setupMasonryGrid("project-grid", "project-item", "project-content");
 
   function resizeOnToggle() {
     const projectWindows = document.getElementsByClassName(
@@ -55,7 +61,13 @@ const { projects } = Astro.props;
   }
 
   window.addEventListener("resize", resizeAllGridItems);
+
   window.addEventListener("DOMContentLoaded", () => {
+    resizeAllGridItems();
+    resizeOnToggle();
+  });
+
+  window.addEventListener("load", () => {
     resizeAllGridItems();
     resizeOnToggle();
   });

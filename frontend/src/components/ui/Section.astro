@@ -1,0 +1,16 @@
+---
+import type { HTMLAttributes } from "astro/types";
+type Props = HTMLAttributes<"section">;
+const {
+  "class:list": classList,
+  class: className,
+  ...rest
+} = Astro.props as Props;
+---
+
+<section
+  class:list={["flex flex-col px-4 py-8 md:px-8", classList, className]}
+  {...rest}
+>
+  <slot />
+</section>

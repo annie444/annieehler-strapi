@@ -1,0 +1,26 @@
+---
+on:
+  repository_dispatch:
+    types: [strapi-update]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: strapi
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install deps
+        run: npm install
+
+      - name: Build Astro
+        run: npm --workspace=frontend run build
+        env:
+          STRAPI_URL: "${{ secrets.STRAPI_URL }}"
+          STRAPI_TOKEN: "${{ secrets.STRAPI_TOKEN }}"
+
+      - name: Deploy to Cloudflare
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_TOKEN }}

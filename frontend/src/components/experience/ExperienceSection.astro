@@ -6,7 +6,9 @@
  * Mimics System 8.0 Finder list view.
  */
 import AccordionWindow from "@components/windows/AccordionWindow.astro";
-import ExperienceRow from "./ExperienceRow.astro";
+import ExperienceRow from "@components/experience/ExperienceRow.astro";
+import Heading from "@components/ui/Heading.astro";
+import Section from "@components/ui/Section.astro";
 import type { ExperienceProps } from "@utils/content/experience";
 
 interface Props {
@@ -26,31 +28,39 @@ const experienceIds = sortedExperience.map((exp) => `experience-${exp.slug}`);
 const itemCount = experience.length;
 ---
 
-<section
+<Section
   id="work-experience"
-  class:list={["w-full px-4 py-8 md:px-8", className]}
+  class:list={[className]}
   data-experiences={experienceIds.join(",")}
 >
-  <h2 class="font-chi mb-6 text-2xl font-bold">Experience</h2>
+  <Heading>Experience</Heading>
 
   <AccordionWindow title="Work History" open={true} class="experience-window">
     <!-- Column headers -->
     <div
-      class="grid grid-cols-[26px_2fr_3fr_2fr] items-center border-b border-solid border-neutral-300 bg-neutral-200 px-3 py-1.5 md:grid-cols-[26px_2fr_4fr_2fr] lg:grid-cols-[26px_2fr_7fr_2fr] xl:grid-cols-[26px_2fr_11fr_2fr] 2xl:grid-cols-[26px_2fr_14fr_2fr] dark:border-neutral-600 dark:bg-neutral-800"
+      class:list={[
+        "grid items-center gap-3 px-3 py-1.5",
+        "border-grey-dark bg-grey-medium border-b border-solid",
+        "grid-cols-[26px_2fr_3fr_2fr]",
+        "md:grid-cols-[26px_2fr_4fr_2fr]",
+        "lg:grid-cols-[26px_2fr_7fr_2fr]",
+        "xl:grid-cols-[26px_2fr_11fr_2fr]",
+        "2xl:grid-cols-[26px_2fr_14fr_2fr]",
+      ]}
     >
       <span class="w-5"></span>
       <span
-        class="font-chi ml-1 text-sm font-semibold tracking-wide text-neutral-600 uppercase dark:text-neutral-400"
+        class="font-chi text-foreground-dim text-sm font-semibold tracking-wide uppercase"
       >
         Company
       </span>
       <span
-        class="font-chi ml-1 text-sm font-semibold tracking-wide text-neutral-600 uppercase dark:text-neutral-400"
+        class="font-chi text-foreground-dim ml-1 text-sm font-semibold tracking-wide uppercase"
       >
         Role
       </span>
       <span
-        class="font-chi mr-1 text-right text-sm font-semibold tracking-wide text-neutral-600 uppercase dark:text-neutral-400"
+        class="font-chi text-foreground-dim mr-1 text-right text-sm font-semibold tracking-wide uppercase"
       >
         Dates
       </span>
@@ -71,7 +81,7 @@ const itemCount = experience.length;
       {
         experience.length === 0 && (
           <div class="p-8 text-center">
-            <p class="font-chi text-neutral-500 dark:text-neutral-400">
+            <p class="font-chi text-foreground-dim">
               No experience items to display
             </p>
           </div>
@@ -81,22 +91,20 @@ const itemCount = experience.length;
 
     <!-- Footer with item count -->
     <div
-      class="flex items-center justify-between border-t border-solid border-neutral-300 bg-neutral-100 px-3 py-1.5 dark:border-neutral-600 dark:bg-neutral-800"
+      class="border-grey-dark bg-grey-medium flex items-center justify-between border-t border-solid px-3 py-1.5"
     >
-      <span class="font-chi text-xs text-neutral-500 dark:text-neutral-400">
+      <span class="font-chi text-foreground-dim text-xs">
         {itemCount}
         {itemCount === 1 ? "item" : "items"}
       </span>
-      <span class="font-chi text-xs text-neutral-500 dark:text-neutral-400">
-        ~/experience
-      </span>
+      <span class="font-chi text-foreground-dim text-xs"> ~/experience </span>
     </div>
   </AccordionWindow>
 
-  <p class="mt-3 text-center text-sm text-neutral-500 dark:text-neutral-400">
+  <p class="text-foreground-dim mt-3 text-center text-sm">
     Click on a row to expand details
   </p>
-</section>
+</Section>
 
 <script>
   import { attachExperienceFolderAnimations } from "@utils/folder";

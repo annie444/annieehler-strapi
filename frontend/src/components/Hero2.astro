@@ -9,11 +9,12 @@
  */
 import TextEditorWindow from "@components/windows/TextEditorWindow.astro";
 import CompetencyBadge from "@components/hero/CompetencyBadge.astro";
-import ResumeButton from "@components/hero/ResumeButton.astro";
 import Github from "@components/icons/pixel/Github.astro";
 import LinkedIn from "@components/icons/pixel/LinkedIn.astro";
 import Mail from "@components/icons/pixel/Email.astro";
 import Dialog from "@components/dialogs/Dialog.astro";
+import Section from "@components/ui/Section.astro";
+import Button from "@components/ui/Button.astro";
 import { type HeroProps, type Competency } from "@utils/content/hero";
 
 type Props = HeroProps;
@@ -41,9 +42,7 @@ const categoryLabels: Record<string, string> = {
 };
 ---
 
-<section
-  class="flex w-full flex-col items-center justify-center px-4 py-8 md:px-8 md:py-12"
->
+<Section class="items-center justify-center">
   <!-- Header with name and tagline -->
   <div class="mb-8 text-center">
     <h1 class="font-chi mb-2 text-4xl font-bold md:text-5xl">
@@ -55,7 +54,7 @@ const categoryLabels: Record<string, string> = {
   </div>
 
   <div
-    class="flex flex-col items-start justify-center gap-4 md:flex-row md:gap-6 lg:gap-8"
+    class="flex flex-col items-start justify-center gap-4 md:gap-6 lg:gap-8 xl:flex-row"
   >
     <!-- Terminal (main focus) -->
     <div class="flex flex-col">
@@ -63,7 +62,9 @@ const categoryLabels: Record<string, string> = {
         title="whoami.txt"
         class="mb-4 max-w-3xl md:mb-6 lg:mb-8"
       >
-        <p class="font-suse text-foreground p-6 text-base whitespace-pre-wrap">
+        <p
+          class="font-suse text-foreground p-6 text-lg whitespace-pre-wrap md:p-8"
+        >
           {bio.trim()}
         </p>
       </TextEditorWindow>
@@ -72,12 +73,11 @@ const categoryLabels: Record<string, string> = {
     <!-- Competencies Card -->
     <div class="flex flex-col">
       <Dialog class="max-w-3xl shrink p-4">
-        <h2 class="font-chi mb-4 text-lg font-bold">Skills</h2>
         <div class="grid grid-cols-[5.85rem_1fr] gap-4">
           {
             Object.entries(groupedCompetencies).map(([category, comps]) => (
               <>
-                <h3 class="font-chi text-foreground-dim mr-4 text-base font-semibold tracking-wide">
+                <h3 class="font-chi text-foreground-dim text-lg font-semibold tracking-wide">
                   {categoryLabels[category] || category}
                 </h3>
                 <div class="flex flex-wrap gap-2">
@@ -90,52 +90,67 @@ const categoryLabels: Record<string, string> = {
           }
         </div>
       </Dialog>
+
+      <div class="flex flex-col gap-4 md:flex-row">
+        <Dialog class="flex flex-col items-center p-4 md:flex-row">
+          <h2 class="font-chi mb-4 text-lg font-bold md:mr-4">Connect</h2>
+
+          <div class="flex flex-col gap-3 md:flex-row">
+            <div class="flex flex-row gap-3">
+              {
+                resumeUrl && (
+                  <Button
+                    href={resumeUrl}
+                    download
+                    class="w-full justify-center"
+                    title="Download Resume"
+                  >
+                    Download Resume
+                  </Button>
+                )
+              }
+
+              <Button href="/blog" title="Read Blog">Blog</Button>
+
+              <Button href="/#projects" title="Read Blog">Projects</Button>
+            </div>
+
+            <div class="flex justify-center gap-3">
+              {
+                socialLinks.map((link) => (
+                  <Button
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={link.label}
+                  >
+                    {link.platform === "github" ? (
+                      <>
+                        <Github size={24} class="fill-foreground mr-2" />
+                        GitHub
+                      </>
+                    ) : link.platform === "linkedin" ? (
+                      <>
+                        <LinkedIn size={24} class="fill-foreground mr-2" />
+                        LinkedIn
+                      </>
+                    ) : link.platform === "email" ? (
+                      <>
+                        <Mail size={24} class="fill-foreground mr-2" />
+                        Email
+                      </>
+                    ) : (
+                      <span class="font-chi text-base font-bold uppercase">
+                        {link.platform.slice(0, 2)}
+                      </span>
+                    )}
+                  </Button>
+                ))
+              }
+            </div>
+          </div>
+        </Dialog>
+      </div>
     </div>
   </div>
-
-  <!-- CTAs Card -->
-  <div class="max-w-xl">
-    <Dialog class="p-4">
-      <h2 class="font-chi mb-4 text-lg font-bold">Connect</h2>
-
-      <div class="flex flex-col gap-3">
-        {
-          resumeUrl && (
-            <ResumeButton href={resumeUrl} class="w-full justify-center" />
-          )
-        }
-
-        <div class="flex justify-center gap-3">
-          {
-            socialLinks.slice(0, 3).map((link) => (
-              <a
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                title={link.label}
-                class:list={[
-                  "harsh-grey-dark border-foreground bg-grey-light hover:bg-grey-dark",
-                  "flex h-10 w-10 items-center justify-center",
-                  "border-2 border-solid transition-all duration-100",
-                  "active:translate-x-0.5 active:translate-y-0.5 active:shadow-none",
-                ]}
-              >
-                {link.platform === "github" ? (
-                  <Github size={24} class="fill-foreground" />
-                ) : link.platform === "linkedin" ? (
-                  <LinkedIn size={24} class="fill-foreground" />
-                ) : link.platform === "email" ? (
-                  <Mail size={24} class="fill-foreground" />
-                ) : (
-                  <span class="font-chi text-base font-bold uppercase">
-                    {link.platform.slice(0, 2)}
-                  </span>
-                )}
-              </a>
-            ))
-          }
-        </div>
-      </div>
-    </Dialog>
-  </div>
-</section>
+</Section>
