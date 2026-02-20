@@ -7,7 +7,8 @@
   "options": {},
   "attributes": {
     "platform": {
-      "type": "string",
+      "type": "enumeration",
+      "enum": ["github", "linkedin", "twitter", "email", "website", "other"],
       "required": true
     },
     "label": {

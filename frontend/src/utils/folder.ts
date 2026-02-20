@@ -28,11 +28,17 @@ export interface AllPoints {
 
 export function attachExperienceFolderAnimations() {
   // See @components/experience/ExperienceSection.astro
-  const exprSection = document.getElementById("work-experience") as HTMLElement;
-  const exprIds = exprSection.dataset.experiences!.split(",");
+  const exprSection = document.getElementById("work-experience");
+  if (!exprSection) return;
+
+  const experiencesData = exprSection.dataset.experiences;
+  if (!experiencesData) return;
+
+  const exprIds = experiencesData.split(",");
 
   for (const id of exprIds) {
-    const el = document.getElementById(id) as HTMLDetailsElement;
+    const el = document.getElementById(id) as HTMLDetailsElement | null;
+    if (!el) continue;
 
     el.addEventListener("toggle", (e) => {
       const target = e.target as HTMLElement;
@@ -74,7 +80,7 @@ export function animateChildFolder(el: HTMLElement) {
       return;
     }
 
-    const from = parseInt(folder.dataset.anim!) as 0 | 1 | 2;
+    const from = parseInt(folder.dataset.anim ?? "0", 10) as 0 | 1 | 2;
     const to = Math.min(from + 1, 3) as 1 | 2 | 3;
 
     animateFolder(
@@ -113,20 +119,20 @@ export function animateFolder(
   const bottomStep = direction * (from === 0 ? 1 : 0);
 
   for (const pt of pts.top) {
-    pt.setAttribute("x", String(parseInt(pt.getAttribute("x")!) + topStep));
-    pt.setAttribute("y", String(parseInt(pt.getAttribute("y")!) + topStep));
+    pt.setAttribute("x", String(parseInt(pt.getAttribute("x") ?? "0", 10) + topStep));
+    pt.setAttribute("y", String(parseInt(pt.getAttribute("y") ?? "0", 10) + topStep));
   }
 
   for (const pt of pts.sideTop) {
-    pt.setAttribute("x", String(parseInt(pt.getAttribute("x")!) + topStep));
+    pt.setAttribute("x", String(parseInt(pt.getAttribute("x") ?? "0", 10) + topStep));
   }
 
   for (const pt of pts.sideMiddle) {
-    pt.setAttribute("x", String(parseInt(pt.getAttribute("x")!) + middleStep));
+    pt.setAttribute("x", String(parseInt(pt.getAttribute("x") ?? "0", 10) + middleStep));
   }
 
   for (const pt of pts.sideBottom) {
-    pt.setAttribute("x", String(parseInt(pt.getAttribute("x")!) + bottomStep));
+    pt.setAttribute("x", String(parseInt(pt.getAttribute("x") ?? "0", 10) + bottomStep));
   }
 }
 

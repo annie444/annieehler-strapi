@@ -9,7 +9,8 @@
       "Bash(npm --workspace=frontend run fmt)",
       "Bash(wc:*)",
       "Bash(node -e:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(grep:*)"
     ]
   }
 }

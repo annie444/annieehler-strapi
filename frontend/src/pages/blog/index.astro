@@ -95,7 +95,18 @@ const sortedPosts = [...posts].sort((a, b) => {
 
     if (!grid || grid === null) return;
 
-    const postsData = JSON.parse(grid.dataset.posts || "[]");
+    interface PostData {
+      title: string;
+      excerpt: string;
+      tags?: { slug: string }[];
+    }
+
+    let postsData: PostData[] = [];
+    try {
+      postsData = JSON.parse(grid.dataset.posts || "[]") as PostData[];
+    } catch {
+      console.error("Failed to parse posts data");
+    }
     let currentSearchQuery = "";
     let currentTags: string[] = [];
 

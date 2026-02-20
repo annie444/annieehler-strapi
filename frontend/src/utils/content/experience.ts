@@ -20,8 +20,14 @@ export interface ExperienceProps {
  */
 export function formatDateRange(startDate: string, endDate?: string): string {
   const formatDate = (dateStr: string): string => {
-    const [year, month] = dateStr.split("-");
-    const date = new Date(parseInt(year), parseInt(month) - 1);
+    const parts = dateStr.split("-");
+    if (parts.length < 2) return "Invalid Date";
+    const year = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10);
+    if (isNaN(year) || isNaN(month) || month < 1 || month > 12) {
+      return "Invalid Date";
+    }
+    const date = new Date(year, month - 1);
     return date.toLocaleDateString("en-US", {
       month: "short",
       year: "numeric",

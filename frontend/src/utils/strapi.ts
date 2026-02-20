@@ -37,14 +37,19 @@ export async function fetchApi<T>({
         Authorization: `Bearer ${import.meta.env.STRAPI_TOKEN}`,
       },
     });
-    let data = await res.json();
 
-    if (wrappedByKey) {
-      data = data[wrappedByKey];
+    if (!res.ok) {
+      throw new Error(`API error: ${res.status} ${res.statusText}`);
     }
 
-    if (wrappedByList) {
-      data = data[0];
+    let data: Record<string, unknown> | unknown[] = await res.json();
+
+    if (wrappedByKey && !Array.isArray(data)) {
+      data = data[wrappedByKey] as Record<string, unknown> | unknown[];
+    }
+
+    if (wrappedByList && Array.isArray(data)) {
+      return data[0] as T;
     }
 
     return data as T;
